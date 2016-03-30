@@ -15,7 +15,7 @@ class LYTabView: NSView {
     var tabViewItem : NSTabViewItem!
     var heightPadding : CGFloat = 2
     var backgroundColor = NSColor.clearColor()
-    var selectedBackgroundColor = NSColor.controlColor()
+    var selectedBackgroundColor = NSColor(calibratedRed: 0.85, green: 0.85, blue: 0.85, alpha: 1)
     var unselectedForegroundColor = NSColor(calibratedRed: 0.4, green: 0.4, blue: 0.4, alpha: 1)
     
     var title : NSString {

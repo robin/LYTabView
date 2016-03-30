@@ -14,7 +14,7 @@ public class LYTabBarView: NSView {
     private var _needsUpdate = false
 
     var backgroundColor = NSColor(calibratedRed: 0.77, green: 0.77, blue: 0.77, alpha: 1)
-    var borderColor = NSColor.headerColor()
+    var borderColor = NSColor(calibratedRed: 0.67, green: 0.67, blue: 0.67, alpha: 1)
     var selectedBorderColor = NSColor(calibratedRed: 0.73, green: 0.73, blue: 0.73, alpha: 1)
     
     @IBOutlet var tabView : NSTabView? {
