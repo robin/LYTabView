@@ -711,6 +711,9 @@
                             <constraint firstAttribute="bottom" secondItem="ocs-Zk-Lwj" secondAttribute="bottom" id="ub2-Xp-C2w"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tabView" destination="ocs-Zk-Lwj" id="XI5-fe-gR2"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -12,7 +12,11 @@ import Cocoa
 class LYTabView: NSView {
     private let stackView = NSStackView(frame: .zero)
     private let titleView = NSTextField(frame: .zero)
-    var tabViewItem : NSTabViewItem?
+    var tabViewItem : NSTabViewItem!
+    var heightPadding : CGFloat = 2
+    var backgroundColor = NSColor.clearColor()
+    var selectedBackgroundColor = NSColor.controlColor()
+    var unselectedForegroundColor = NSColor(calibratedRed: 0.4, green: 0.4, blue: 0.4, alpha: 1)
     
     var title : NSString {
         get {
@@ -24,11 +28,19 @@ class LYTabView: NSView {
     }
     
     func setupViews() {
+        self.setContentHuggingPriority(240, forOrientation: .Vertical)
+        stackView.setContentHuggingPriority(240, forOrientation: .Vertical)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.editable = false
+        titleView.alignment = .Center
+        titleView.bordered = false
+        titleView.drawsBackground = false
 
         stackView.orientation = .Horizontal
+        stackView.distribution = .Fill
+        stackView.spacing = 0
+
         self.addSubview(stackView)
         stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
         stackView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
@@ -38,7 +50,9 @@ class LYTabView: NSView {
     }
     
     override var intrinsicContentSize: NSSize {
-        return titleView.intrinsicContentSize
+        var size = titleView.intrinsicContentSize
+        size.height += heightPadding * 2
+        return size
     }
     
     convenience init(tabViewItem : NSTabViewItem) {
@@ -57,5 +71,18 @@ class LYTabView: NSView {
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         setupViews()
+    }
+    
+    override func drawRect(dirtyRect: NSRect) {
+        switch tabViewItem.tabState {
+        case .SelectedTab:
+            selectedBackgroundColor.setFill()
+            titleView.textColor = NSColor.textColor()
+        default:
+            backgroundColor.setFill()
+            titleView.textColor = unselectedForegroundColor
+        }
+        NSRectFill(self.bounds)
+        super.drawRect(dirtyRect)
     }
 }

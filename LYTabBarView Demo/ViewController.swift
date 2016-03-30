@@ -10,10 +10,15 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    @IBOutlet weak var tabView: NSTabView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let item = NSTabViewItem()
+        item.label = "Test"
+        self.tabView.addTabViewItem(item)
     }
 
     override var representedObject: AnyObject? {
