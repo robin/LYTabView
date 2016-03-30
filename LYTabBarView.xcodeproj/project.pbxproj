@@ -10,6 +10,14 @@
 		AE25629A1CAA612C00644D9F /* LYTabBarView.h in Headers */ = {isa = PBXBuildFile; fileRef = AE2562991CAA612C00644D9F /* LYTabBarView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE2562A11CAA612C00644D9F /* LYTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2562961CAA612C00644D9F /* LYTabBarView.framework */; };
 		AE2562A61CAA612C00644D9F /* LYTabBarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2562A51CAA612C00644D9F /* LYTabBarViewTests.swift */; };
+		AE2562B71CAA614C00644D9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2562B61CAA614C00644D9F /* AppDelegate.swift */; };
+		AE2562B91CAA614C00644D9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2562B81CAA614C00644D9F /* ViewController.swift */; };
+		AE2562BB1CAA614C00644D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE2562BA1CAA614C00644D9F /* Assets.xcassets */; };
+		AE2562BE1CAA614C00644D9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE2562BC1CAA614C00644D9F /* Main.storyboard */; };
+		AE2562C41CAA61B000644D9F /* LYTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2562C31CAA61B000644D9F /* LYTabBarView.swift */; };
+		AE2562C61CAB6CFA00644D9F /* LYTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2562C51CAB6CFA00644D9F /* LYTabView.swift */; };
+		AE2562C71CABA73600644D9F /* LYTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2562961CAA612C00644D9F /* LYTabBarView.framework */; };
+		AE2562C81CABA73600644D9F /* LYTabBarView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AE2562961CAA612C00644D9F /* LYTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,7 +28,28 @@
 			remoteGlobalIDString = AE2562951CAA612C00644D9F;
 			remoteInfo = LYTabBarView;
 		};
+		AE2562C91CABA73600644D9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE25628D1CAA612C00644D9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE2562951CAA612C00644D9F;
+			remoteInfo = LYTabBarView;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AE2562CB1CABA73600644D9F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AE2562C81CABA73600644D9F /* LYTabBarView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AE2562961CAA612C00644D9F /* LYTabBarView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LYTabBarView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -29,6 +58,14 @@
 		AE2562A01CAA612C00644D9F /* LYTabBarViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LYTabBarViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2562A51CAA612C00644D9F /* LYTabBarViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYTabBarViewTests.swift; sourceTree = "<group>"; };
 		AE2562A71CAA612C00644D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE2562B41CAA614C00644D9F /* LYTabBarView Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LYTabBarView Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE2562B61CAA614C00644D9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AE2562B81CAA614C00644D9F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AE2562BA1CAA614C00644D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AE2562BD1CAA614C00644D9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AE2562BF1CAA614C00644D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE2562C31CAA61B000644D9F /* LYTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LYTabBarView.swift; sourceTree = "<group>"; };
+		AE2562C51CAB6CFA00644D9F /* LYTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LYTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +84,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AE2562B11CAA614C00644D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE2562C71CABA73600644D9F /* LYTabBarView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +100,7 @@
 			children = (
 				AE2562981CAA612C00644D9F /* LYTabBarView */,
 				AE2562A41CAA612C00644D9F /* LYTabBarViewTests */,
+				AE2562B51CAA614C00644D9F /* LYTabBarView Demo */,
 				AE2562971CAA612C00644D9F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +110,7 @@
 			children = (
 				AE2562961CAA612C00644D9F /* LYTabBarView.framework */,
 				AE2562A01CAA612C00644D9F /* LYTabBarViewTests.xctest */,
+				AE2562B41CAA614C00644D9F /* LYTabBarView Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +120,8 @@
 			children = (
 				AE2562991CAA612C00644D9F /* LYTabBarView.h */,
 				AE25629B1CAA612C00644D9F /* Info.plist */,
+				AE2562C31CAA61B000644D9F /* LYTabBarView.swift */,
+				AE2562C51CAB6CFA00644D9F /* LYTabView.swift */,
 			);
 			path = LYTabBarView;
 			sourceTree = "<group>";
@@ -84,6 +133,18 @@
 				AE2562A71CAA612C00644D9F /* Info.plist */,
 			);
 			path = LYTabBarViewTests;
+			sourceTree = "<group>";
+		};
+		AE2562B51CAA614C00644D9F /* LYTabBarView Demo */ = {
+			isa = PBXGroup;
+			children = (
+				AE2562B61CAA614C00644D9F /* AppDelegate.swift */,
+				AE2562B81CAA614C00644D9F /* ViewController.swift */,
+				AE2562BA1CAA614C00644D9F /* Assets.xcassets */,
+				AE2562BC1CAA614C00644D9F /* Main.storyboard */,
+				AE2562BF1CAA614C00644D9F /* Info.plist */,
+			);
+			path = "LYTabBarView Demo";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +197,25 @@
 			productReference = AE2562A01CAA612C00644D9F /* LYTabBarViewTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AE2562B31CAA614C00644D9F /* LYTabBarView Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE2562C01CAA614C00644D9F /* Build configuration list for PBXNativeTarget "LYTabBarView Demo" */;
+			buildPhases = (
+				AE2562B01CAA614C00644D9F /* Sources */,
+				AE2562B11CAA614C00644D9F /* Frameworks */,
+				AE2562B21CAA614C00644D9F /* Resources */,
+				AE2562CB1CABA73600644D9F /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AE2562CA1CABA73600644D9F /* PBXTargetDependency */,
+			);
+			name = "LYTabBarView Demo";
+			productName = "LYTabBarView Demo";
+			productReference = AE2562B41CAA614C00644D9F /* LYTabBarView Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -152,6 +232,9 @@
 					AE25629F1CAA612C00644D9F = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					AE2562B31CAA614C00644D9F = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = AE2562901CAA612C00644D9F /* Build configuration list for PBXProject "LYTabBarView" */;
@@ -160,6 +243,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = AE25628C1CAA612C00644D9F;
 			productRefGroup = AE2562971CAA612C00644D9F /* Products */;
@@ -168,6 +252,7 @@
 			targets = (
 				AE2562951CAA612C00644D9F /* LYTabBarView */,
 				AE25629F1CAA612C00644D9F /* LYTabBarViewTests */,
+				AE2562B31CAA614C00644D9F /* LYTabBarView Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +272,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AE2562B21CAA614C00644D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE2562BB1CAA614C00644D9F /* Assets.xcassets in Resources */,
+				AE2562BE1CAA614C00644D9F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -194,6 +288,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE2562C41CAA61B000644D9F /* LYTabBarView.swift in Sources */,
+				AE2562C61CAB6CFA00644D9F /* LYTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +301,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AE2562B01CAA614C00644D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE2562B91CAA614C00644D9F /* ViewController.swift in Sources */,
+				AE2562B71CAA614C00644D9F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -213,7 +318,23 @@
 			target = AE2562951CAA612C00644D9F /* LYTabBarView */;
 			targetProxy = AE2562A21CAA612C00644D9F /* PBXContainerItemProxy */;
 		};
+		AE2562CA1CABA73600644D9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE2562951CAA612C00644D9F /* LYTabBarView */;
+			targetProxy = AE2562C91CABA73600644D9F /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AE2562BC1CAA614C00644D9F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE2562BD1CAA614C00644D9F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AE2562A81CAA612C00644D9F /* Debug */ = {
@@ -307,6 +428,7 @@
 		AE2562AB1CAA612C00644D9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -319,12 +441,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.robinlu.LYTabBarView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		AE2562AC1CAA612C00644D9F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -362,6 +486,32 @@
 			};
 			name = Release;
 		};
+		AE2562C11CAA614C00644D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "LYTabBarView Demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.robinlu.LYTabBarView-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AE2562C21CAA614C00644D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "LYTabBarView Demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.robinlu.LYTabBarView-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -381,6 +531,7 @@
 				AE2562AC1CAA612C00644D9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE2562AD1CAA612C00644D9F /* Build configuration list for PBXNativeTarget "LYTabBarViewTests" */ = {
 			isa = XCConfigurationList;
@@ -389,6 +540,16 @@
 				AE2562AF1CAA612C00644D9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE2562C01CAA614C00644D9F /* Build configuration list for PBXNativeTarget "LYTabBarView Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE2562C11CAA614C00644D9F /* Debug */,
+				AE2562C21CAA614C00644D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
