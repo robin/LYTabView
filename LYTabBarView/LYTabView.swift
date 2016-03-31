@@ -12,6 +12,7 @@ import Cocoa
 class LYTabView: NSView {
     private let stackView = NSStackView(frame: .zero)
     private let titleView = NSTextField(frame: .zero)
+    var tabBarView : LYTabBarView!
     var tabViewItem : NSTabViewItem!
     var heightPadding : CGFloat = 2
     var backgroundColor = NSColor.clearColor()
@@ -84,5 +85,9 @@ class LYTabView: NSView {
         }
         NSRectFill(self.bounds)
         super.drawRect(dirtyRect)
+    }
+    
+    override func mouseDown(theEvent: NSEvent) {
+        self.tabBarView.selectTabViewItem(self.tabViewItem)
     }
 }

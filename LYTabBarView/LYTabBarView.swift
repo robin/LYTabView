@@ -49,6 +49,7 @@ public class LYTabBarView: NSView {
     
     func insertTabViewItem(item: NSTabViewItem, index: NSInteger) {
         let tabView = LYTabView(tabViewItem: item)
+        tabView.tabBarView = self
         tabView.translatesAutoresizingMaskIntoConstraints = false
         tabView.backgroundColor = self.backgroundColor
         stackView.insertView(tabView, atIndex: index, inGravity: .Center)
@@ -113,6 +114,10 @@ public class LYTabBarView: NSView {
         for v in self.tabViews() {
             v.needsDisplay = true
         }
+    }
+    
+    func selectTabViewItem(tabViewItem : NSTabViewItem) {
+        self.tabView?.selectTabViewItem(tabViewItem)
     }
     
     public override func drawRect(dirtyRect: NSRect) {
