@@ -34,7 +34,7 @@ class LYHoverButton: NSButton {
         }
         hovered = true
         if self.backgroundColor == nil {
-            self.backgroundColor = self.layer?.backgroundColor
+            self.backgroundColor = self.layer?.backgroundColor ?? NSColor.clearColor().CGColor
         }
         if let layer = self.layer {
             if let color = self.hoverBackgroundColor {

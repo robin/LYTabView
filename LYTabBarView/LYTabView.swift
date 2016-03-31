@@ -15,7 +15,7 @@ class LYTabView: NSView {
 
     var tabBarView : LYTabBarView!
     var tabViewItem : NSTabViewItem!
-    var closeButton : NSButton?
+    var closeButton : LYHoverButton?
         
     // style
     var heightPadding : CGFloat = 2
@@ -55,6 +55,9 @@ class LYTabView: NSView {
         
         closeButton = LYHoverButton(frame: .zero)
         if let closeButton = self.closeButton {
+            closeButton.hoverBackgroundColor = NSColor.lightGrayColor()
+            closeButton.setButtonType(.MomentaryPushInButton)
+            closeButton.bezelStyle = .ShadowlessSquareBezelStyle
             closeButton.image = NSImage(named: NSImageNameStopProgressTemplate)
             closeButton.bordered = false
             closeButton.imagePosition = .ImageOnly
