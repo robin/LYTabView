@@ -62,6 +62,10 @@ public class LYTabBarView: NSView {
         return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabView }
     }
     
+    func shouldShowCloseButton(tabBarItem : NSTabViewItem) -> Bool {
+        return true
+    }
+    
     var needsUpdate : Bool {
         get {
             return _needsUpdate
@@ -118,6 +122,10 @@ public class LYTabBarView: NSView {
     
     func selectTabViewItem(tabViewItem : NSTabViewItem) {
         self.tabView?.selectTabViewItem(tabViewItem)
+    }
+    
+    func removeTabViewItem(tabviewItem : NSTabViewItem) {
+        self.tabView?.removeTabViewItem(tabviewItem)
     }
     
     public override func drawRect(dirtyRect: NSRect) {
