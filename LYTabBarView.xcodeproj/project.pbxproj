@@ -19,6 +19,7 @@
 		AE2562C71CABA73600644D9F /* LYTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2562961CAA612C00644D9F /* LYTabBarView.framework */; };
 		AE2562C81CABA73600644D9F /* LYTabBarView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AE2562961CAA612C00644D9F /* LYTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEA26EE51CACCEB10028AB1A /* LYHoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA26EE41CACCEB10028AB1A /* LYHoverButton.swift */; };
+		AEA26EE71CAD07480028AB1A /* NSImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA26EE61CAD07480028AB1A /* NSImage+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		AE2562C31CAA61B000644D9F /* LYTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LYTabBarView.swift; sourceTree = "<group>"; };
 		AE2562C51CAB6CFA00644D9F /* LYTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LYTabView.swift; sourceTree = "<group>"; };
 		AEA26EE41CACCEB10028AB1A /* LYHoverButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LYHoverButton.swift; sourceTree = "<group>"; };
+		AEA26EE61CAD07480028AB1A /* NSImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				AE2562C31CAA61B000644D9F /* LYTabBarView.swift */,
 				AE2562C51CAB6CFA00644D9F /* LYTabView.swift */,
 				AEA26EE41CACCEB10028AB1A /* LYHoverButton.swift */,
+				AEA26EE61CAD07480028AB1A /* NSImage+extension.swift */,
 			);
 			path = LYTabBarView;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			files = (
 				AEA26EE51CACCEB10028AB1A /* LYHoverButton.swift in Sources */,
 				AE2562C41CAA61B000644D9F /* LYTabBarView.swift in Sources */,
+				AEA26EE71CAD07480028AB1A /* NSImage+extension.swift in Sources */,
 				AE2562C61CAB6CFA00644D9F /* LYTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

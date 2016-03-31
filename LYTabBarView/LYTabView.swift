@@ -18,7 +18,9 @@ class LYTabView: NSView {
     var closeButton : LYHoverButton?
         
     // style
-    var heightPadding : CGFloat = 2
+    var padding : CGFloat = 2
+    var closeButtonSize = NSSize(width: 16, height: 16)
+    private static let closeImage = NSImage(named: NSImageNameStopProgressTemplate)?.scaleToSize(CGSize(width:8, height:8))
     var backgroundColor = NSColor.clearColor()
     var selectedBackgroundColor = NSColor(calibratedRed: 0.85, green: 0.85, blue: 0.85, alpha: 1)
     var unselectedForegroundColor = NSColor(calibratedRed: 0.4, green: 0.4, blue: 0.4, alpha: 1)
@@ -29,6 +31,7 @@ class LYTabView: NSView {
         }
         set(newTitle) {
             titleView.stringValue = newTitle as String
+            self.invalidateIntrinsicContentSize()
         }
     }
     
@@ -41,10 +44,10 @@ class LYTabView: NSView {
         stackView.distribution = .Fill
         stackView.spacing = 0
         self.addSubview(stackView)
-        stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
-        stackView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
-        stackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
-        stackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: padding).active = true
+        stackView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: padding).active = true
+        stackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: padding).active = true
+        stackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -padding).active = true
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.editable = false
@@ -58,18 +61,21 @@ class LYTabView: NSView {
             closeButton.hoverBackgroundColor = NSColor.lightGrayColor()
             closeButton.setButtonType(.MomentaryPushInButton)
             closeButton.bezelStyle = .ShadowlessSquareBezelStyle
-            closeButton.image = NSImage(named: NSImageNameStopProgressTemplate)
+            closeButton.image = LYTabView.closeImage
             closeButton.bordered = false
             closeButton.imagePosition = .ImageOnly
             closeButton.target = self
             closeButton.action = #selector(closeTab)
+            closeButton.heightAnchor.constraintEqualToConstant(closeButtonSize.height).active = true
+            closeButton.widthAnchor.constraintEqualToConstant(closeButtonSize.width).active = true
             stackView.addView(closeButton, inGravity: .Top)
         }
     }
     
     override var intrinsicContentSize: NSSize {
         var size = titleView.intrinsicContentSize
-        size.height += heightPadding * 2
+        size.height += padding * 2
+        size.width += padding * 2 + closeButtonSize.width
         return size
     }
     
