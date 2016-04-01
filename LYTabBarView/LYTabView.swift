@@ -10,15 +10,19 @@ import Foundation
 import Cocoa
 
 class LYTabView: NSView {
-    private let stackView = NSStackView(frame: .zero)
     private let titleView = NSTextField(frame: .zero)
+    private var closeButton : LYHoverButton!
 
     var tabBarView : LYTabBarView!
     var tabViewItem : NSTabViewItem!
-    var closeButton : LYHoverButton?
-        
+
+    // hover effect
+    private var hovered = false
+    private var trackingArea : NSTrackingArea?
+
     // style
-    var padding : CGFloat = 2
+    var xpadding : CGFloat = 4
+    var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
     private static let closeImage = NSImage(named: NSImageNameStopProgressTemplate)?.scaleToSize(CGSize(width:8, height:8))
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
@@ -39,44 +43,43 @@ class LYTabView: NSView {
     func setupViews() {
         self.setContentHuggingPriority(240, forOrientation: .Vertical)
 
-        stackView.setContentHuggingPriority(240, forOrientation: .Vertical)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.orientation = .Horizontal
-        stackView.distribution = .Fill
-        stackView.spacing = 0
-        self.addSubview(stackView)
-        stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: padding).active = true
-        stackView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: padding).active = true
-        stackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: padding).active = true
-        stackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -padding).active = true
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.editable = false
         titleView.alignment = .Center
         titleView.bordered = false
         titleView.drawsBackground = false
-        stackView.addView(titleView, inGravity: .Center)
+        self.addSubview(titleView)
+        titleView.trailingAnchor.constraintGreaterThanOrEqualToAnchor(self.trailingAnchor, constant: xpadding).active = true
+        titleView.leadingAnchor.constraintGreaterThanOrEqualToAnchor(self.leadingAnchor, constant: xpadding*2+closeButtonSize.width).active = true
+        titleView.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
+        titleView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: ypadding).active = true
+        titleView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
         
         closeButton = LYHoverButton(frame: .zero)
-        if let closeButton = self.closeButton {
-            closeButton.hoverBackgroundColor = closeButtonHoverBackgroundColor
-            closeButton.setButtonType(.MomentaryPushInButton)
-            closeButton.bezelStyle = .ShadowlessSquareBezelStyle
-            closeButton.image = LYTabView.closeImage
-            closeButton.bordered = false
-            closeButton.imagePosition = .ImageOnly
-            closeButton.target = self
-            closeButton.action = #selector(closeTab)
-            closeButton.heightAnchor.constraintEqualToConstant(closeButtonSize.height).active = true
-            closeButton.widthAnchor.constraintEqualToConstant(closeButtonSize.width).active = true
-            stackView.addView(closeButton, inGravity: .Top)
-        }
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.hoverBackgroundColor = closeButtonHoverBackgroundColor
+        closeButton.setButtonType(.MomentaryPushInButton)
+        closeButton.bezelStyle = .ShadowlessSquareBezelStyle
+        closeButton.image = LYTabView.closeImage
+        closeButton.bordered = false
+        closeButton.imagePosition = .ImageOnly
+        closeButton.target = self
+        closeButton.action = #selector(closeTab)
+        closeButton.heightAnchor.constraintEqualToConstant(closeButtonSize.height).active = true
+        closeButton.widthAnchor.constraintEqualToConstant(closeButtonSize.width).active = true
+        closeButton.hidden = true
+        self.addSubview(closeButton)
+        closeButton.trailingAnchor.constraintGreaterThanOrEqualToAnchor(self.titleView.leadingAnchor, constant: -xpadding).active = true
+        closeButton.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: ypadding).active = true
+        closeButton.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: xpadding).active = true
+        closeButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
     }
     
     override var intrinsicContentSize: NSSize {
         var size = titleView.intrinsicContentSize
-        size.height += padding * 2
-        size.width += padding * 2 + closeButtonSize.width
+        size.height += ypadding * 2
+        size.width += xpadding * 3 + closeButtonSize.width
         return size
     }
     
@@ -115,6 +118,34 @@ class LYTabView: NSView {
         self.tabBarView.selectTabViewItem(self.tabViewItem)
     }
     
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        
+        if let trackingArea = self.trackingArea {
+            self.removeTrackingArea(trackingArea)
+        }
+        
+        let options : NSTrackingAreaOptions = [.EnabledDuringMouseDrag, .MouseEnteredAndExited, .ActiveAlways]
+        self.trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
+        self.addTrackingArea(self.trackingArea!)
+    }
+    
+    override func mouseEntered(theEvent: NSEvent) {
+        if hovered {
+            return
+        }
+        hovered = true
+        closeButton.hidden = false
+    }
+    
+    override func mouseExited(theEvent: NSEvent) {
+        if !hovered {
+            return
+        }
+        hovered = false
+        closeButton.hidden = true
+    }
+
     @IBAction func closeTab(sender:AnyObject?) {
         self.tabBarView.removeTabViewItem(self.tabViewItem)
     }
