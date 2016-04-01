@@ -23,17 +23,24 @@ public class LYTabBarView: NSView {
         }
     }
 
-    let stackView : NSStackView
+    private let stackView = NSStackView(frame: .zero)
+    private var addTabButton : NSButton!
+    private var addTabButtonHeightConstraint : NSLayoutConstraint?
     
     override public var intrinsicContentSize: NSSize {
+        var height : CGFloat = 22;
         if let aTabView = self.tabViews().first {
-            return NSMakeSize(NSViewNoIntrinsicMetric, aTabView.intrinsicContentSize.height+2)
+            height = aTabView.intrinsicContentSize.height+2
         }
-        return NSMakeSize(NSViewNoIntrinsicMetric, 22)
+        if let constraint = addTabButtonHeightConstraint {
+            constraint.active = false
+            addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(height)
+            addTabButtonHeightConstraint?.active = true
+        }
+        return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
     
     required public init?(coder: NSCoder) {
-        stackView = NSStackView(frame: .zero)
         super.init(coder: coder)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,19 +52,38 @@ public class LYTabBarView: NSView {
         stackView.orientation = .Horizontal
         stackView.distribution = .FillEqually
         stackView.spacing = 1
+        
+        addTabButton = NSButton(frame: .zero)
+        addTabButton.translatesAutoresizingMaskIntoConstraints = false
+        addTabButton.setButtonType(.MomentaryChangeButton)
+        addTabButton.image = NSImage(named: NSImageNameAddTemplate)
+        addTabButton.bezelStyle = .ShadowlessSquareBezelStyle
+        addTabButton.bordered = false
+        addTabButton.imagePosition = .ImageOnly
+        stackView.addView(addTabButton, inGravity: .Bottom)
+        addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(22)
+        addTabButtonHeightConstraint?.active = true
+        addTabButton.widthAnchor.constraintEqualToAnchor(addTabButton.heightAnchor).active = true
+        addTabButton.target = self
+        addTabButton.action = #selector(addNewTab)
     }
     
-    func insertTabViewItem(item: NSTabViewItem, index: NSInteger) {
+    private func createLYTabView(item : NSTabViewItem) -> LYTabView {
         let tabView = LYTabView(tabViewItem: item)
         tabView.tabBarView = self
         tabView.translatesAutoresizingMaskIntoConstraints = false
         tabView.backgroundColor = self.backgroundColor
+        return tabView
+    }
+    
+    func insertTabViewItem(item: NSTabViewItem, index: NSInteger) {
+        let tabView = createLYTabView(item)
         stackView.insertView(tabView, atIndex: index, inGravity: .Center)
-        if stackView.views.count == 1 {
+        if tabViews().count == 1 {
             self.invalidateIntrinsicContentSize()
         }
     }
-    
+
     func tabViews() -> [LYTabView] {
         return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabView }
     }
@@ -155,6 +181,16 @@ public class LYTabBarView: NSView {
             selectedBorderColor.setFill()
             NSRectFill(rect)
         }
+        let rect = NSInsetRect(addTabButton.frame, 0, 0.5)
+        self.backgroundColor.setFill()
+        NSRectFill(rect)
+    }
+    
+    @IBAction func addNewTab(sender:AnyObject?) {
+        let item = NSTabViewItem()
+        item.label = "Untitle"
+        self.tabView?.addTabViewItem(item)
+        selectTabViewItem(item)
     }
 }
 
