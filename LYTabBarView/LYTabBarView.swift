@@ -111,6 +111,7 @@ public class LYTabBarView: NSView {
                 }
                 idx += 1
             }
+            self.hidden = tabItems.count <= 1
             self.needsDisplay = true
         }
     }
