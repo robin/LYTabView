@@ -21,9 +21,10 @@ class LYTabView: NSView {
     var padding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
     private static let closeImage = NSImage(named: NSImageNameStopProgressTemplate)?.scaleToSize(CGSize(width:8, height:8))
-    var backgroundColor = NSColor.clearColor()
-    var selectedBackgroundColor = NSColor(calibratedRed: 0.85, green: 0.85, blue: 0.85, alpha: 1)
+    var backgroundColor = NSColor(white: 0.73, alpha: 1)
+    var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
     var unselectedForegroundColor = NSColor(calibratedRed: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+    var closeButtonHoverBackgroundColor = NSColor(white: 0.65, alpha: 0.6)
     
     var title : NSString {
         get {
@@ -58,7 +59,7 @@ class LYTabView: NSView {
         
         closeButton = LYHoverButton(frame: .zero)
         if let closeButton = self.closeButton {
-            closeButton.hoverBackgroundColor = NSColor.lightGrayColor()
+            closeButton.hoverBackgroundColor = closeButtonHoverBackgroundColor
             closeButton.setButtonType(.MomentaryPushInButton)
             closeButton.bezelStyle = .ShadowlessSquareBezelStyle
             closeButton.image = LYTabView.closeImage

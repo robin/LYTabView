@@ -23,7 +23,7 @@ class LYHoverButton: NSButton {
             self.removeTrackingArea(trackingArea)
         }
 
-        let options : NSTrackingAreaOptions = [.EnabledDuringMouseDrag, .MouseEnteredAndExited, .ActiveInActiveApp]
+        let options : NSTrackingAreaOptions = [.EnabledDuringMouseDrag, .MouseEnteredAndExited, .ActiveAlways]
         self.trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
         self.addTrackingArea(self.trackingArea!)
     }

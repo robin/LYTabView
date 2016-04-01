@@ -13,9 +13,9 @@ public class LYTabBarView: NSView {
     private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
     private var _needsUpdate = false
 
-    var backgroundColor = NSColor(calibratedRed: 0.77, green: 0.77, blue: 0.77, alpha: 1)
-    var borderColor = NSColor(calibratedRed: 0.67, green: 0.67, blue: 0.67, alpha: 1)
-    var selectedBorderColor = NSColor(calibratedRed: 0.73, green: 0.73, blue: 0.73, alpha: 1)
+    var backgroundColor = NSColor(white: 0.73, alpha: 1)
+    var borderColor = NSColor(white: 0.61, alpha: 1)
+    var selectedBorderColor = NSColor(white: 0.71, alpha: 1)
     
     @IBOutlet var tabView : NSTabView? {
         didSet {
@@ -111,6 +111,7 @@ public class LYTabBarView: NSView {
                 }
                 idx += 1
             }
+            self.needsDisplay = true
         }
     }
     
@@ -118,10 +119,22 @@ public class LYTabBarView: NSView {
         for v in self.tabViews() {
             v.needsDisplay = true
         }
+        self.needsDisplay = true
     }
     
     func selectTabViewItem(tabViewItem : NSTabViewItem) {
         self.tabView?.selectTabViewItem(tabViewItem)
+    }
+    
+    func selectedTabView() -> LYTabView? {
+        if let selectedTabViewItem = self.tabView?.selectedTabViewItem {
+            for tabView in self.tabViews() {
+                if tabView.tabViewItem == selectedTabViewItem {
+                    return tabView
+                }
+            }
+        }
+        return nil
     }
     
     func removeTabViewItem(tabviewItem : NSTabViewItem) {
@@ -134,6 +147,13 @@ public class LYTabBarView: NSView {
         let border = NSBezierPath(rect: self.bounds)
         borderColor.setStroke()
         border.stroke()
+        if let selectedTabView = self.selectedTabView() {
+            var rect = selectedTabView.frame
+            rect.origin.y = 0
+            rect.size.height = self.frame.size.height
+            selectedBorderColor.setFill()
+            NSRectFill(rect)
+        }
     }
 }
 
