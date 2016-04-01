@@ -55,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		AE2562961CAA612C00644D9F /* LYTabView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LYTabView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE2562A01CAA612C00644D9F /* LYTabView.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LYTabView.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE2562A01CAA612C00644D9F /* LYTabViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LYTabViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2562A51CAA612C00644D9F /* LYTabBarViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYTabBarViewTests.swift; sourceTree = "<group>"; };
 		AE2562A71CAA612C00644D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE2562B41CAA614C00644D9F /* LYTabView Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LYTabView Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,7 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				AE2562961CAA612C00644D9F /* LYTabView.framework */,
-				AE2562A01CAA612C00644D9F /* LYTabView.xctest */,
+				AE2562A01CAA612C00644D9F /* LYTabViewTests.xctest */,
 				AE2562B41CAA614C00644D9F /* LYTabView Demo.app */,
 			);
 			name = Products;
@@ -201,7 +201,7 @@
 			);
 			name = LYTabViewTests;
 			productName = LYTabBarViewTests;
-			productReference = AE2562A01CAA612C00644D9F /* LYTabView.xctest */;
+			productReference = AE2562A01CAA612C00644D9F /* LYTabViewTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		AE2562B31CAA614C00644D9F /* LYTabView Demo */ = {
@@ -480,7 +480,7 @@
 				INFOPLIST_FILE = LYTabBarViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.robinlu.LYTabBarViewTests;
-				PRODUCT_NAME = LYTabView;
+				PRODUCT_NAME = LYTabViewTests;
 			};
 			name = Debug;
 		};
@@ -491,7 +491,7 @@
 				INFOPLIST_FILE = LYTabBarViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.robinlu.LYTabBarViewTests;
-				PRODUCT_NAME = LYTabView;
+				PRODUCT_NAME = LYTabViewTests;
 			};
 			name = Release;
 		};
