@@ -7,10 +7,12 @@
 //
 
 import Cocoa
+import LYTabView
 
 class ViewController: NSViewController {
 
     @IBOutlet weak var tabView: NSTabView!
+    @IBOutlet weak var tabBarView: LYTabBarView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +29,8 @@ class ViewController: NSViewController {
         }
     }
 
-
+    @IBAction func toggleAddNewTabButton(sender:AnyObject?) {
+        
+    }
 }
 

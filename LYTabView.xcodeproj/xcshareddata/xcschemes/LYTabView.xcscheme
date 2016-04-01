@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AE2562951CAA612C00644D9F"
-               BuildableName = "LYTabBarView.framework"
-               BlueprintName = "LYTabBarView"
-               ReferencedContainer = "container:LYTabBarView.xcodeproj">
+               BuildableName = "LYTabView.framework"
+               BlueprintName = "LYTabView"
+               ReferencedContainer = "container:LYTabView.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AE25629F1CAA612C00644D9F"
-               BuildableName = "LYTabBarViewTests.xctest"
-               BlueprintName = "LYTabBarViewTests"
-               ReferencedContainer = "container:LYTabBarView.xcodeproj">
+               BuildableName = "LYTabView.xctest"
+               BlueprintName = "LYTabViewTests"
+               ReferencedContainer = "container:LYTabView.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AE2562951CAA612C00644D9F"
-            BuildableName = "LYTabBarView.framework"
-            BlueprintName = "LYTabBarView"
-            ReferencedContainer = "container:LYTabBarView.xcodeproj">
+            BuildableName = "LYTabView.framework"
+            BlueprintName = "LYTabView"
+            ReferencedContainer = "container:LYTabView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AE2562951CAA612C00644D9F"
-            BuildableName = "LYTabBarView.framework"
-            BlueprintName = "LYTabBarView"
-            ReferencedContainer = "container:LYTabBarView.xcodeproj">
+            BuildableName = "LYTabView.framework"
+            BlueprintName = "LYTabView"
+            ReferencedContainer = "container:LYTabView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AE2562951CAA612C00644D9F"
-            BuildableName = "LYTabBarView.framework"
-            BlueprintName = "LYTabBarView"
-            ReferencedContainer = "container:LYTabBarView.xcodeproj">
+            BuildableName = "LYTabView.framework"
+            BlueprintName = "LYTabView"
+            ReferencedContainer = "container:LYTabView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class LYTabView: NSView {
+class LYTabItemView: NSView {
     private let titleView = NSTextField(frame: .zero)
     private var closeButton : LYHoverButton!
 
@@ -61,7 +61,7 @@ class LYTabView: NSView {
         closeButton.hoverBackgroundColor = closeButtonHoverBackgroundColor
         closeButton.setButtonType(.MomentaryPushInButton)
         closeButton.bezelStyle = .ShadowlessSquareBezelStyle
-        closeButton.image = LYTabView.closeImage
+        closeButton.image = LYTabItemView.closeImage
         closeButton.bordered = false
         closeButton.imagePosition = .ImageOnly
         closeButton.target = self

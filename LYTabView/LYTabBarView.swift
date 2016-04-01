@@ -16,6 +16,15 @@ public class LYTabBarView: NSView {
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var borderColor = NSColor(white: 0.61, alpha: 1)
     var selectedBorderColor = NSColor(white: 0.71, alpha: 1)
+    var showAddNewTabButton = true {
+        didSet {
+            if showAddNewTabButton && addTabButton.superview == nil {
+                stackView.addView(addTabButton, inGravity: .Bottom)
+            } else if !showAddNewTabButton && addTabButton.superview != nil {
+                addTabButton.removeFromSuperview()
+            }
+        }
+    }
     
     @IBOutlet var tabView : NSTabView? {
         didSet {
@@ -60,16 +69,18 @@ public class LYTabBarView: NSView {
         addTabButton.bezelStyle = .ShadowlessSquareBezelStyle
         addTabButton.bordered = false
         addTabButton.imagePosition = .ImageOnly
-        stackView.addView(addTabButton, inGravity: .Bottom)
         addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(22)
         addTabButtonHeightConstraint?.active = true
         addTabButton.widthAnchor.constraintEqualToAnchor(addTabButton.heightAnchor).active = true
         addTabButton.target = self
         addTabButton.action = #selector(addNewTab)
+        if showAddNewTabButton {
+            stackView.addView(addTabButton, inGravity: .Bottom)
+        }
     }
     
-    private func createLYTabView(item : NSTabViewItem) -> LYTabView {
-        let tabView = LYTabView(tabViewItem: item)
+    private func createLYTabItemView(item : NSTabViewItem) -> LYTabItemView {
+        let tabView = LYTabItemView(tabViewItem: item)
         tabView.tabBarView = self
         tabView.translatesAutoresizingMaskIntoConstraints = false
         tabView.backgroundColor = self.backgroundColor
@@ -77,15 +88,15 @@ public class LYTabBarView: NSView {
     }
     
     func insertTabViewItem(item: NSTabViewItem, index: NSInteger) {
-        let tabView = createLYTabView(item)
+        let tabView = createLYTabItemView(item)
         stackView.insertView(tabView, atIndex: index, inGravity: .Center)
         if tabViews().count == 1 {
             self.invalidateIntrinsicContentSize()
         }
     }
 
-    func tabViews() -> [LYTabView] {
-        return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabView }
+    func tabViews() -> [LYTabItemView] {
+        return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabItemView }
     }
     
     func shouldShowCloseButton(tabBarItem : NSTabViewItem) -> Bool {
@@ -153,7 +164,7 @@ public class LYTabBarView: NSView {
         self.tabView?.selectTabViewItem(tabViewItem)
     }
     
-    func selectedTabView() -> LYTabView? {
+    func selectedTabView() -> LYTabItemView? {
         if let selectedTabViewItem = self.tabView?.selectedTabViewItem {
             for tabView in self.tabViews() {
                 if tabView.tabViewItem == selectedTabViewItem {
