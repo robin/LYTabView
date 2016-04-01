@@ -16,7 +16,7 @@ public class LYTabBarView: NSView {
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var borderColor = NSColor(white: 0.61, alpha: 1)
     var selectedBorderColor = NSColor(white: 0.71, alpha: 1)
-    var showAddNewTabButton = true {
+    public var showAddNewTabButton = true {
         didSet {
             if showAddNewTabButton && addTabButton.superview == nil {
                 stackView.addView(addTabButton, inGravity: .Bottom)
@@ -197,11 +197,17 @@ public class LYTabBarView: NSView {
         NSRectFill(rect)
     }
     
-    @IBAction func addNewTab(sender:AnyObject?) {
+    @IBAction public func addNewTab(sender:AnyObject?) {
         let item = NSTabViewItem()
         item.label = "Untitle"
         self.tabView?.addTabViewItem(item)
         selectTabViewItem(item)
+    }
+    
+    @IBAction public func closeCurrentTab(sender:AnyObject?) {
+        if let selectedView = selectedTabView() {
+            removeTabViewItem(selectedView.tabViewItem)
+        }
     }
 }
 

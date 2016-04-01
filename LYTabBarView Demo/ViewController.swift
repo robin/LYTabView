@@ -30,7 +30,19 @@ class ViewController: NSViewController {
     }
 
     @IBAction func toggleAddNewTabButton(sender:AnyObject?) {
-        
+        tabBarView.showAddNewTabButton = !tabBarView.showAddNewTabButton
+    }
+    
+    @IBAction func addNewTab(sender:AnyObject?) {
+        tabBarView.addNewTab(sender)
+    }
+    
+    @IBAction func performClose(sender:AnyObject?) {
+        if !tabView.tabViewItems.isEmpty {
+            tabBarView.closeCurrentTab(sender)
+        } else {
+            self.view.window?.performClose(sender)
+        }
     }
 }
 

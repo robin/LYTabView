@@ -64,6 +64,11 @@
                                                 <action selector="newDocument:" target="Ady-hI-5gd" id="4Si-XN-c54"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="New Tab" keyEquivalent="t" id="EWD-EP-n6T">
+                                            <connections>
+                                                <action selector="addNewTab:" target="Ady-hI-5gd" id="h0k-7O-gDy"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
                                             <connections>
                                                 <action selector="openDocument:" target="Ady-hI-5gd" id="bVn-NM-KNZ"/>
@@ -598,6 +603,9 @@
                                         </menuItem>
                                         <menuItem title="Toggle Add New Tab Button" id="qmU-Sf-eIy">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAddNewTabButton:" target="Ady-hI-5gd" id="Djf-iX-YT7"/>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
