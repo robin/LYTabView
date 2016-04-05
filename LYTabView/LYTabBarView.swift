@@ -12,6 +12,8 @@ import Cocoa
 public class LYTabBarView: NSView {
     private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
     private var _needsUpdate = false
+    
+    @IBOutlet public var delegate : NSTabViewDelegate?
 
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var borderColor = NSColor(white: 0.61, alpha: 1)
@@ -214,9 +216,22 @@ public class LYTabBarView: NSView {
 extension LYTabBarView : NSTabViewDelegate {
     public func tabViewDidChangeNumberOfTabViewItems(tabView: NSTabView) {
         self.needsUpdate = true
+        self.delegate?.tabViewDidChangeNumberOfTabViewItems?(tabView)
     }
     
     public func tabView(tabView: NSTabView, didSelectTabViewItem tabViewItem: NSTabViewItem?) {
         self.updateTabState()
+        self.delegate?.tabView?(tabView, didSelectTabViewItem: tabViewItem)
+    }
+    
+    public func tabView(tabView: NSTabView, willSelectTabViewItem tabViewItem: NSTabViewItem?) {
+        self.delegate?.tabView?(tabView, willSelectTabViewItem: tabViewItem)
+    }
+    
+    public func tabView(tabView: NSTabView, shouldSelectTabViewItem tabViewItem: NSTabViewItem?) -> Bool {
+        if let rslt = self.delegate?.tabView?(tabView, shouldSelectTabViewItem: tabViewItem) {
+            return rslt
+        }
+        return true
     }
 }
