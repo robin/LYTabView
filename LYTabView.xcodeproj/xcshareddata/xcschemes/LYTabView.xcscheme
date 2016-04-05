@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AE25629F1CAA612C00644D9F"
-               BuildableName = "LYTabView.xctest"
+               BuildableName = "LYTabViewTests.xctest"
                BlueprintName = "LYTabViewTests"
                ReferencedContainer = "container:LYTabView.xcodeproj">
             </BuildableReference>

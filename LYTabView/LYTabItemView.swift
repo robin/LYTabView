@@ -50,8 +50,9 @@ class LYTabItemView: NSView {
         titleView.bordered = false
         titleView.drawsBackground = false
         self.addSubview(titleView)
-        titleView.trailingAnchor.constraintGreaterThanOrEqualToAnchor(self.trailingAnchor, constant: xpadding).active = true
-        titleView.leadingAnchor.constraintGreaterThanOrEqualToAnchor(self.leadingAnchor, constant: xpadding*2+closeButtonSize.width).active = true
+        let padding = xpadding*2+closeButtonSize.width
+        titleView.trailingAnchor.constraintGreaterThanOrEqualToAnchor(self.trailingAnchor, constant: -padding).active = true
+        titleView.leadingAnchor.constraintGreaterThanOrEqualToAnchor(self.leadingAnchor, constant: padding).active = true
         titleView.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
         titleView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: ypadding).active = true
         titleView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
