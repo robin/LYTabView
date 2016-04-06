@@ -9,6 +9,8 @@
 import Foundation
 import Cocoa
 
+public let LYTabItemUTI = "com.robin.LYTabBarView.item"
+
 public class LYTabBarView: NSView {
     private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
     private var _needsUpdate = false

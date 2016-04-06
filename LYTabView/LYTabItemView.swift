@@ -40,6 +40,12 @@ class LYTabItemView: NSView {
         }
     }
     
+    // Drag and Drop
+    var dragStartPoint : NSPoint?
+    var isDragging = false
+    var draggingView : NSImageView?
+    var draggingViewLeadingConstraint : NSLayoutConstraint?
+    
     func setupViews() {
         self.setContentHuggingPriority(240, forOrientation: .Vertical)
 
@@ -75,6 +81,9 @@ class LYTabItemView: NSView {
         closeButton.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: ypadding).active = true
         closeButton.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: xpadding).active = true
         closeButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
+        
+        // register drag and drop
+        self.registerForDraggedTypes([LYTabItemUTI])
     }
     
     override var intrinsicContentSize: NSSize {
@@ -103,11 +112,10 @@ class LYTabItemView: NSView {
     }
     
     override func drawRect(dirtyRect: NSRect) {
-        switch tabViewItem.tabState {
-        case .SelectedTab:
+        if tabViewItem.tabState == .SelectedTab && !isDragging {
             selectedBackgroundColor.setFill()
             titleView.textColor = NSColor.textColor()
-        default:
+        } else {
             backgroundColor.setFill()
             titleView.textColor = unselectedForegroundColor
         }
@@ -117,6 +125,18 @@ class LYTabItemView: NSView {
     
     override func mouseDown(theEvent: NSEvent) {
         self.tabBarView.selectTabViewItem(self.tabViewItem)
+        
+        // setup drag and drop
+        let pasteItem = NSPasteboardItem()
+        pasteItem.setDataProvider(self, forTypes: [LYTabItemUTI])
+        let dragItem = NSDraggingItem(pasteboardWriter: pasteItem)
+        var draggingRect = self.frame
+        draggingRect.size.width = 1
+        draggingRect.size.height = 1
+        let dummyImage = NSImage(size: NSSize(width: 1, height: 1))
+        dragItem.setDraggingFrame(draggingRect, contents: dummyImage)
+        let draggingSession = self.beginDraggingSessionWithItems([dragItem], event: theEvent, source: self)
+        draggingSession.animatesToStartingPositionsOnCancelOrFail = true
     }
     
     override func updateTrackingAreas() {
@@ -149,5 +169,70 @@ class LYTabItemView: NSView {
 
     @IBAction func closeTab(sender:AnyObject?) {
         self.tabBarView.removeTabViewItem(self.tabViewItem)
+    }
+}
+
+extension LYTabItemView : NSPasteboardItemDataProvider {
+    func pasteboard(pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
+        pasteboard?.setData(NSData(), forType: LYTabItemUTI)
+    }
+}
+
+extension LYTabItemView : NSDraggingSource {
+    func draggingSession(session: NSDraggingSession, sourceOperationMaskForDraggingContext context: NSDraggingContext) -> NSDragOperation {
+        if context == .WithinApplication {
+            return .Move
+        }
+        return .None
+    }
+    
+     func ignoreModifierKeysForDraggingSession(session: NSDraggingSession) -> Bool {
+        return true
+    }
+    
+    func draggingSession(session: NSDraggingSession, willBeginAtPoint screenPoint: NSPoint) {
+        dragStartPoint = screenPoint
+        closeButton.hidden = true
+        let dragRect = NSInsetRect(self.frame, -1, -1)
+        let image = NSImage(data: self.tabBarView.dataWithPDFInsideRect(dragRect))
+        self.draggingView = NSImageView(frame: dragRect)
+        if let draggingView = self.draggingView {
+            draggingView.image = image
+            draggingView.translatesAutoresizingMaskIntoConstraints = false
+            self.tabBarView.addSubview(draggingView)
+            draggingView.topAnchor.constraintEqualToAnchor(self.tabBarView.topAnchor).active = true
+            draggingView.bottomAnchor.constraintEqualToAnchor(self.tabBarView.bottomAnchor).active = true
+            draggingView.widthAnchor.constraintEqualToConstant(self.frame.width)
+            self.draggingViewLeadingConstraint = draggingView.leadingAnchor.constraintEqualToAnchor(self.tabBarView.leadingAnchor, constant: self.frame.origin.x)
+            self.draggingViewLeadingConstraint?.active = true
+        }
+        isDragging = true
+        self.titleView.hidden = true
+        self.needsDisplay = true
+    }
+    
+    func draggingSession(session: NSDraggingSession, movedToPoint screenPoint: NSPoint) {
+        if let constraint = self.draggingViewLeadingConstraint, let startPoint = self.dragStartPoint {
+            let offset = screenPoint.x - startPoint.x
+            var constant = self.frame.origin.x + offset
+            if constant < 0 {
+                constant = 0
+            }
+            let max = self.tabBarView.frame.size.width - self.frame.size.width
+            if constant > max {
+                constant = max
+            }
+            constraint.constant = constant
+        }
+    }
+    
+    func draggingSession(session: NSDraggingSession, endedAtPoint screenPoint: NSPoint, operation: NSDragOperation) {
+        dragStartPoint = nil
+        isDragging = false
+        closeButton.hidden = false
+        self.titleView.hidden = false
+        self.draggingView?.removeFromSuperview()
+        self.draggingViewLeadingConstraint = nil
+        self.needsDisplay = true
     }
 }
