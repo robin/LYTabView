@@ -41,14 +41,13 @@ class LYTabItemView: NSView {
     }
     
     // Drag and Drop
-    var dragStartPoint : NSPoint?
+    var dragOffset : CGFloat?
     var isDragging = false
     var draggingView : NSImageView?
     var draggingViewLeadingConstraint : NSLayoutConstraint?
     
     func setupViews() {
         self.setContentHuggingPriority(240, forOrientation: .Vertical)
-
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.editable = false
@@ -195,7 +194,7 @@ extension LYTabItemView : NSDraggingSource {
     }
     
     func draggingSession(session: NSDraggingSession, willBeginAtPoint screenPoint: NSPoint) {
-        dragStartPoint = screenPoint
+        dragOffset = self.frame.origin.x - screenPoint.x
         closeButton.hidden = true
         let dragRect = NSInsetRect(self.frame, -1, -1)
         let image = NSImage(data: self.tabBarView.dataWithPDFInsideRect(dragRect))
@@ -216,9 +215,8 @@ extension LYTabItemView : NSDraggingSource {
     }
     
     func draggingSession(session: NSDraggingSession, movedToPoint screenPoint: NSPoint) {
-        if let constraint = self.draggingViewLeadingConstraint, let startPoint = self.dragStartPoint {
-            let offset = screenPoint.x - startPoint.x
-            var constant = self.frame.origin.x + offset
+        if let constraint = self.draggingViewLeadingConstraint, let offset = self.dragOffset, let draggingView = self.draggingView {
+            var constant = screenPoint.x + offset
             if constant < 0 {
                 constant = 0
             }
@@ -227,16 +225,19 @@ extension LYTabItemView : NSDraggingSource {
                 constant = max
             }
             constraint.constant = constant
+            
+            self.tabBarView.handleDraggingTab(draggingView.frame, dragTabItemView: self)
         }
     }
     
     func draggingSession(session: NSDraggingSession, endedAtPoint screenPoint: NSPoint, operation: NSDragOperation) {
-        dragStartPoint = nil
+        dragOffset = nil
         isDragging = false
         closeButton.hidden = false
         self.titleView.hidden = false
         self.draggingView?.removeFromSuperview()
         self.draggingViewLeadingConstraint = nil
         self.needsDisplay = true
+        self.tabBarView.updateTabViewForMovedTabItem(self.tabViewItem)
     }
 }

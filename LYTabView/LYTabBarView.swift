@@ -213,6 +213,35 @@ public class LYTabBarView: NSView {
             removeTabViewItem(selectedView.tabViewItem)
         }
     }
+    
+    func handleDraggingTab(dragRect : NSRect, dragTabItemView : LYTabItemView) {
+        var idx = 0
+        for itemView in self.tabViews() {
+            if itemView != dragTabItemView {
+                let rect = NSIntersectionRect(dragRect, itemView.frame)
+                if rect.size.width * 2 > itemView.frame.size.width {
+                    self.stackView.removeView(dragTabItemView)
+                    if dragRect.origin.x == rect.origin.x {
+                        self.stackView.insertView(dragTabItemView, atIndex: idx, inGravity: .Center)
+                    } else {
+                        self.stackView.insertView(dragTabItemView, atIndex: idx+1, inGravity: .Center)
+                    }
+                    break
+                }
+                idx += 1
+            }
+        }
+    }
+    
+    func updateTabViewForMovedTabItem(tabItem : NSTabViewItem) {
+        for (idx, itemView) in self.tabViews().enumerate() {
+            if itemView.tabViewItem == tabItem {
+                self.tabView?.removeTabViewItem(tabItem)
+                self.tabView?.insertTabViewItem(tabItem, atIndex: idx)
+            }
+        }
+        self.tabView?.selectTabViewItem(tabItem)
+    }
 }
 
 extension LYTabBarView : NSTabViewDelegate {
