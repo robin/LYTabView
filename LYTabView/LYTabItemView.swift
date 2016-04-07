@@ -127,16 +127,7 @@ class LYTabItemView: NSView {
         self.tabBarView.selectTabViewItem(self.tabViewItem)
         
         // setup drag and drop
-        let pasteItem = NSPasteboardItem()
-        pasteItem.setDataProvider(self, forTypes: [LYTabItemUTI])
-        let dragItem = NSDraggingItem(pasteboardWriter: pasteItem)
-        var draggingRect = self.frame
-        draggingRect.size.width = 1
-        draggingRect.size.height = 1
-        let dummyImage = NSImage(size: NSSize(width: 1, height: 1))
-        dragItem.setDraggingFrame(draggingRect, contents: dummyImage)
-        let draggingSession = self.beginDraggingSessionWithItems([dragItem], event: theEvent, source: self)
-        draggingSession.animatesToStartingPositionsOnCancelOrFail = true
+        setupDragAndDrop(theEvent)
     }
     
     override func updateTrackingAreas() {
@@ -146,7 +137,7 @@ class LYTabItemView: NSView {
             self.removeTrackingArea(trackingArea)
         }
         
-        let options : NSTrackingAreaOptions = [.EnabledDuringMouseDrag, .MouseEnteredAndExited, .ActiveAlways]
+        let options : NSTrackingAreaOptions = [.MouseMoved, .MouseEnteredAndExited, .ActiveAlways, .InVisibleRect]
         self.trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
         self.addTrackingArea(self.trackingArea!)
     }
@@ -179,6 +170,19 @@ extension LYTabItemView : NSPasteboardItemDataProvider {
 }
 
 extension LYTabItemView : NSDraggingSource {
+    func setupDragAndDrop(theEvent: NSEvent) {
+        let pasteItem = NSPasteboardItem()
+        pasteItem.setDataProvider(self, forTypes: [LYTabItemUTI])
+        let dragItem = NSDraggingItem(pasteboardWriter: pasteItem)
+        var draggingRect = self.frame
+        draggingRect.size.width = 1
+        draggingRect.size.height = 1
+        let dummyImage = NSImage(size: NSSize(width: 1, height: 1))
+        dragItem.setDraggingFrame(draggingRect, contents: dummyImage)
+        let draggingSession = self.beginDraggingSessionWithItems([dragItem], event: theEvent, source: self)
+        draggingSession.animatesToStartingPositionsOnCancelOrFail = true
+    }
+    
     func draggingSession(session: NSDraggingSession, sourceOperationMaskForDraggingContext context: NSDraggingContext) -> NSDragOperation {
         if context == .WithinApplication {
             return .Move
