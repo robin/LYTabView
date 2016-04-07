@@ -28,7 +28,7 @@ class LYTabItemView: NSView {
     var hoverBackgroundColor = NSColor(white: 0.70, alpha: 1)
     var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
     var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
-    var closeButtonHoverBackgroundColor = NSColor(white: 0.65, alpha: 0.6)
+    var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
     
     var title : NSString {
         get {
@@ -111,7 +111,7 @@ class LYTabItemView: NSView {
             if hovered {
                 hoverBackgroundColor.setFill()
             } else {
-                backgroundColor.setFill()                
+                backgroundColor.setFill()
             }
             titleView.textColor = unselectedForegroundColor
         }
