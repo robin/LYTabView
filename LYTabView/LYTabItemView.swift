@@ -24,7 +24,6 @@ class LYTabItemView: NSView {
     var xpadding : CGFloat = 4
     var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
-    private static let closeImage = NSImage(named: NSImageNameStopProgressTemplate)?.scaleToSize(CGSize(width:8, height:8))
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
     var unselectedForegroundColor = NSColor(calibratedRed: 0.4, green: 0.4, blue: 0.4, alpha: 1)
@@ -62,14 +61,9 @@ class LYTabItemView: NSView {
         titleView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: ypadding).active = true
         titleView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
         
-        closeButton = LYHoverButton(frame: .zero)
+        closeButton = LYTabCloseButton(frame: .zero)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.hoverBackgroundColor = closeButtonHoverBackgroundColor
-        closeButton.setButtonType(.MomentaryPushInButton)
-        closeButton.bezelStyle = .ShadowlessSquareBezelStyle
-        closeButton.image = LYTabItemView.closeImage
-        closeButton.bordered = false
-        closeButton.imagePosition = .ImageOnly
         closeButton.target = self
         closeButton.action = #selector(closeTab)
         closeButton.heightAnchor.constraintEqualToConstant(closeButtonSize.height).active = true

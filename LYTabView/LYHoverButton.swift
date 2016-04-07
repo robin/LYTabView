@@ -11,9 +11,9 @@ import Cocoa
 
 class LYHoverButton: NSButton {
     var hoverBackgroundColor : NSColor?
-    private var backgroundColor : CGColor?
+    var backgroundColor = NSColor.clearColor()
     
-    private var hovered = false
+    var hovered = false
     private var trackingArea : NSTrackingArea?
     
     override func updateTrackingAreas() {
@@ -33,14 +33,7 @@ class LYHoverButton: NSButton {
             return
         }
         hovered = true
-        if self.backgroundColor == nil {
-            self.backgroundColor = self.layer?.backgroundColor ?? NSColor.clearColor().CGColor
-        }
-        if let layer = self.layer {
-            if let color = self.hoverBackgroundColor {
-                layer.backgroundColor = color.CGColor
-            }
-        }
+        needsDisplay = true
     }
     
     override func mouseExited(theEvent: NSEvent) {
@@ -48,10 +41,6 @@ class LYHoverButton: NSButton {
             return
         }
         hovered = false
-        if let layer = self.layer {
-            if let color = self.backgroundColor {
-                layer.backgroundColor = color
-            }
-        }
+        needsDisplay = true
     }
 }
