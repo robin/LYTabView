@@ -25,8 +25,9 @@ class LYTabItemView: NSView {
     var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
+    var hoverBackgroundColor = NSColor(white: 0.70, alpha: 1)
     var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
-    var unselectedForegroundColor = NSColor(calibratedRed: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+    var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
     var closeButtonHoverBackgroundColor = NSColor(white: 0.65, alpha: 0.6)
     
     var title : NSString {
@@ -107,7 +108,11 @@ class LYTabItemView: NSView {
             selectedBackgroundColor.setFill()
             titleView.textColor = NSColor.textColor()
         } else {
-            backgroundColor.setFill()
+            if hovered {
+                hoverBackgroundColor.setFill()
+            } else {
+                backgroundColor.setFill()                
+            }
             titleView.textColor = unselectedForegroundColor
         }
         NSRectFill(self.bounds)
@@ -138,6 +143,7 @@ class LYTabItemView: NSView {
             return
         }
         hovered = true
+        needsDisplay = true
         closeButton.hidden = false
     }
     
@@ -146,6 +152,7 @@ class LYTabItemView: NSView {
             return
         }
         hovered = false
+        needsDisplay = true
         closeButton.hidden = true
     }
 
