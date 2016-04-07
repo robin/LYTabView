@@ -75,8 +75,6 @@ class LYTabItemView: NSView {
         closeButton.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: xpadding).active = true
         closeButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
         
-        // register drag and drop
-        self.registerForDraggedTypes([LYTabItemUTI])
     }
     
     override var intrinsicContentSize: NSSize {
@@ -158,14 +156,12 @@ class LYTabItemView: NSView {
 
 extension LYTabItemView : NSPasteboardItemDataProvider {
     func pasteboard(pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
-        pasteboard?.setData(NSData(), forType: LYTabItemUTI)
     }
 }
 
 extension LYTabItemView : NSDraggingSource {
     func setupDragAndDrop(theEvent: NSEvent) {
         let pasteItem = NSPasteboardItem()
-        pasteItem.setDataProvider(self, forTypes: [LYTabItemUTI])
         let dragItem = NSDraggingItem(pasteboardWriter: pasteItem)
         var draggingRect = self.frame
         draggingRect.size.width = 1
