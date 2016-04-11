@@ -21,6 +21,8 @@
 		AEB984A71CAE7EA40030F752 /* LYHoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */; };
 		AEB984A81CAE7EA40030F752 /* NSImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */; };
 		AEB984A91CAE7EA40030F752 /* LYTabView.h in Headers */ = {isa = PBXBuildFile; fileRef = AEB984A31CAE7EA40030F752 /* LYTabView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEDB09621CBB361500B56603 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEDB09611CBB361500B56603 /* QuartzCore.framework */; };
+		AEDB09661CBB500900B56603 /* NSView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB09651CBB500900B56603 /* NSView+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LYHoverButton.swift; path = LYTabView/LYHoverButton.swift; sourceTree = SOURCE_ROOT; };
 		AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSImage+extension.swift"; path = "LYTabView/NSImage+extension.swift"; sourceTree = SOURCE_ROOT; };
 		AEB984A31CAE7EA40030F752 /* LYTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LYTabView.h; path = LYTabView/LYTabView.h; sourceTree = SOURCE_ROOT; };
+		AEDB09611CBB361500B56603 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		AEDB09651CBB500900B56603 /* NSView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSView+extension.swift"; path = "LYTabView/NSView+extension.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEDB09621CBB361500B56603 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +109,7 @@
 		AE25628C1CAA612C00644D9F = {
 			isa = PBXGroup;
 			children = (
+				AEDB09611CBB361500B56603 /* QuartzCore.framework */,
 				AE2562981CAA612C00644D9F /* LYTabView */,
 				AE2562A41CAA612C00644D9F /* LYTabBarViewTests */,
 				AE2562B51CAA614C00644D9F /* LYTabBarView Demo */,
@@ -131,6 +137,7 @@
 				AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */,
 				AEB984A31CAE7EA40030F752 /* LYTabView.h */,
 				AE269DE21CB6266000DD4F45 /* LYTabCloseButton.swift */,
+				AEDB09651CBB500900B56603 /* NSView+extension.swift */,
 			);
 			name = LYTabView;
 			path = LYTabBarView;
@@ -301,6 +308,7 @@
 				AEB984A61CAE7EA40030F752 /* LYTabItemView.swift in Sources */,
 				AEB984A71CAE7EA40030F752 /* LYHoverButton.swift in Sources */,
 				AE269DE31CB6266000DD4F45 /* LYTabCloseButton.swift in Sources */,
+				AEDB09661CBB500900B56603 /* NSView+extension.swift in Sources */,
 				AEB984A81CAE7EA40030F752 /* NSImage+extension.swift in Sources */,
 				AEB984A51CAE7EA40030F752 /* LYTabBarView.swift in Sources */,
 			);

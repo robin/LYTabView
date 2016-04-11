@@ -14,6 +14,8 @@ public class LYTabBarView: NSView {
     private var _needsUpdate = false
     
     @IBOutlet public var delegate : NSTabViewDelegate?
+    
+    public var needAnimation = true
 
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var borderColor = NSColor(white: 0.61, alpha: 1)

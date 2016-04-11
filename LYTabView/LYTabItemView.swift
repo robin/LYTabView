@@ -26,6 +26,7 @@ class LYTabItemView: NSView {
     var closeButtonSize = NSSize(width: 16, height: 16)
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var hoverBackgroundColor = NSColor(white: 0.70, alpha: 1)
+    private var realBackgroundColor = NSColor(white: 0.73, alpha: 1)
     var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
     var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
     var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
@@ -38,6 +39,14 @@ class LYTabItemView: NSView {
             titleView.stringValue = newTitle as String
             self.invalidateIntrinsicContentSize()
         }
+    }
+    
+    private var shouldDrawInHighLight : Bool {
+        return tabViewItem.tabState == .SelectedTab && !isDragging
+    }
+    
+    private var needAnimation : Bool {
+        return self.tabBarView.needAnimation
     }
     
     // Drag and Drop
@@ -104,7 +113,7 @@ class LYTabItemView: NSView {
     }
     
     override func drawRect(dirtyRect: NSRect) {
-        if tabViewItem.tabState == .SelectedTab && !isDragging {
+        if shouldDrawInHighLight {
             selectedBackgroundColor.setFill()
             titleView.textColor = NSColor.textColor()
         } else {
@@ -143,8 +152,11 @@ class LYTabItemView: NSView {
             return
         }
         hovered = true
+        if !shouldDrawInHighLight {
+            self.realBackgroundColor = hoverBackgroundColor
+        }
         needsDisplay = true
-        closeButton.hidden = false
+        closeButton.animatorOrNot(needAnimation).hidden = false
     }
     
     override func mouseExited(theEvent: NSEvent) {
@@ -152,8 +164,11 @@ class LYTabItemView: NSView {
             return
         }
         hovered = false
+        if !shouldDrawInHighLight {
+            self.realBackgroundColor = backgroundColor
+        }
         needsDisplay = true
-        closeButton.hidden = true
+        closeButton.animatorOrNot(needAnimation).hidden = true
     }
 
     @IBAction func closeTab(sender:AnyObject?) {
