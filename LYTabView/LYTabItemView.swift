@@ -26,7 +26,11 @@ class LYTabItemView: NSView {
     var closeButtonSize = NSSize(width: 16, height: 16)
     var backgroundColor = NSColor(white: 0.73, alpha: 1)
     var hoverBackgroundColor = NSColor(white: 0.70, alpha: 1)
-    private var realBackgroundColor = NSColor(white: 0.73, alpha: 1)
+    dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
+        didSet {
+            needsDisplay = true
+        }
+    }
     var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
     var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
     var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
@@ -49,6 +53,13 @@ class LYTabItemView: NSView {
         return self.tabBarView.needAnimation
     }
     
+    override static func defaultAnimationForKey(key: String) -> AnyObject? {
+        if key == "realBackgroundColor" {
+            return CABasicAnimation()
+        }
+        return super.defaultAnimationForKey(key)
+    }
+
     // Drag and Drop
     var dragOffset : CGFloat?
     var isDragging = false
@@ -117,11 +128,7 @@ class LYTabItemView: NSView {
             selectedBackgroundColor.setFill()
             titleView.textColor = NSColor.textColor()
         } else {
-            if hovered {
-                hoverBackgroundColor.setFill()
-            } else {
-                backgroundColor.setFill()
-            }
+            self.realBackgroundColor.setFill()
             titleView.textColor = unselectedForegroundColor
         }
         NSRectFill(self.bounds)
@@ -153,9 +160,8 @@ class LYTabItemView: NSView {
         }
         hovered = true
         if !shouldDrawInHighLight {
-            self.realBackgroundColor = hoverBackgroundColor
+            self.animatorOrNot(needAnimation).realBackgroundColor = hoverBackgroundColor
         }
-        needsDisplay = true
         closeButton.animatorOrNot(needAnimation).hidden = false
     }
     
@@ -165,9 +171,8 @@ class LYTabItemView: NSView {
         }
         hovered = false
         if !shouldDrawInHighLight {
-            self.realBackgroundColor = backgroundColor
+            self.animatorOrNot(needAnimation).realBackgroundColor = backgroundColor
         }
-        needsDisplay = true
         closeButton.animatorOrNot(needAnimation).hidden = true
     }
 
