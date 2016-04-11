@@ -65,6 +65,7 @@ public class LYTabBarView: NSView {
         stackView.orientation = .Horizontal
         stackView.distribution = .FillEqually
         stackView.spacing = 1
+        stackView.setHuggingPriority(NSLayoutPriorityDefaultLow, forOrientation: .Horizontal)
         
         addTabButton = NSButton(frame: .zero)
         addTabButton.translatesAutoresizingMaskIntoConstraints = false
