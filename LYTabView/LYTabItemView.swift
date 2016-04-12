@@ -15,6 +15,11 @@ class LYTabItemView: NSView {
 
     var tabBarView : LYTabBarView!
     var tabViewItem : NSTabViewItem!
+    var drawBorder = false {
+        didSet {
+            self.needsDisplay = true
+        }
+    }
 
     // hover effect
     private var hovered = false
@@ -44,6 +49,8 @@ class LYTabItemView: NSView {
             self.invalidateIntrinsicContentSize()
         }
     }
+    
+    var isMoving = false
     
     private var shouldDrawInHighLight : Bool {
         return tabViewItem.tabState == .SelectedTab && !isDragging
@@ -132,6 +139,12 @@ class LYTabItemView: NSView {
             titleView.textColor = unselectedForegroundColor
         }
         NSRectFill(self.bounds)
+        if self.drawBorder {
+            let boderFrame = NSInsetRect(self.bounds, 1, -1)
+            self.tabBarView.borderColor.setStroke()
+            let path = NSBezierPath(rect: boderFrame)
+            path.stroke()
+        }
         super.drawRect(dirtyRect)
     }
     
