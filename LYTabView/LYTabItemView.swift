@@ -50,6 +50,8 @@ class LYTabItemView: NSView {
         }
     }
     
+    var isMoving = false
+    
     private var shouldDrawInHighLight : Bool {
         return tabViewItem.tabState == .SelectedTab && !isDragging
     }

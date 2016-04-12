@@ -13,8 +13,6 @@ public class LYTabBarView: NSView {
     private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
     private var _needsUpdate = false
 
-    private var tabIsMoving = false
-    
     @IBOutlet public var delegate : NSTabViewDelegate?
     
     public var needAnimation = true
@@ -219,40 +217,55 @@ public class LYTabBarView: NSView {
             removeTabViewItem(selectedView.tabViewItem)
         }
     }
+
+    private func moveTo(dragTabItemView : LYTabItemView, position : NSInteger, movingItemView : LYTabItemView) {
+        self.stackView.removeView(dragTabItemView)
+        self.stackView.insertView(dragTabItemView, atIndex: position, inGravity: .Center)
+        if needAnimation {
+            NSAnimationContext.runAnimationGroup({ (context) in
+                let origFrame = movingItemView.frame
+                self.stackView.layoutSubtreeIfNeeded()
+                let toFrame = movingItemView.frame
+                movingItemView.frame = origFrame
+                movingItemView.animator().frame = toFrame
+                movingItemView.drawBorder = true
+                movingItemView.isMoving = true
+                }, completionHandler: {
+                    movingItemView.isMoving = false
+                    movingItemView.drawBorder = false
+            })
+        }
+    }
     
     func handleDraggingTab(dragRect : NSRect, dragTabItemView : LYTabItemView) {
-        guard !tabIsMoving else {
-            return
-        }
-        
         var idx = 0
+        var moved = false
         for itemView in self.tabViews() {
-            if itemView != dragTabItemView {
-                let rect = NSIntersectionRect(dragRect, itemView.frame)
-                if rect.size.width * 2 > itemView.frame.size.width {
-                    let origFrame = itemView.frame
-                    self.stackView.removeView(dragTabItemView)
-                    if dragRect.origin.x == rect.origin.x {
-                        self.stackView.insertView(dragTabItemView, atIndex: idx, inGravity: .Center)
-                    } else {
-                        self.stackView.insertView(dragTabItemView, atIndex: idx+1, inGravity: .Center)
-                    }
-                    if needAnimation {
-                        self.stackView.layoutSubtreeIfNeeded()
-                        NSAnimationContext.runAnimationGroup({ (context) in
-                            let toFrame = itemView.frame
-                            itemView.frame = origFrame
-                            itemView.animator().frame = toFrame
-                            itemView.drawBorder = true
-                            self.tabIsMoving = true
-                            }, completionHandler: { 
-                                self.tabIsMoving = false
-                                itemView.drawBorder = false
-                        })
-                    }
+            if itemView != dragTabItemView && !itemView.isMoving {
+                let midx = NSMidX(itemView.frame)
+                if (midx > NSMinX(dragRect)){
+                    moveTo(dragTabItemView, position: idx, movingItemView: itemView)
+                    moved = true
                     break
                 }
                 idx += 1
+            } else if itemView == dragTabItemView {
+                break
+            }
+        }
+        if !moved {
+            idx = self.tabViews().count - 1
+            for itemView in self.tabViews().reverse() {
+                if itemView != dragTabItemView && !itemView.isMoving {
+                    let midx = NSMidX(itemView.frame)
+                    if (midx <= NSMaxX(dragRect)){
+                        moveTo(dragTabItemView, position: idx, movingItemView: itemView)
+                        break
+                    }
+                    idx -= 1
+                } else if itemView == dragTabItemView {
+                    break
+                }
             }
         }
     }
