@@ -193,7 +193,7 @@ class LYTabItemView: NSView {
     }
     
     @IBAction func closeTab(sender:AnyObject?) {
-        self.tabBarView.removeTabViewItem(self.tabViewItem)
+        self.tabBarView.removeTabViewItem(self.tabViewItem, animated: true)
     }
 }
 

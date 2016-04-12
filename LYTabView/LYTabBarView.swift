@@ -92,12 +92,35 @@ public class LYTabBarView: NSView {
         return tabView
     }
     
-    func insertTabViewItem(item: NSTabViewItem, index: NSInteger) {
+    private func itemViewForItem(item: NSTabViewItem) -> LYTabItemView? {
+        for tabItemView in self.tabViews() {
+            if tabItemView.tabViewItem == item {
+                return tabItemView
+            }
+        }
+        return nil
+    }
+    
+    private func insertTabViewItem(item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
         let tabView = createLYTabItemView(item)
-        stackView.insertView(tabView, atIndex: index, inGravity: .Center)
+        stackView.insertView(tabView, atIndex: index, inGravity: .Center, animated: animated, completionHandler: {
+            self.needsUpdate = true
+        })
         if tabViews().count == 1 {
             self.invalidateIntrinsicContentSize()
         }
+    }
+    
+    public func addTableViewItem(item: NSTabViewItem, animated : Bool = false) {
+        let tabView = createLYTabItemView(item)
+        stackView.addView(tabView, inGravity: .Center, animated: animated) { 
+            self.needsUpdate = true
+        }
+        self.tabView?.addTabViewItem(item)
+        if tabViews().count == 1 {
+            self.invalidateIntrinsicContentSize()
+        }
+        selectTabViewItem(item)
     }
 
     func tabViews() -> [LYTabItemView] {
@@ -180,7 +203,12 @@ public class LYTabBarView: NSView {
         return nil
     }
     
-    func removeTabViewItem(tabviewItem : NSTabViewItem) {
+    func removeTabViewItem(tabviewItem : NSTabViewItem, animated : Bool = false) {
+        if let tabItemView = self.itemViewForItem(tabviewItem) {
+            self.stackView.removeView(tabItemView, animated: true, completionHandler: { 
+                self.needsUpdate = true
+            })
+        }
         self.tabView?.removeTabViewItem(tabviewItem)
     }
     
@@ -208,13 +236,12 @@ public class LYTabBarView: NSView {
     @IBAction public func addNewTab(sender:AnyObject?) {
         let item = NSTabViewItem()
         item.label = "Untitle"
-        self.tabView?.addTabViewItem(item)
-        selectTabViewItem(item)
+        self.addTableViewItem(item, animated: true)
     }
     
     @IBAction public func closeCurrentTab(sender:AnyObject?) {
         if let selectedView = selectedTabView() {
-            removeTabViewItem(selectedView.tabViewItem)
+            removeTabViewItem(selectedView.tabViewItem, animated: true)
         }
     }
 

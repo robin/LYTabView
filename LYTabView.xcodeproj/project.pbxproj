@@ -23,6 +23,7 @@
 		AEB984A91CAE7EA40030F752 /* LYTabView.h in Headers */ = {isa = PBXBuildFile; fileRef = AEB984A31CAE7EA40030F752 /* LYTabView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEDB09621CBB361500B56603 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEDB09611CBB361500B56603 /* QuartzCore.framework */; };
 		AEDB09661CBB500900B56603 /* NSView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB09651CBB500900B56603 /* NSView+extension.swift */; };
+		AEDB09681CBCA21600B56603 /* NSStackView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		AEB984A31CAE7EA40030F752 /* LYTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LYTabView.h; path = LYTabView/LYTabView.h; sourceTree = SOURCE_ROOT; };
 		AEDB09611CBB361500B56603 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AEDB09651CBB500900B56603 /* NSView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSView+extension.swift"; path = "LYTabView/NSView+extension.swift"; sourceTree = SOURCE_ROOT; };
+		AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSStackView+extension.swift"; path = "LYTabView/NSStackView+extension.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			children = (
 				AEB9849E1CAE7EA40030F752 /* Info.plist */,
 				AEB9849F1CAE7EA40030F752 /* LYTabBarView.swift */,
+				AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */,
 				AEB984A01CAE7EA40030F752 /* LYTabItemView.swift */,
 				AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */,
 				AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */,
@@ -309,6 +312,7 @@
 				AEB984A71CAE7EA40030F752 /* LYHoverButton.swift in Sources */,
 				AE269DE31CB6266000DD4F45 /* LYTabCloseButton.swift in Sources */,
 				AEDB09661CBB500900B56603 /* NSView+extension.swift in Sources */,
+				AEDB09681CBCA21600B56603 /* NSStackView+extension.swift in Sources */,
 				AEB984A81CAE7EA40030F752 /* NSImage+extension.swift in Sources */,
 				AEB984A51CAE7EA40030F752 /* LYTabBarView.swift in Sources */,
 			);
