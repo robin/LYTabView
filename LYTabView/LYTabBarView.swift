@@ -17,9 +17,30 @@ public class LYTabBarView: NSView {
     
     public var needAnimation = true
 
-    var backgroundColor = NSColor(white: 0.73, alpha: 1)
-    var borderColor = NSColor(white: 0.61, alpha: 1)
-    var selectedBorderColor = NSColor(white: 0.71, alpha: 1)
+    var backgroundColor : NSColor {
+        if self.isWindowActive() {
+            return NSColor(white: 0.73, alpha: 1)
+        } else {
+            return NSColor(white: 0.95, alpha: 1)
+        }
+    }
+    
+    var borderColor : NSColor {
+        if self.isWindowActive() {
+            return NSColor(white: 0.61, alpha: 1)
+        } else {
+            return NSColor(white: 0.86, alpha: 1)
+        }
+    }
+    
+    var selectedBorderColor : NSColor {
+        if self.isWindowActive() {
+            return NSColor(white: 0.71, alpha: 1)
+        } else {
+            return NSColor(white: 0.86, alpha: 1)
+        }
+    }
+    
     public var showAddNewTabButton = true {
         didSet {
             if showAddNewTabButton && addTabButton.superview == nil {
@@ -82,6 +103,10 @@ public class LYTabBarView: NSView {
         if showAddNewTabButton {
             stackView.addView(addTabButton, inGravity: .Bottom)
         }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     public func addTableViewItem(item: NSTabViewItem, animated : Bool = false) {
@@ -185,6 +210,26 @@ public class LYTabBarView: NSView {
         return nil
     }
     
+    func isWindowActive() -> Bool {
+        if let window = self.window {
+            return window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active)
+        }
+        return false
+    }
+    
+    public override func viewWillMoveToWindow(newWindow: NSWindow?) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(windowStatusDidChange), name: NSWindowDidBecomeKeyNotification, object: newWindow)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(windowStatusDidChange), name: NSWindowDidResignKeyNotification, object: newWindow)
+    }
+    
+    func windowStatusDidChange(notification : NSNotification) {
+        self.needsDisplay = true
+        self.stackView.needsDisplay = true
+        for itemViews in self.tabItemViews() {
+            itemViews.updateColors()
+        }
+    }
+    
     public override func drawRect(dirtyRect: NSRect) {
         self.backgroundColor.setFill()
         NSRectFill(self.bounds)
@@ -284,7 +329,6 @@ public class LYTabBarView: NSView {
         let tabView = LYTabItemView(tabViewItem: item)
         tabView.tabBarView = self
         tabView.translatesAutoresizingMaskIntoConstraints = false
-        tabView.backgroundColor = self.backgroundColor
         return tabView
     }
     

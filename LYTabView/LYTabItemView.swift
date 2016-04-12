@@ -29,14 +29,34 @@ class LYTabItemView: NSView {
     var xpadding : CGFloat = 4
     var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
-    var backgroundColor = NSColor(white: 0.73, alpha: 1)
-    var hoverBackgroundColor = NSColor(white: 0.70, alpha: 1)
+    var backgroundColor : NSColor {
+        if self.tabBarView.isWindowActive() {
+            return NSColor(white: 0.73, alpha: 1)
+        } else {
+            return NSColor(white: 0.95, alpha: 1)
+        }
+    }
+    var hoverBackgroundColor : NSColor {
+        if self.tabBarView.isWindowActive() {
+            return NSColor(white: 0.70, alpha: 1)
+        } else {
+            return self.backgroundColor
+        }
+    }
+
     dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
         didSet {
             needsDisplay = true
         }
     }
-    var selectedBackgroundColor = NSColor(white: 0.83, alpha: 1)
+    var selectedBackgroundColor: NSColor {
+        if self.tabBarView.isWindowActive() {
+            return NSColor(white: 0.85, alpha: 1)
+        } else {
+            return NSColor(white: 0.96, alpha: 1)
+        }
+    }
+
     var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
     var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
     
@@ -189,6 +209,14 @@ class LYTabItemView: NSView {
     override func mouseDragged(theEvent: NSEvent) {
         if (!isDragging) {
             setupDragAndDrop(theEvent)
+        }
+    }
+    
+    func updateColors() {
+        if hovered {
+            self.realBackgroundColor = hoverBackgroundColor
+        } else {
+            self.realBackgroundColor = backgroundColor
         }
     }
     
