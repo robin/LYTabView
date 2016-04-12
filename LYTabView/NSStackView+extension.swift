@@ -24,6 +24,7 @@ extension NSStackView {
     func addView(aView: NSView,inGravity gravity: NSStackViewGravity, animated: Bool, completionHandler: (() -> Void)?) {
         self.addView(aView, inGravity: gravity)
         if animated {
+            aView.setFrameOrigin(NSPoint(x: NSMaxX(self.frame), y: self.frame.origin.y))
             NSAnimationContext.runAnimationGroup({ (context) in
                 context.duration = 0.3
                 context.allowsImplicitAnimation = true

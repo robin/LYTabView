@@ -84,33 +84,6 @@ public class LYTabBarView: NSView {
         }
     }
     
-    private func createLYTabItemView(item : NSTabViewItem) -> LYTabItemView {
-        let tabView = LYTabItemView(tabViewItem: item)
-        tabView.tabBarView = self
-        tabView.translatesAutoresizingMaskIntoConstraints = false
-        tabView.backgroundColor = self.backgroundColor
-        return tabView
-    }
-    
-    private func itemViewForItem(item: NSTabViewItem) -> LYTabItemView? {
-        for tabItemView in self.tabViews() {
-            if tabItemView.tabViewItem == item {
-                return tabItemView
-            }
-        }
-        return nil
-    }
-    
-    private func insertTabViewItem(item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
-        let tabView = createLYTabItemView(item)
-        stackView.insertView(tabView, atIndex: index, inGravity: .Center, animated: animated, completionHandler: {
-            self.needsUpdate = true
-        })
-        if tabViews().count == 1 {
-            self.invalidateIntrinsicContentSize()
-        }
-    }
-    
     public func addTableViewItem(item: NSTabViewItem, animated : Bool = false) {
         let tabView = createLYTabItemView(item)
         stackView.addView(tabView, inGravity: .Center, animated: animated) { 
@@ -123,6 +96,15 @@ public class LYTabBarView: NSView {
         selectTabViewItem(item)
     }
 
+    public func removeTabViewItem(tabviewItem : NSTabViewItem, animated : Bool = false) {
+        if let tabItemView = self.itemViewForItem(tabviewItem) {
+            self.stackView.removeView(tabItemView, animated: true, completionHandler: {
+                self.needsUpdate = true
+            })
+        }
+        self.tabView?.removeTabViewItem(tabviewItem)
+    }
+    
     func tabViews() -> [LYTabItemView] {
         return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabItemView }
     }
@@ -201,15 +183,6 @@ public class LYTabBarView: NSView {
             }
         }
         return nil
-    }
-    
-    func removeTabViewItem(tabviewItem : NSTabViewItem, animated : Bool = false) {
-        if let tabItemView = self.itemViewForItem(tabviewItem) {
-            self.stackView.removeView(tabItemView, animated: true, completionHandler: { 
-                self.needsUpdate = true
-            })
-        }
-        self.tabView?.removeTabViewItem(tabviewItem)
     }
     
     public override func drawRect(dirtyRect: NSRect) {
@@ -305,6 +278,33 @@ public class LYTabBarView: NSView {
             }
         }
         self.tabView?.selectTabViewItem(tabItem)
+    }
+    
+    private func createLYTabItemView(item : NSTabViewItem) -> LYTabItemView {
+        let tabView = LYTabItemView(tabViewItem: item)
+        tabView.tabBarView = self
+        tabView.translatesAutoresizingMaskIntoConstraints = false
+        tabView.backgroundColor = self.backgroundColor
+        return tabView
+    }
+    
+    private func itemViewForItem(item: NSTabViewItem) -> LYTabItemView? {
+        for tabItemView in self.tabViews() {
+            if tabItemView.tabViewItem == item {
+                return tabItemView
+            }
+        }
+        return nil
+    }
+    
+    private func insertTabViewItem(item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
+        let tabView = createLYTabItemView(item)
+        stackView.insertView(tabView, atIndex: index, inGravity: .Center, animated: animated, completionHandler: {
+            self.needsUpdate = true
+        })
+        if tabViews().count == 1 {
+            self.invalidateIntrinsicContentSize()
+        }
     }
 }
 
