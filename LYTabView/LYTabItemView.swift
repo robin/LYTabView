@@ -150,9 +150,6 @@ class LYTabItemView: NSView {
     
     override func mouseDown(theEvent: NSEvent) {
         self.tabBarView.selectTabViewItem(self.tabViewItem)
-        
-        // setup drag and drop
-        setupDragAndDrop(theEvent)
     }
     
     override func updateTrackingAreas() {
@@ -189,6 +186,12 @@ class LYTabItemView: NSView {
         closeButton.animatorOrNot(needAnimation).hidden = true
     }
 
+    override func mouseDragged(theEvent: NSEvent) {
+        if (!isDragging) {
+            setupDragAndDrop(theEvent)
+        }
+    }
+    
     @IBAction func closeTab(sender:AnyObject?) {
         self.tabBarView.removeTabViewItem(self.tabViewItem)
     }
