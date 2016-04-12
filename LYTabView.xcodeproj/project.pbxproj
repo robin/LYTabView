@@ -70,7 +70,7 @@
 		AE2562BF1CAA614C00644D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE269DE21CB6266000DD4F45 /* LYTabCloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LYTabCloseButton.swift; path = LYTabView/LYTabCloseButton.swift; sourceTree = SOURCE_ROOT; };
 		AEB9849E1CAE7EA40030F752 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LYTabView/Info.plist; sourceTree = SOURCE_ROOT; };
-		AEB9849F1CAE7EA40030F752 /* LYTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LYTabBarView.swift; path = LYTabView/LYTabBarView.swift; sourceTree = SOURCE_ROOT; };
+		AEB9849F1CAE7EA40030F752 /* LYTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = LYTabBarView.swift; path = LYTabView/LYTabBarView.swift; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AEB984A01CAE7EA40030F752 /* LYTabItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LYTabItemView.swift; path = LYTabView/LYTabItemView.swift; sourceTree = SOURCE_ROOT; };
 		AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LYHoverButton.swift; path = LYTabView/LYHoverButton.swift; sourceTree = SOURCE_ROOT; };
 		AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSImage+extension.swift"; path = "LYTabView/NSImage+extension.swift"; sourceTree = SOURCE_ROOT; };
@@ -132,15 +132,13 @@
 		AE2562981CAA612C00644D9F /* LYTabView */ = {
 			isa = PBXGroup;
 			children = (
+				AEDB09691CBCCB4300B56603 /* extensions */,
 				AEB9849E1CAE7EA40030F752 /* Info.plist */,
+				AEB984A31CAE7EA40030F752 /* LYTabView.h */,
 				AEB9849F1CAE7EA40030F752 /* LYTabBarView.swift */,
-				AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */,
 				AEB984A01CAE7EA40030F752 /* LYTabItemView.swift */,
 				AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */,
-				AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */,
-				AEB984A31CAE7EA40030F752 /* LYTabView.h */,
 				AE269DE21CB6266000DD4F45 /* LYTabCloseButton.swift */,
-				AEDB09651CBB500900B56603 /* NSView+extension.swift */,
 			);
 			name = LYTabView;
 			path = LYTabBarView;
@@ -165,6 +163,16 @@
 				AE2562BF1CAA614C00644D9F /* Info.plist */,
 			);
 			path = "LYTabBarView Demo";
+			sourceTree = "<group>";
+		};
+		AEDB09691CBCCB4300B56603 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */,
+				AEB984A21CAE7EA40030F752 /* NSImage+extension.swift */,
+				AEDB09651CBB500900B56603 /* NSView+extension.swift */,
+			);
+			name = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

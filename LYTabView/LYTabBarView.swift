@@ -42,7 +42,7 @@ public class LYTabBarView: NSView {
     
     override public var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
-        if let aTabView = self.tabViews().first {
+        if let aTabView = self.tabItemViews().first {
             height = aTabView.intrinsicContentSize.height+2
         }
         if let constraint = addTabButtonHeightConstraint {
@@ -90,7 +90,7 @@ public class LYTabBarView: NSView {
             self.needsUpdate = true
         }
         self.tabView?.addTabViewItem(item)
-        if tabViews().count == 1 {
+        if tabItemViews().count == 1 {
             self.invalidateIntrinsicContentSize()
         }
         selectTabViewItem(item)
@@ -105,7 +105,7 @@ public class LYTabBarView: NSView {
         self.tabView?.removeTabViewItem(tabviewItem)
     }
     
-    func tabViews() -> [LYTabItemView] {
+    func tabItemViews() -> [LYTabItemView] {
         return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabItemView }
     }
     
@@ -141,8 +141,8 @@ public class LYTabBarView: NSView {
         
         if let tabView = self.tabView {
             let tabItems = tabView.tabViewItems
-            let tabViews = self.tabViews()
-            for tabView in tabViews {
+            let tabItemViews = self.tabItemViews()
+            for tabView in tabItemViews {
                 if let tabItem = tabView.tabViewItem {
                     if tabItems.indexOf(tabItem) == nil {
                         self.stackView.removeView(tabView)
@@ -151,7 +151,7 @@ public class LYTabBarView: NSView {
             }
             
             var idx = 0
-            let currentTabItems = self.tabViews().flatMap { $0.tabViewItem }
+            let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
             for item in tabItems {
                 if !currentTabItems.contains(item) {
                     self.insertTabViewItem(item, index: idx)
@@ -164,7 +164,7 @@ public class LYTabBarView: NSView {
     }
     
     func updateTabState() {
-        for v in self.tabViews() {
+        for v in self.tabItemViews() {
             v.needsDisplay = true
         }
         self.needsDisplay = true
@@ -176,7 +176,7 @@ public class LYTabBarView: NSView {
     
     func selectedTabView() -> LYTabItemView? {
         if let selectedTabViewItem = self.tabView?.selectedTabViewItem {
-            for tabView in self.tabViews() {
+            for tabView in self.tabItemViews() {
                 if tabView.tabViewItem == selectedTabViewItem {
                     return tabView
                 }
@@ -191,7 +191,7 @@ public class LYTabBarView: NSView {
         let border = NSBezierPath(rect: NSInsetRect(self.bounds, 0, 0))
         borderColor.setStroke()
         border.stroke()
-        for tabView in self.tabViews() {
+        for tabView in self.tabItemViews() {
             let rect = NSInsetRect(tabView.frame, -1, -1)
             if self.selectedTabView() == tabView {
                 selectedBorderColor.setStroke()
@@ -240,7 +240,7 @@ public class LYTabBarView: NSView {
     func handleDraggingTab(dragRect : NSRect, dragTabItemView : LYTabItemView) {
         var idx = 0
         var moved = false
-        for itemView in self.tabViews() {
+        for itemView in self.tabItemViews() {
             if itemView != dragTabItemView && !itemView.isMoving {
                 let midx = NSMidX(itemView.frame)
                 if (midx > NSMinX(dragRect)){
@@ -254,8 +254,8 @@ public class LYTabBarView: NSView {
             }
         }
         if !moved {
-            idx = self.tabViews().count - 1
-            for itemView in self.tabViews().reverse() {
+            idx = self.tabItemViews().count - 1
+            for itemView in self.tabItemViews().reverse() {
                 if itemView != dragTabItemView && !itemView.isMoving {
                     let midx = NSMidX(itemView.frame)
                     if (midx <= NSMaxX(dragRect)){
@@ -271,7 +271,7 @@ public class LYTabBarView: NSView {
     }
     
     func updateTabViewForMovedTabItem(tabItem : NSTabViewItem) {
-        for (idx, itemView) in self.tabViews().enumerate() {
+        for (idx, itemView) in self.tabItemViews().enumerate() {
             if itemView.tabViewItem == tabItem {
                 self.tabView?.removeTabViewItem(tabItem)
                 self.tabView?.insertTabViewItem(tabItem, atIndex: idx)
@@ -289,7 +289,7 @@ public class LYTabBarView: NSView {
     }
     
     private func itemViewForItem(item: NSTabViewItem) -> LYTabItemView? {
-        for tabItemView in self.tabViews() {
+        for tabItemView in self.tabItemViews() {
             if tabItemView.tabViewItem == item {
                 return tabItemView
             }
@@ -302,7 +302,7 @@ public class LYTabBarView: NSView {
         stackView.insertView(tabView, atIndex: index, inGravity: .Center, animated: animated, completionHandler: {
             self.needsUpdate = true
         })
-        if tabViews().count == 1 {
+        if tabItemViews().count == 1 {
             self.invalidateIntrinsicContentSize()
         }
     }
