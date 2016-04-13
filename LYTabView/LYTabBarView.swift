@@ -9,13 +9,14 @@
 import Foundation
 import Cocoa
 
+@IBDesignable
 public class LYTabBarView: NSView {
     private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
     private var _needsUpdate = false
 
     @IBOutlet public var delegate : NSTabViewDelegate?
     
-    public var needAnimation = true
+    public var needAnimation : Bool = true
 
     var backgroundColor : NSColor {
         if self.isWindowActive() {
@@ -41,7 +42,7 @@ public class LYTabBarView: NSView {
         }
     }
     
-    public var showAddNewTabButton = true {
+    public var showAddNewTabButton : Bool = true {
         didSet {
             if showAddNewTabButton && addTabButton.superview == nil {
                 stackView.addView(addTabButton, inGravity: .Bottom)
@@ -382,6 +383,15 @@ public class LYTabBarView: NSView {
         if tabItemViews().count == 1 {
             self.invalidateIntrinsicContentSize()
         }
+    }
+    
+    public override func prepareForInterfaceBuilder() {
+        var ibTabItem = NSTabViewItem()
+        ibTabItem.label = "Tab"
+        self.addTabViewItem(ibTabItem)
+        ibTabItem = NSTabViewItem()
+        ibTabItem.label = "Bar"
+        self.addTabViewItem(ibTabItem)
     }
 }
 
