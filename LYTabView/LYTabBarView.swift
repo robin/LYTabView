@@ -48,6 +48,7 @@ public class LYTabBarView: NSView {
             } else if !showAddNewTabButton && addTabButton.superview != nil {
                 addTabButton.removeFromSuperview()
             }
+            self.needsUpdate = true
         }
     }
     
