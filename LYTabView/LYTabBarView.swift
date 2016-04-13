@@ -51,6 +51,30 @@ public class LYTabBarView: NSView {
         }
     }
     
+    public var addNewTabButtonTarget : AnyObject? {
+        set(newTarget) {
+            addTabButton.target = newTarget
+        }
+        get {
+            return addTabButton.target
+        }
+    }
+    
+    public var addNewTabButtonAction : Selector {
+        set(newAction) {
+            addTabButton.action = newAction
+        }
+        get {
+            return addTabButton.action
+        }
+    }
+    
+    public var tabViewItems : [NSTabViewItem] {
+        get {
+            return self.tabView?.tabViewItems ?? []
+        }
+    }
+    
     @IBOutlet var tabView : NSTabView? {
         didSet {
             self.needsUpdate = true
@@ -98,8 +122,6 @@ public class LYTabBarView: NSView {
         addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(22)
         addTabButtonHeightConstraint?.active = true
         addTabButton.widthAnchor.constraintEqualToAnchor(addTabButton.heightAnchor).active = true
-        addTabButton.target = self
-        addTabButton.action = #selector(addNewTab)
         if showAddNewTabButton {
             stackView.addView(addTabButton, inGravity: .Bottom)
         }
@@ -109,7 +131,7 @@ public class LYTabBarView: NSView {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    public func addTableViewItem(item: NSTabViewItem, animated : Bool = false) {
+    public func addTabViewItem(item: NSTabViewItem, animated : Bool = false) {
         let tabView = createLYTabItemView(item)
         stackView.addView(tabView, inGravity: .Center, animated: animated) { 
             self.needsUpdate = true
@@ -252,12 +274,6 @@ public class LYTabBarView: NSView {
         border = NSBezierPath(rect: NSInsetRect(rect, -1, -1))
         borderColor.setStroke()
         border.stroke()
-    }
-    
-    @IBAction public func addNewTab(sender:AnyObject?) {
-        let item = NSTabViewItem()
-        item.label = "Untitle"
-        self.addTableViewItem(item, animated: true)
     }
     
     @IBAction public func closeCurrentTab(sender:AnyObject?) {

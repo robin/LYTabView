@@ -11,7 +11,6 @@ import LYTabView
 
 class ViewController: NSViewController {
 
-    @IBOutlet weak var tabView: NSTabView!
     @IBOutlet weak var tabBarView: LYTabBarView!
     
     override func viewDidLoad() {
@@ -20,7 +19,10 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
         let item = NSTabViewItem()
         item.label = "Test"
-        self.tabView.addTabViewItem(item)
+        self.tabBarView.addTabViewItem(item)
+
+        self.tabBarView.addNewTabButtonTarget = self
+        self.tabBarView.addNewTabButtonAction = #selector(addNewTab)
     }
 
     override var representedObject: AnyObject? {
@@ -34,11 +36,13 @@ class ViewController: NSViewController {
     }
     
     @IBAction func addNewTab(sender:AnyObject?) {
-        tabBarView.addNewTab(sender)
+        let item = NSTabViewItem()
+        item.label = "Untitle"
+        self.tabBarView.addTabViewItem(item, animated: true)
     }
     
-    @IBAction func performClose(sender:AnyObject?) {
-        if !tabView.tabViewItems.isEmpty {
+    @IBAction func performCloseTab(sender:AnyObject?) {
+        if tabBarView.tabViewItems.count > 1 {
             tabBarView.closeCurrentTab(sender)
         } else {
             self.view.window?.performClose(sender)
