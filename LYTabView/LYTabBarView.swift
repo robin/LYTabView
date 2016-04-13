@@ -60,9 +60,13 @@ public class LYTabBarView: NSView {
         }
     }
     
-    public var addNewTabButtonAction : Selector {
+    public var addNewTabButtonAction : Selector? {
         set(newAction) {
-            addTabButton.action = newAction
+            if let action = newAction {
+                addTabButton.action = action
+            } else {
+                addTabButton.action = nil
+            }
         }
         get {
             return addTabButton.action
@@ -150,6 +154,15 @@ public class LYTabBarView: NSView {
             })
         }
         self.tabView?.removeTabViewItem(tabviewItem)
+    }
+    
+    func removeAllTabViewItemExcept(tabViewItem: NSTabViewItem) {
+        for tabItemView in self.tabItemViews() {
+            if tabItemView.tabViewItem != tabViewItem {
+                self.stackView.removeView(tabItemView)
+                self.tabView?.removeTabViewItem(tabItemView.tabViewItem)
+            }
+        }
     }
     
     func tabItemViews() -> [LYTabItemView] {

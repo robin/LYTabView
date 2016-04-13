@@ -123,6 +123,18 @@ class LYTabItemView: NSView {
         closeButton.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor, constant: xpadding).active = true
         closeButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
         
+        let menu = NSMenu()
+        let addMenuItem = NSMenuItem(title: NSLocalizedString("New Tab", comment: "New Tab"), action:#selector(addNewTab), keyEquivalent: "")
+        addMenuItem.target = self
+        menu.addItem(addMenuItem)
+        let closeMenuItem = NSMenuItem(title: NSLocalizedString("Close Tab", comment: "Close Tab"), action: #selector(closeTab), keyEquivalent: "")
+        closeMenuItem.target = self
+        menu.addItem(closeMenuItem)
+        let closeOthersMenuItem = NSMenuItem(title: NSLocalizedString("Close other Tabs", comment: "Close other Tab"), action: #selector(closeOtherTabs), keyEquivalent: "")
+        closeOthersMenuItem.target = self
+        menu.addItem(closeOthersMenuItem)
+        menu.delegate = self
+        self.menu = menu
     }
     
     override var intrinsicContentSize: NSSize {
@@ -220,8 +232,18 @@ class LYTabItemView: NSView {
         }
     }
     
+    @IBAction func addNewTab(sender:AnyObject?) {
+        if let target = self.tabBarView.addNewTabButtonTarget, let action = self.tabBarView.addNewTabButtonAction {
+            target.performSelector(action, withObject: self)
+        }
+    }
+    
     @IBAction func closeTab(sender:AnyObject?) {
         self.tabBarView.removeTabViewItem(self.tabViewItem, animated: true)
+    }
+    
+    @IBAction func closeOtherTabs(send:AnyObject?) {
+        self.tabBarView.removeAllTabViewItemExcept(self.tabViewItem)
     }
 }
 
@@ -300,5 +322,14 @@ extension LYTabItemView : NSDraggingSource {
         self.draggingViewLeadingConstraint = nil
         self.needsDisplay = true
         self.tabBarView.updateTabViewForMovedTabItem(self.tabViewItem)
+    }
+}
+
+extension LYTabItemView : NSMenuDelegate {
+    override func validateMenuItem(menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(addNewTab) {
+            return (self.tabBarView.addNewTabButtonTarget != nil) && (self.tabBarView.addNewTabButtonAction != nil)
+        }
+        return true
     }
 }
