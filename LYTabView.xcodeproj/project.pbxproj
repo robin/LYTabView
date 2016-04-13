@@ -24,6 +24,7 @@
 		AEDB09621CBB361500B56603 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEDB09611CBB361500B56603 /* QuartzCore.framework */; };
 		AEDB09661CBB500900B56603 /* NSView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB09651CBB500900B56603 /* NSView+extension.swift */; };
 		AEDB09681CBCA21600B56603 /* NSStackView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */; };
+		AEDB096B1CBE203600B56603 /* LYTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB096A1CBE203600B56603 /* LYTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		AEDB09611CBB361500B56603 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AEDB09651CBB500900B56603 /* NSView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSView+extension.swift"; path = "LYTabView/NSView+extension.swift"; sourceTree = SOURCE_ROOT; };
 		AEDB09671CBCA21600B56603 /* NSStackView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSStackView+extension.swift"; path = "LYTabView/NSStackView+extension.swift"; sourceTree = SOURCE_ROOT; };
+		AEDB096A1CBE203600B56603 /* LYTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LYTabView.swift; path = LYTabView/LYTabView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				AEDB09691CBCCB4300B56603 /* extensions */,
 				AEB9849E1CAE7EA40030F752 /* Info.plist */,
 				AEB984A31CAE7EA40030F752 /* LYTabView.h */,
+				AEDB096A1CBE203600B56603 /* LYTabView.swift */,
 				AEB9849F1CAE7EA40030F752 /* LYTabBarView.swift */,
 				AEB984A01CAE7EA40030F752 /* LYTabItemView.swift */,
 				AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */,
@@ -317,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEB984A61CAE7EA40030F752 /* LYTabItemView.swift in Sources */,
+				AEDB096B1CBE203600B56603 /* LYTabView.swift in Sources */,
 				AEB984A71CAE7EA40030F752 /* LYHoverButton.swift in Sources */,
 				AE269DE31CB6266000DD4F45 /* LYTabCloseButton.swift in Sources */,
 				AEDB09661CBB500900B56603 /* NSView+extension.swift in Sources */,

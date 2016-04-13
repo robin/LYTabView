@@ -689,52 +689,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lCz-wP-t53" customClass="LYTabBarView" customModule="LYTabView">
-                                <rect key="frame" x="0.0" y="248" width="480" height="22"/>
-                                <connections>
-                                    <outlet property="tabView" destination="ocs-Zk-Lwj" id="432-4F-lEA"/>
-                                </connections>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="vv0-I0-yKh" customClass="LYTabView" customModule="LYTabView">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                             </customView>
-                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="ocs-Zk-Lwj">
-                                <rect key="frame" x="-7" y="-10" width="494" height="264"/>
-                                <font key="font" metaFont="system"/>
-                                <tabViewItems>
-                                    <tabViewItem label="Tab" identifier="1" id="J1F-lN-iIK">
-                                        <view key="view" id="5xP-vb-Zts">
-                                            <rect key="frame" x="10" y="33" width="474" height="218"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </view>
-                                    </tabViewItem>
-                                    <tabViewItem label="View" identifier="2" id="EDx-S4-91T">
-                                        <view key="view" id="Sj2-KS-aOH">
-                                            <rect key="frame" x="10" y="33" width="474" height="218"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </view>
-                                    </tabViewItem>
-                                </tabViewItems>
-                                <connections>
-                                    <outlet property="delegate" destination="lCz-wP-t53" id="LLo-iu-olO"/>
-                                </connections>
-                            </tabView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="lCz-wP-t53" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Aoj-Y0-2gz"/>
-                            <constraint firstAttribute="trailing" secondItem="ocs-Zk-Lwj" secondAttribute="trailing" id="LSd-hm-88r"/>
-                            <constraint firstItem="ocs-Zk-Lwj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="S2f-Dh-Op4"/>
-                            <constraint firstItem="lCz-wP-t53" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="dHI-h7-NNg"/>
-                            <constraint firstAttribute="trailing" secondItem="lCz-wP-t53" secondAttribute="trailing" id="hs7-7A-bxd"/>
-                            <constraint firstItem="ocs-Zk-Lwj" firstAttribute="top" secondItem="lCz-wP-t53" secondAttribute="bottom" id="uKN-w9-2vi"/>
-                            <constraint firstAttribute="bottom" secondItem="ocs-Zk-Lwj" secondAttribute="bottom" id="ub2-Xp-C2w"/>
+                            <constraint firstAttribute="bottom" secondItem="vv0-I0-yKh" secondAttribute="bottom" id="6Gn-lO-Xpp"/>
+                            <constraint firstItem="vv0-I0-yKh" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="70A-SD-yAA"/>
+                            <constraint firstItem="vv0-I0-yKh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="YT5-Jq-tUR"/>
+                            <constraint firstAttribute="trailing" secondItem="vv0-I0-yKh" secondAttribute="trailing" id="Zlg-ml-Sa7"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tabBarView" destination="lCz-wP-t53" id="dHm-5Q-o9U"/>
-                        <outlet property="tabView" destination="ocs-Zk-Lwj" id="XI5-fe-gR2"/>
+                        <outlet property="tabView" destination="vv0-I0-yKh" id="Jre-3S-THt"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="655"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="bTS-WD-44T">
+            <objects>
+                <viewController storyboardIdentifier="labelViewController" id="e3e-wX-BBY" sceneMemberID="viewController">
+                    <view key="view" id="M1b-5g-zEd">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WWx-uQ-PxG">
+                                <rect key="frame" x="207" y="142" width="37" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="qfi-xQ-ErS">
+                                    <font key="font" metaFont="titleBar"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="e3e-wX-BBY" name="value" keyPath="self.title" id="MXf-Gb-1GO"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="WWx-uQ-PxG" firstAttribute="centerY" secondItem="M1b-5g-zEd" secondAttribute="centerY" id="cVZ-rv-1tt"/>
+                            <constraint firstItem="WWx-uQ-PxG" firstAttribute="centerX" secondItem="M1b-5g-zEd" secondAttribute="centerX" id="hz6-UL-c2e"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="hlf-4G-QZf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="bpN-GZ-t1d"/>
+            </objects>
+            <point key="canvasLocation" x="108" y="1008"/>
         </scene>
     </scenes>
 </document>

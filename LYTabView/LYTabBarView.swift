@@ -104,9 +104,7 @@ public class LYTabBarView: NSView {
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
     
-    required public init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
+    private func setupViews() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(stackView)
         stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
@@ -131,6 +129,16 @@ public class LYTabBarView: NSView {
         if showAddNewTabButton {
             stackView.addView(addTabButton, inGravity: .Bottom)
         }
+    }
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupViews()
+    }
+    
+    required public override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        setupViews()
     }
     
     deinit {

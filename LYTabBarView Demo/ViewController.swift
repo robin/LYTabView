@@ -11,15 +11,15 @@ import LYTabView
 
 class ViewController: NSViewController {
 
-    @IBOutlet weak var tabBarView: LYTabBarView!
+    @IBOutlet weak var tabView: LYTabView!
+   var tabBarView: LYTabBarView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let item = NSTabViewItem()
-        item.label = "Test"
-        self.tabBarView.addTabViewItem(item)
+        self.tabBarView = tabView.tabBarView
+        addViewWithLabel("Tab")
 
         self.tabBarView.addNewTabButtonTarget = self
         self.tabBarView.addNewTabButtonAction = #selector(addNewTab)
@@ -31,14 +31,25 @@ class ViewController: NSViewController {
         }
     }
 
+    func addViewWithLabel(label:String) {
+        let item = NSTabViewItem()
+        item.label = label
+        if let labelViewController = self.storyboard?.instantiateControllerWithIdentifier("labelViewController") {
+            labelViewController.setTitle(label)
+            item.view = labelViewController.view
+        }
+
+        self.tabBarView.addTabViewItem(item, animated: true)
+    }
+    
     @IBAction func toggleAddNewTabButton(sender:AnyObject?) {
         tabBarView.showAddNewTabButton = !tabBarView.showAddNewTabButton
     }
     
     @IBAction func addNewTab(sender:AnyObject?) {
-        let item = NSTabViewItem()
-        item.label = "Untitle"
-        self.tabBarView.addTabViewItem(item, animated: true)
+        let count = self.tabBarView.tabViewItems.count
+        let label = "Untitled \(count)"
+        addViewWithLabel(label)
     }
     
     @IBAction func performCloseTab(sender:AnyObject?) {
