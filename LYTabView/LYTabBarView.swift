@@ -233,7 +233,7 @@ public class LYTabBarView: NSView {
     public override func drawRect(dirtyRect: NSRect) {
         self.backgroundColor.setFill()
         NSRectFill(self.bounds)
-        let border = NSBezierPath(rect: NSInsetRect(self.bounds, 0, 0))
+        var border = NSBezierPath(rect: NSInsetRect(self.bounds, 0, 0))
         borderColor.setStroke()
         border.stroke()
         for tabView in self.tabItemViews() {
@@ -243,12 +243,15 @@ public class LYTabBarView: NSView {
             } else {
                 borderColor.setStroke()
             }
-            let border = NSBezierPath(rect: rect)
+            border = NSBezierPath(rect: rect)
             border.stroke()
         }
         let rect = NSInsetRect(addTabButton.frame, 0, 0.5)
         self.backgroundColor.setFill()
         NSRectFill(rect)
+        border = NSBezierPath(rect: NSInsetRect(rect, -1, -1))
+        borderColor.setStroke()
+        border.stroke()
     }
     
     @IBAction public func addNewTab(sender:AnyObject?) {
