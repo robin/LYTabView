@@ -20,6 +20,7 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
         self.tabBarView = tabView.tabBarView
         addViewWithLabel("Tab")
+        addViewWithLabel("View")
 
         self.tabBarView.addNewTabButtonTarget = self
         self.tabBarView.addNewTabButtonAction = #selector(addNewTab)

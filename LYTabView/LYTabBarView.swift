@@ -44,11 +44,7 @@ public class LYTabBarView: NSView {
     
     public var showAddNewTabButton : Bool = true {
         didSet {
-            if showAddNewTabButton && addTabButton.superview == nil {
-                stackView.addView(addTabButton, inGravity: .Bottom)
-            } else if !showAddNewTabButton && addTabButton.superview != nil {
-                addTabButton.removeFromSuperview()
-            }
+            addTabButton.hidden = !showAddNewTabButton
             self.needsUpdate = true
         }
     }
