@@ -17,6 +17,11 @@ public class LYTabBarView: NSView {
     @IBOutlet public var delegate : NSTabViewDelegate?
     
     public var needAnimation : Bool = true
+    public var hideIfOnlyOneTabExists : Bool = true {
+        didSet {
+            checkVisibilityAccordingToTabCount()
+        }
+    }
 
     var backgroundColor : NSColor {
         if self.isWindowActive() {
@@ -224,7 +229,7 @@ public class LYTabBarView: NSView {
                 }
                 idx += 1
             }
-            self.hidden = tabItems.count <= 1
+            checkVisibilityAccordingToTabCount()
             self.needsDisplay = true
         }
     }
@@ -234,6 +239,15 @@ public class LYTabBarView: NSView {
             v.needsDisplay = true
         }
         self.needsDisplay = true
+    }
+    
+    func checkVisibilityAccordingToTabCount() {
+        let count = tabViewItems.count
+        if hideIfOnlyOneTabExists {
+            self.hidden = count <= 1
+        } else {
+            self.hidden = count < 1
+        }
     }
     
     func selectTabViewItem(tabViewItem : NSTabViewItem) {
