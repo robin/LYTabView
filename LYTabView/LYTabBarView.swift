@@ -244,9 +244,9 @@ public class LYTabBarView: NSView {
     func checkVisibilityAccordingToTabCount() {
         let count = tabViewItems.count
         if hideIfOnlyOneTabExists {
-            self.hidden = count <= 1
+            self.animatorOrNot().hidden = count <= 1
         } else {
-            self.hidden = count < 1
+            self.animatorOrNot().hidden = count < 1
         }
     }
     
