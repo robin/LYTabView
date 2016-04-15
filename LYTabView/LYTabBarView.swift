@@ -95,12 +95,7 @@ public class LYTabBarView: NSView {
     override public var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
         if let aTabView = self.tabItemViews().first {
-            height = aTabView.intrinsicContentSize.height+2
-        }
-        if let constraint = addTabButtonHeightConstraint {
-            constraint.active = false
-            addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(height)
-            addTabButtonHeightConstraint?.active = true
+            height = aTabView.intrinsicContentSize.height + 2
         }
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
@@ -153,6 +148,12 @@ public class LYTabBarView: NSView {
         }
         self.tabView?.addTabViewItem(item)
         if tabItemViews().count == 1 {
+            if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
+                let height = aTabView.intrinsicContentSize.height
+                constraint.active = false
+                addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(height)
+                addTabButtonHeightConstraint?.active = true
+            }
             self.invalidateIntrinsicContentSize()
         }
         selectTabViewItem(item)
@@ -288,23 +289,22 @@ public class LYTabBarView: NSView {
     public override func drawRect(dirtyRect: NSRect) {
         self.backgroundColor.setFill()
         NSRectFill(self.bounds)
-        var border = NSBezierPath(rect: NSInsetRect(self.bounds, 0, 0))
-        borderColor.setStroke()
-        border.stroke()
         for tabView in self.tabItemViews() {
-            let rect = NSInsetRect(tabView.frame, -1, -1)
+            var rect = NSInsetRect(tabView.frame, -0.5, -0.5)
             if self.selectedTabView() == tabView {
+                rect = NSInsetRect(tabView.frame, 1, -0.5)
                 selectedBorderColor.setStroke()
             } else {
                 borderColor.setStroke()
             }
-            border = NSBezierPath(rect: rect)
+            let border = NSBezierPath(rect: rect)
+            border.lineWidth = 1
             border.stroke()
         }
-        let rect = NSInsetRect(addTabButton.frame, 0, 0.5)
+        let rect = addTabButton.frame
         self.backgroundColor.setFill()
         NSRectFill(rect)
-        border = NSBezierPath(rect: NSInsetRect(rect, -1, -1))
+        let border = NSBezierPath(rect: NSInsetRect(rect, -0.5, -0.5))
         borderColor.setStroke()
         border.stroke()
     }
