@@ -25,6 +25,9 @@ class ViewController: NSViewController {
         self.tabBarView.addNewTabButtonTarget = self
         self.tabBarView.addNewTabButtonAction = #selector(addNewTab)
     }
+    
+    override func viewWillAppear() {
+    }
 
     override var representedObject: AnyObject? {
         didSet {
@@ -59,6 +62,26 @@ class ViewController: NSViewController {
         } else {
             self.view.window?.performClose(sender)
         }
+    }
+    
+    @IBAction func toggleTitleBar(sender: AnyObject?) {
+        if let window = self.view.window {
+            if window.titlebarAppearsTransparent {
+                window.titlebarAppearsTransparent = false
+                window.titleVisibility = .Visible
+                window.styleMask = window.styleMask & (~NSFullSizeContentViewWindowMask)
+            }
+            else
+            {
+                window.titlebarAppearsTransparent = true
+                window.titleVisibility = .Hidden
+                window.styleMask |= NSFullSizeContentViewWindowMask
+            }
+        }
+    }
+    
+    @IBAction func toggleBorder(sender: AnyObject?) {
+        tabBarView.hasBorder = !tabBarView.hasBorder
     }
 }
 

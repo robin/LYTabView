@@ -606,10 +606,23 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="LgT-Qx-XBw"/>
+                                        <menuItem title="Toggle Title bar" id="nWR-ZG-gMD">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleTitleBar:" target="Ady-hI-5gd" id="HFd-j4-wTG"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Toggle Add New Tab Button" id="qmU-Sf-eIy">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleAddNewTabButton:" target="Ady-hI-5gd" id="Djf-iX-YT7"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Toggle Border" id="RWS-in-oFV">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleBorder:" target="Ady-hI-5gd" id="yWh-cD-uQj"/>
                                             </connections>
                                         </menuItem>
                                     </items>

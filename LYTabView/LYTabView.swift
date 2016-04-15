@@ -25,7 +25,7 @@ public class LYTabView: NSView {
     
     func setupViews() {
         tabView.delegate = tabBarView
-        tabView.tabViewType = .NoTabsNoBorder
+        tabView.tabViewType = .NoTabsBezelBorder
         tabBarView.tabView = tabView
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +48,8 @@ public class LYTabView: NSView {
         stackView.trailingAnchor.constraintEqualToAnchor(tabBarView.trailingAnchor).active = true
         
         tabView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, forOrientation: .Vertical)
+        tabBarView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultHigh, forOrientation: .Vertical)
+        tabBarView.setContentHuggingPriority(NSLayoutPriorityDefaultHigh, forOrientation: .Vertical)
     }
     
     required public init?(coder: NSCoder) {

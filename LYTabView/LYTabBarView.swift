@@ -22,6 +22,13 @@ public class LYTabBarView: NSView {
             checkVisibilityAccordingToTabCount()
         }
     }
+    public var hasBorder : Bool = false {
+        didSet {
+            self.needsDisplay = true
+            self.needsLayout = true
+            self.invalidateIntrinsicContentSize()
+        }
+    }
 
     var backgroundColor : NSColor {
         if self.isWindowActive() {
@@ -95,7 +102,7 @@ public class LYTabBarView: NSView {
     override public var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
         if let aTabView = self.tabItemViews().first {
-            height = aTabView.intrinsicContentSize.height + 2
+            height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 0)
         }
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
@@ -289,10 +296,11 @@ public class LYTabBarView: NSView {
     public override func drawRect(dirtyRect: NSRect) {
         self.backgroundColor.setFill()
         NSRectFill(self.bounds)
+        let yBorder : CGFloat = hasBorder ? -0.5 : 0.5
         for tabView in self.tabItemViews() {
-            var rect = NSInsetRect(tabView.frame, -0.5, -0.5)
+            var rect = NSInsetRect(tabView.frame, -0.5, yBorder)
             if self.selectedTabView() == tabView {
-                rect = NSInsetRect(tabView.frame, 1, -0.5)
+                rect = NSInsetRect(tabView.frame, 1, yBorder)
                 selectedBorderColor.setStroke()
             } else {
                 borderColor.setStroke()
@@ -304,7 +312,7 @@ public class LYTabBarView: NSView {
         let rect = addTabButton.frame
         self.backgroundColor.setFill()
         NSRectFill(rect)
-        let border = NSBezierPath(rect: NSInsetRect(rect, -0.5, -0.5))
+        let border = NSBezierPath(rect: NSInsetRect(rect, -0.5, yBorder))
         borderColor.setStroke()
         border.stroke()
     }
