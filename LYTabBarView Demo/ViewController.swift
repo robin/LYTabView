@@ -70,12 +70,14 @@ class ViewController: NSViewController {
                 window.titlebarAppearsTransparent = false
                 window.titleVisibility = .Visible
                 window.styleMask = window.styleMask & (~NSFullSizeContentViewWindowMask)
+                tabBarView.paddingWindowButton = false
             }
             else
             {
                 window.titlebarAppearsTransparent = true
                 window.titleVisibility = .Hidden
                 window.styleMask |= NSFullSizeContentViewWindowMask
+                tabBarView.paddingWindowButton = true
             }
         }
     }

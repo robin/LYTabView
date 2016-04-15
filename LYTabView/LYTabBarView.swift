@@ -22,6 +22,7 @@ public class LYTabBarView: NSView {
             checkVisibilityAccordingToTabCount()
         }
     }
+    
     public var hasBorder : Bool = false {
         didSet {
             self.needsDisplay = true
@@ -30,6 +31,13 @@ public class LYTabBarView: NSView {
         }
     }
 
+    public var paddingWindowButton : Bool = false {
+        didSet {
+            windowButtonPaddingView.hidden = !paddingWindowButton
+            self.needsDisplay = true
+        }
+    }
+    
     var backgroundColor : NSColor {
         if self.isWindowActive() {
             return NSColor(white: 0.73, alpha: 1)
@@ -95,9 +103,12 @@ public class LYTabBarView: NSView {
         }
     }
 
-    private let stackView = NSStackView(frame: .zero)
+    let stackView = NSStackView(frame: .zero)
+    private let outterStackView = NSStackView(frame: .zero)
     private var addTabButton : NSButton!
     private var addTabButtonHeightConstraint : NSLayoutConstraint?
+    private let windowButtonPaddingView : NSView = NSView(frame: .zero)
+    private var windowButtonPaddingViewWidthConstraint : NSLayoutConstraint?
     
     override public var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
@@ -108,12 +119,19 @@ public class LYTabBarView: NSView {
     }
     
     private func setupViews() {
+        outterStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(outterStackView)
+        outterStackView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
+        outterStackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
+        outterStackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        outterStackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
+        outterStackView.orientation = .Horizontal
+        outterStackView.distribution = .Fill
+        outterStackView.spacing = 1
+        outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, forOrientation: .Horizontal)
+
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(stackView)
-        stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
-        stackView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
-        stackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
-        stackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        outterStackView.addView(stackView, inGravity: .Center)
         stackView.orientation = .Horizontal
         stackView.distribution = .FillEqually
         stackView.spacing = 1
@@ -130,10 +148,29 @@ public class LYTabBarView: NSView {
         addTabButtonHeightConstraint?.active = true
         addTabButton.widthAnchor.constraintEqualToAnchor(addTabButton.heightAnchor).active = true
         if showAddNewTabButton {
-            stackView.addView(addTabButton, inGravity: .Bottom)
+            outterStackView.addView(addTabButton, inGravity: .Bottom)
         }
+        
+        windowButtonPaddingView.translatesAutoresizingMaskIntoConstraints = false
+        outterStackView.addView(windowButtonPaddingView, inGravity: .Top)
+        windowButtonPaddingViewWidthConstraint = windowButtonPaddingView.widthAnchor.constraintEqualToConstant(68)
+        windowButtonPaddingViewWidthConstraint?.active =  true
+        windowButtonPaddingView.hidden = !paddingWindowButton
     }
     
+    public override func viewDidMoveToWindow() {
+        if let window = self.window {
+            var width : CGFloat = 68
+            if let lastButton = window.standardWindowButton(.ZoomButton), let firstButton = window.standardWindowButton(.CloseButton) {
+                width = firstButton.frame.origin.x + lastButton.frame.origin.x + lastButton.frame.size.width
+            }
+
+            if let constraint = windowButtonPaddingViewWidthConstraint {
+                constraint.constant = width
+            }
+
+        }
+    }
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
@@ -310,11 +347,16 @@ public class LYTabBarView: NSView {
             border.stroke()
         }
         let rect = addTabButton.frame
-        self.backgroundColor.setFill()
-        NSRectFill(rect)
         let border = NSBezierPath(rect: NSInsetRect(rect, -0.5, yBorder))
         borderColor.setStroke()
         border.stroke()
+        NSRectFill(rect)
+        
+        if paddingWindowButton {
+            let paddingRect = NSRect(x: 0, y: 0, width: self.windowButtonPaddingView.frame.size.width, height: self.frame.size.height)
+            NSColor.clearColor().setFill()
+            NSRectFill(paddingRect)
+        }
     }
     
     @IBAction public func closeCurrentTab(sender:AnyObject?) {
