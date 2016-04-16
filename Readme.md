@@ -3,8 +3,10 @@
 
 ## Features
 * Yosemite / El Capitan style tab bar
-* Support Auto Layout
-* Carthage compatible
+* Auto Layout
+* Animation
+* Reposition by drag and drop
+* Tab context menu
 
 ## Install
 LYTabView supports Carthage. Add following line in `Cartfile`
@@ -19,7 +21,7 @@ Or You can build it as a stand alone framework and add it into your project.
 Check the Demo App for the usage
 
 ## Author
-Lu Yibin
+[Lu Yibin](http://robin.github.io)
 
 ## License
 LYTabView is available under the MIT license. See the LICENSE file for more info.
