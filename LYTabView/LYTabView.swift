@@ -12,6 +12,7 @@ import Cocoa
 public class LYTabView: NSView {
     public let tabBarView : LYTabBarView
     public let tabView : NSTabView
+    let stackView : NSStackView
     
     public var delegate : NSTabViewDelegate? {
         get {
@@ -24,36 +25,45 @@ public class LYTabView: NSView {
     
     func setupViews() {
         tabView.delegate = tabBarView
-        tabView.tabViewType = .NoTabsNoBorder
+        tabView.tabViewType = .NoTabsBezelBorder
         tabBarView.tabView = tabView
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(stackView)
+        stackView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
+        stackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
+        stackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        stackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
+
         
         tabView.translatesAutoresizingMaskIntoConstraints = false
         tabBarView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(tabBarView)
-        self.addSubview(tabView)
+        stackView.addView(tabBarView, inGravity: .Center)
+        stackView.addView(tabView, inGravity: .Center)
+        stackView.orientation = .Vertical
+        stackView.distribution = .Fill
+        stackView.alignment = .CenterX
+        stackView.spacing = 0
+        stackView.leadingAnchor.constraintEqualToAnchor(tabBarView.leadingAnchor).active = true
+        stackView.trailingAnchor.constraintEqualToAnchor(tabBarView.trailingAnchor).active = true
         
-        tabView.setContentHuggingPriority(NSLayoutPriorityDefaultLow, forOrientation: .Vertical)
-        
-        tabBarView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
-        tabBarView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
-        tabBarView.bottomAnchor.constraintEqualToAnchor(tabView.topAnchor).active = true
-        tabBarView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
-        
-        tabView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
-        tabView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
-        tabView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
+        tabView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, forOrientation: .Vertical)
+        tabBarView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultHigh, forOrientation: .Vertical)
+        tabBarView.setContentHuggingPriority(NSLayoutPriorityDefaultHigh, forOrientation: .Vertical)
     }
     
     required public init?(coder: NSCoder) {
         tabView = NSTabView(coder: coder)!
         tabBarView = LYTabBarView(coder: coder)!
+        stackView = NSStackView(frame:.zero)
         super.init(coder: coder)
         setupViews()
     }
     
     required public override init(frame frameRect: NSRect) {
-        tabView = NSTabView(frame: frameRect)
-        tabBarView = LYTabBarView(frame: frameRect)
+        tabView = NSTabView(frame: .zero)
+        tabBarView = LYTabBarView(frame: .zero)
+        stackView = NSStackView(frame: frameRect)
         super.init(frame: frameRect)
         setupViews()
     }
