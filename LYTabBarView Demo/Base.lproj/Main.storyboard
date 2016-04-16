@@ -606,10 +606,23 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="LgT-Qx-XBw"/>
+                                        <menuItem title="Toggle Title bar" id="nWR-ZG-gMD">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleTitleBar:" target="Ady-hI-5gd" id="HFd-j4-wTG"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Toggle Add New Tab Button" id="qmU-Sf-eIy">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleAddNewTabButton:" target="Ady-hI-5gd" id="Djf-iX-YT7"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Toggle Border" id="RWS-in-oFV">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleBorder:" target="Ady-hI-5gd" id="yWh-cD-uQj"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -668,7 +681,7 @@
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
