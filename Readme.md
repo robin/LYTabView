@@ -1,12 +1,24 @@
 # LYTabView
 `LYTabView` is a customized Tab View with modernized tab bar style for Mac OS X.
 
+![Mac OS X Tab View](https://raw.githubusercontent.com/robin/LYTabView/master/images/LYTabBar.png)
+
 ## Features
 * Yosemite / El Capitan style tab bar
 * Auto Layout
 * Animation
 * Reposition by drag and drop
 * Tab context menu
+* compatible with title bar
+
+![animation](https://raw.githubusercontent.com/robin/LYTabView/master/images/animation.gif)
+Animation
+
+![drag and drop](https://raw.githubusercontent.com/robin/LYTabView/master/images/draganddrop.gif)
+Drag and Drop
+
+![used in title bar](https://raw.githubusercontent.com/robin/LYTabView/master/images/titlebar.gif)
+Used in title bar
 
 ## Install
 LYTabView supports Carthage. Add following line in `Cartfile`
