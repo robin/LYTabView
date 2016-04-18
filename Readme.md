@@ -11,14 +11,14 @@
 * Tab context menu
 * compatible with title bar
 
-![animation](https://raw.githubusercontent.com/robin/LYTabView/master/images/animation.gif)
 Animation
+![animation](https://raw.githubusercontent.com/robin/LYTabView/master/images/animation.gif)
 
-![drag and drop](https://raw.githubusercontent.com/robin/LYTabView/master/images/draganddrop.gif)
 Drag and Drop
+![drag and drop](https://raw.githubusercontent.com/robin/LYTabView/master/images/draganddrop.gif)
 
-![used in title bar](https://raw.githubusercontent.com/robin/LYTabView/master/images/titlebar.gif)
 Used in title bar
+![used in title bar](https://raw.githubusercontent.com/robin/LYTabView/master/images/titlebar.gif)
 
 ## Install
 LYTabView supports Carthage. Add following line in `Cartfile`
