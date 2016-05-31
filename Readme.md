@@ -23,7 +23,7 @@ Used in title bar
 ## Install
 LYTabView supports Carthage. Add following line in `Cartfile`
 
-    github “robin/LYTabView”
+    github "robin/LYTabView"
 
 Following the [steps](https://github.com/Carthage/Carthage#if-youre-building-for-os-x) to add the framework into your project.
 
