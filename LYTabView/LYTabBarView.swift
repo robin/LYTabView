@@ -102,7 +102,7 @@ public class LYTabBarView: NSView {
         }
     }
     
-    private var isRealActive : Bool {
+    var isRealActive : Bool {
         if let window = self.window {
             return (window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active)) && isActive
         }

@@ -30,14 +30,14 @@ class LYTabItemView: NSButton {
     var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
     var backgroundColor : NSColor {
-        if self.tabBarView.isWindowActive() {
+        if self.tabBarView.isRealActive {
             return NSColor(white: 0.73, alpha: 1)
         } else {
             return NSColor(white: 0.95, alpha: 1)
         }
     }
     var hoverBackgroundColor : NSColor {
-        if self.tabBarView.isWindowActive() {
+        if self.tabBarView.isRealActive {
             return NSColor(white: 0.70, alpha: 1)
         } else {
             return self.backgroundColor
@@ -50,7 +50,7 @@ class LYTabItemView: NSButton {
         }
     }
     var selectedBackgroundColor: NSColor {
-        if self.tabBarView.isWindowActive() {
+        if self.tabBarView.isRealActive {
             return NSColor(white: 0.85, alpha: 1)
         } else {
             return NSColor(white: 0.96, alpha: 1)
