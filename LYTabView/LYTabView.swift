@@ -29,7 +29,7 @@ public class LYTabView: NSView {
     
     func setupViews() {
         tabView.delegate = tabBarView
-        tabView.tabViewType = .NoTabsBezelBorder
+        tabView.tabViewType = .NoTabsNoBorder
         tabBarView.tabView = tabView
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
