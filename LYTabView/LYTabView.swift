@@ -23,9 +23,9 @@ public class LYTabView: NSView {
         }
     }
     
-    var numberOfTabViewItems: Int { return self.tabView.numberOfTabViewItems }
-    var tabViewItems: [NSTabViewItem] { return self.tabView.tabViewItems }
-    var selectedTabViewItem: NSTabViewItem? { return self.tabView.selectedTabViewItem }
+    public var numberOfTabViewItems: Int { return self.tabView.numberOfTabViewItems }
+    public var tabViewItems: [NSTabViewItem] { return self.tabView.tabViewItems }
+    public var selectedTabViewItem: NSTabViewItem? { return self.tabView.selectedTabViewItem }
     
     func setupViews() {
         tabView.delegate = tabBarView
