@@ -149,6 +149,7 @@ class LYTabItemView: NSButton {
         self.init(frame: .zero)
         self.tabViewItem = tabViewItem
         if let tabViewItem = self.tabViewItem {
+            tabViewItem.addObserver(self, forKeyPath: "label", options: [], context: nil)
             self.title = tabViewItem.label
         }
     }
@@ -244,6 +245,17 @@ class LYTabItemView: NSButton {
     
     @IBAction func closeOtherTabs(send:AnyObject?) {
         self.tabBarView.removeAllTabViewItemExcept(self.tabViewItem)
+    }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "label" {
+            if let item = self.tabViewItem {
+                self.title = item.label
+            }
+        }
+        else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
     }
 }
 
