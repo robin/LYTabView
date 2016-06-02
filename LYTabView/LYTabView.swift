@@ -74,59 +74,59 @@ public class LYTabView: NSView {
 }
 
 extension LYTabView {
-    func addTabViewItem(tabViewItem: NSTabViewItem) {
+    public func addTabViewItem(tabViewItem: NSTabViewItem) {
         self.tabView.addTabViewItem(tabViewItem)
     }
     
-    func insertTabViewItem(tabViewItem: NSTabViewItem, atIndex index: Int) {
+    public func insertTabViewItem(tabViewItem: NSTabViewItem, atIndex index: Int) {
         self.tabView.insertTabViewItem(tabViewItem, atIndex: index)
     }
     
-    func removeTabViewItem(tabViewItem: NSTabViewItem) {
+    public func removeTabViewItem(tabViewItem: NSTabViewItem) {
         self.tabView.removeTabViewItem(tabViewItem)
     }
     
-    func indexOfTabViewItem(tabViewItem: NSTabViewItem) -> Int {
+    public func indexOfTabViewItem(tabViewItem: NSTabViewItem) -> Int {
         return self.tabView.indexOfTabViewItem(tabViewItem)
     }
     
-    func indexOfTabViewItemWithIdentifier(identifier: AnyObject) -> Int {
+    public func indexOfTabViewItemWithIdentifier(identifier: AnyObject) -> Int {
         return self.tabView.indexOfTabViewItemWithIdentifier(identifier)
     }
     
-    func tabViewItemAtIndex(index: Int) -> NSTabViewItem {
+    public func tabViewItemAtIndex(index: Int) -> NSTabViewItem {
         return self.tabView.tabViewItemAtIndex(index)
     }
     
-    func selectFirstTabViewItem(sender: AnyObject?) {
+    public func selectFirstTabViewItem(sender: AnyObject?) {
         self.tabView.selectFirstTabViewItem(sender)
     }
     
-    func selectLastTabViewItem(sender: AnyObject?) {
+    public func selectLastTabViewItem(sender: AnyObject?) {
         self.tabView.selectLastTabViewItem(sender)
     }
     
-    func selectNextTabViewItem(sender: AnyObject?) {
+    public func selectNextTabViewItem(sender: AnyObject?) {
         self.tabView.selectNextTabViewItem(sender)
     }
     
-    func selectPreviousTabViewItem(sender: AnyObject?) {
+    public func selectPreviousTabViewItem(sender: AnyObject?) {
         self.tabView.selectPreviousTabViewItem(sender)
     }
     
-    func selectTabViewItem(tabViewItem: NSTabViewItem?) {
+    public func selectTabViewItem(tabViewItem: NSTabViewItem?) {
         self.tabView.selectTabViewItem(tabViewItem)
     }
     
-    func selectTabViewItemAtIndex(index: Int) {
+    public func selectTabViewItemAtIndex(index: Int) {
         self.tabView.selectTabViewItemAtIndex(index)
     }
     
-    func selectTabViewItemWithIdentifier(identifier: AnyObject) {
+    public func selectTabViewItemWithIdentifier(identifier: AnyObject) {
         self.tabView.selectTabViewItemWithIdentifier(identifier)
     }
     
-    func takeSelectedTabViewItemFromSender(sender: AnyObject?) {
+    public func takeSelectedTabViewItemFromSender(sender: AnyObject?) {
         self.tabView.takeSelectedTabViewItemFromSender(sender)
     }
 }
