@@ -73,7 +73,7 @@ public class LYTabView: NSView {
     }
 }
 
-extension LYTabView {
+public extension LYTabView {
     public func addTabViewItem(tabViewItem: NSTabViewItem) {
         self.tabView.addTabViewItem(tabViewItem)
     }
