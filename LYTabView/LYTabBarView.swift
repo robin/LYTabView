@@ -17,6 +17,11 @@ public class LYTabBarView: NSView {
     @IBOutlet public var delegate : NSTabViewDelegate?
     
     public var needAnimation : Bool = true
+    public var isActive : Bool = true {
+        didSet {
+            self.needsDisplay = true
+        }
+    }
     public var hideIfOnlyOneTabExists : Bool = true {
         didSet {
             checkVisibilityAccordingToTabCount()
@@ -39,7 +44,7 @@ public class LYTabBarView: NSView {
     }
     
     var backgroundColor : NSColor {
-        if self.isWindowActive() {
+        if self.isRealActive {
             return NSColor(white: 0.73, alpha: 1)
         } else {
             return NSColor(white: 0.95, alpha: 1)
@@ -47,7 +52,7 @@ public class LYTabBarView: NSView {
     }
     
     var borderColor : NSColor {
-        if self.isWindowActive() {
+        if self.isRealActive {
             return NSColor(white: 0.61, alpha: 1)
         } else {
             return NSColor(white: 0.86, alpha: 1)
@@ -55,7 +60,7 @@ public class LYTabBarView: NSView {
     }
     
     var selectedBorderColor : NSColor {
-        if self.isWindowActive() {
+        if self.isRealActive {
             return NSColor(white: 0.71, alpha: 1)
         } else {
             return NSColor(white: 0.86, alpha: 1)
@@ -95,6 +100,13 @@ public class LYTabBarView: NSView {
         get {
             return self.tabView?.tabViewItems ?? []
         }
+    }
+    
+    private var isRealActive : Bool {
+        if let window = self.window {
+            return (window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active)) && isActive
+        }
+        return false
     }
     
     @IBOutlet var tabView : NSTabView? {
@@ -308,13 +320,6 @@ public class LYTabBarView: NSView {
             }
         }
         return nil
-    }
-    
-    func isWindowActive() -> Bool {
-        if let window = self.window {
-            return window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active)
-        }
-        return false
     }
     
     public override func viewWillMoveToWindow(newWindow: NSWindow?) {
