@@ -86,5 +86,9 @@ class ViewController: NSViewController {
     @IBAction func toggleBorder(sender: AnyObject?) {
         tabBarView.hasBorder = !tabBarView.hasBorder
     }
+    
+    @IBAction func toggleActivity(sender: AnyObject?) {
+        tabBarView.isActive = !tabBarView.isActive
+    }
 }
 

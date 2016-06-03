@@ -9,6 +9,15 @@
 import Foundation
 import Cocoa
 
+
+enum BarStatus {
+    case Active
+    case WindowInactive
+    case Inactive
+}
+
+typealias ColorConfig = [BarStatus:NSColor]
+
 @IBDesignable
 public class LYTabBarView: NSView {
     private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
@@ -20,6 +29,9 @@ public class LYTabBarView: NSView {
     public var isActive : Bool = true {
         didSet {
             self.needsDisplay = true
+            for view in self.tabItemViews() {
+                view.needsDisplay = true
+            }
         }
     }
     public var hideIfOnlyOneTabExists : Bool = true {
@@ -43,29 +55,34 @@ public class LYTabBarView: NSView {
         }
     }
     
-    var backgroundColor : NSColor {
-        if self.isRealActive {
-            return NSColor(white: 0.73, alpha: 1)
+    var status : BarStatus {
+        let isWindowActive = self.isWindowActive
+        if self.isActive && isWindowActive {
+            return .Active
+        } else if !isWindowActive {
+            return .WindowInactive
         } else {
-            return NSColor(white: 0.86, alpha: 1)
+            return .Inactive
         }
     }
     
-    var borderColor : NSColor {
-        if self.isRealActive {
-            return NSColor(white: 0.61, alpha: 1)
-        } else {
-            return NSColor(white: 0.86, alpha: 1)
-        }
-    }
+    var backgroundColor : ColorConfig = [
+        .Active : NSColor(white: 0.73, alpha: 1),
+        .WindowInactive : NSColor(white: 0.86, alpha: 1),
+        .Inactive : NSColor(white: 0.73, alpha: 1)
+    ]
     
-    var selectedBorderColor : NSColor {
-        if self.isRealActive {
-            return NSColor(white: 0.71, alpha: 1)
-        } else {
-            return NSColor(white: 0.86, alpha: 1)
-        }
-    }
+    var borderColor : ColorConfig = [
+        .Active : NSColor(white: 0.61, alpha: 1),
+        .WindowInactive : NSColor(white: 0.86, alpha: 1),
+        .Inactive : NSColor(white: 0.61, alpha: 1)
+    ]
+    
+    var selectedBorderColor : ColorConfig = [
+        .Active : NSColor(white: 0.71, alpha: 1),
+        .WindowInactive : NSColor(white: 0.86, alpha: 1),
+        .Inactive : NSColor(white: 0.71, alpha: 1)
+    ]
     
     public var showAddNewTabButton : Bool = true {
         didSet {
@@ -102,9 +119,9 @@ public class LYTabBarView: NSView {
         }
     }
     
-    var isRealActive : Bool {
+    var isWindowActive : Bool {
         if let window = self.window {
-            return (window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active)) && isActive
+            return (window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active))
         }
         return false
     }
@@ -336,16 +353,17 @@ public class LYTabBarView: NSView {
     }
     
     public override func drawRect(dirtyRect: NSRect) {
-        self.backgroundColor.setFill()
+        let status = self.status
+        self.backgroundColor[status]!.setFill()
         NSRectFill(self.bounds)
         let yBorder : CGFloat = hasBorder ? -0.5 : 0.5
         for tabView in self.tabItemViews() {
             var rect = NSInsetRect(tabView.frame, -0.5, yBorder)
             if self.selectedTabView() == tabView {
                 rect = NSInsetRect(tabView.frame, 1, yBorder)
-                selectedBorderColor.setStroke()
+                selectedBorderColor[status]!.setStroke()
             } else {
-                borderColor.setStroke()
+                borderColor[status]!.setStroke()
             }
             let border = NSBezierPath(rect: rect)
             border.lineWidth = 1
@@ -353,7 +371,7 @@ public class LYTabBarView: NSView {
         }
         let rect = addTabButton.frame
         let border = NSBezierPath(rect: NSInsetRect(rect, -0.5, yBorder))
-        borderColor.setStroke()
+        borderColor[status]!.setStroke()
         border.stroke()
         NSRectFill(rect)
         

@@ -29,41 +29,34 @@ class LYTabItemView: NSButton {
     var xpadding : CGFloat = 4
     var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
-    var backgroundColor : NSColor {
-        if self.tabBarView.isRealActive {
-            return NSColor(white: 0.73, alpha: 1)
-        } else {
-            return NSColor(white: 0.94, alpha: 1)
-        }
-    }
-    var hoverBackgroundColor : NSColor {
-        if self.tabBarView.isRealActive {
-            return NSColor(white: 0.70, alpha: 1)
-        } else {
-            return self.backgroundColor
-        }
-    }
+    var backgroundColor : ColorConfig = [
+        .Active : NSColor(white: 0.73, alpha: 1),
+        .WindowInactive : NSColor(white: 0.94, alpha: 1),
+        .Inactive : NSColor(white: 0.70, alpha: 1)
+    ]
+
+    var hoverBackgroundColor : ColorConfig = [
+        .Active : NSColor(white: 0.70, alpha: 1),
+        .WindowInactive : NSColor(white: 0.94, alpha: 1),
+        .Inactive : NSColor(white: 0.68, alpha: 1)
+    ]
 
     dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
         didSet {
             needsDisplay = true
         }
     }
-    var selectedBackgroundColor: NSColor {
-        if self.tabBarView.isRealActive {
-            return NSColor(white: 0.85, alpha: 1)
-        } else {
-            return NSColor(white: 0.96, alpha: 1)
-        }
-    }
+    var selectedBackgroundColor: ColorConfig = [
+        .Active : NSColor(white: 0.85, alpha: 1),
+        .WindowInactive : NSColor(white: 0.96, alpha: 1),
+        .Inactive : NSColor(white: 0.80, alpha: 1)
+    ]
     
-    var selectedTextColor : NSColor {
-        if self.tabBarView.isRealActive {
-            return NSColor.textColor()
-        } else {
-            return unselectedForegroundColor
-        }
-    }
+    var selectedTextColor : ColorConfig = [
+        .Active : NSColor.textColor(),
+        .WindowInactive : NSColor(white: 0.4, alpha: 1),
+        .Inactive : NSColor(white: 0.4, alpha: 1)
+    ]
 
     var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
     var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
@@ -173,9 +166,10 @@ class LYTabItemView: NSButton {
     }
     
     override func drawRect(dirtyRect: NSRect) {
+        let status = self.tabBarView.status
         if shouldDrawInHighLight {
-            selectedBackgroundColor.setFill()
-            titleView.textColor = selectedTextColor
+            selectedBackgroundColor[status]!.setFill()
+            titleView.textColor = selectedTextColor[status]!
         } else {
             self.realBackgroundColor.setFill()
             titleView.textColor = unselectedForegroundColor
@@ -183,7 +177,7 @@ class LYTabItemView: NSButton {
         NSRectFill(self.bounds)
         if self.drawBorder {
             let boderFrame = NSInsetRect(self.bounds, 1, -1)
-            self.tabBarView.borderColor.setStroke()
+            self.tabBarView.borderColor[status]!.setStroke()
             let path = NSBezierPath(rect: boderFrame)
             path.stroke()
         }
@@ -210,8 +204,9 @@ class LYTabItemView: NSButton {
             return
         }
         hovered = true
+        let status = self.tabBarView.status
         if !shouldDrawInHighLight {
-            self.animatorOrNot(needAnimation).realBackgroundColor = hoverBackgroundColor
+            self.animatorOrNot(needAnimation).realBackgroundColor = hoverBackgroundColor[status]!
         }
         closeButton.animatorOrNot(needAnimation).hidden = false
     }
@@ -221,8 +216,9 @@ class LYTabItemView: NSButton {
             return
         }
         hovered = false
+        let status = self.tabBarView.status
         if !shouldDrawInHighLight {
-            self.animatorOrNot(needAnimation).realBackgroundColor = backgroundColor
+            self.animatorOrNot(needAnimation).realBackgroundColor = backgroundColor[status]!
         }
         closeButton.animatorOrNot(needAnimation).hidden = true
     }
@@ -234,10 +230,11 @@ class LYTabItemView: NSButton {
     }
     
     func updateColors() {
+        let status = self.tabBarView.status
         if hovered {
-            self.realBackgroundColor = hoverBackgroundColor
+            self.realBackgroundColor = hoverBackgroundColor[status]!
         } else {
-            self.realBackgroundColor = backgroundColor
+            self.realBackgroundColor = backgroundColor[status]!
         }
     }
     
