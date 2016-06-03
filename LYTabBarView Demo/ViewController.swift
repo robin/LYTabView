@@ -19,6 +19,7 @@ class ViewController: NSViewController {
 
         // Do any additional setup after loading the view.
         self.tabBarView = tabView.tabBarView
+        self.tabBarView.hasBorder = true
         addViewWithLabel("Tab")
         addViewWithLabel("View")
 

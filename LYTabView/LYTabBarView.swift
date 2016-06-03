@@ -47,7 +47,7 @@ public class LYTabBarView: NSView {
         if self.isRealActive {
             return NSColor(white: 0.73, alpha: 1)
         } else {
-            return NSColor(white: 0.95, alpha: 1)
+            return NSColor(white: 0.86, alpha: 1)
         }
     }
     

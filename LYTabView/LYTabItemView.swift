@@ -33,7 +33,7 @@ class LYTabItemView: NSButton {
         if self.tabBarView.isRealActive {
             return NSColor(white: 0.73, alpha: 1)
         } else {
-            return NSColor(white: 0.95, alpha: 1)
+            return NSColor(white: 0.94, alpha: 1)
         }
     }
     var hoverBackgroundColor : NSColor {
@@ -54,6 +54,14 @@ class LYTabItemView: NSButton {
             return NSColor(white: 0.85, alpha: 1)
         } else {
             return NSColor(white: 0.96, alpha: 1)
+        }
+    }
+    
+    var selectedTextColor : NSColor {
+        if self.tabBarView.isRealActive {
+            return NSColor.textColor()
+        } else {
+            return unselectedForegroundColor
         }
     }
 
@@ -167,7 +175,7 @@ class LYTabItemView: NSButton {
     override func drawRect(dirtyRect: NSRect) {
         if shouldDrawInHighLight {
             selectedBackgroundColor.setFill()
-            titleView.textColor = NSColor.textColor()
+            titleView.textColor = selectedTextColor
         } else {
             self.realBackgroundColor.setFill()
             titleView.textColor = unselectedForegroundColor
