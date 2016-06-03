@@ -47,9 +47,9 @@ class LYTabItemView: NSButton {
         }
     }
     var selectedBackgroundColor: ColorConfig = [
-        .Active : NSColor(white: 0.85, alpha: 1),
+        .Active : NSColor(white: 0.86, alpha: 1),
         .WindowInactive : NSColor(white: 0.96, alpha: 1),
-        .Inactive : NSColor(white: 0.80, alpha: 1)
+        .Inactive : NSColor(white: 0.78, alpha: 1)
     ]
     
     var selectedTextColor : ColorConfig = [
@@ -236,6 +236,10 @@ class LYTabItemView: NSButton {
         } else {
             self.realBackgroundColor = backgroundColor[status]!
         }
+    }
+    
+    override func viewDidMoveToWindow() {
+        self.updateColors()
     }
     
     @IBAction func addNewTab(sender:AnyObject?) {

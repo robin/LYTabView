@@ -28,8 +28,10 @@ public class LYTabBarView: NSView {
     public var needAnimation : Bool = true
     public var isActive : Bool = true {
         didSet {
+            
             self.needsDisplay = true
             for view in self.tabItemViews() {
+                view.updateColors()
                 view.needsDisplay = true
             }
         }
@@ -69,7 +71,7 @@ public class LYTabBarView: NSView {
     var backgroundColor : ColorConfig = [
         .Active : NSColor(white: 0.73, alpha: 1),
         .WindowInactive : NSColor(white: 0.86, alpha: 1),
-        .Inactive : NSColor(white: 0.73, alpha: 1)
+        .Inactive : NSColor(white: 0.70, alpha: 1)
     ]
     
     var borderColor : ColorConfig = [
