@@ -49,7 +49,7 @@ class LYTabItemView: NSButton {
     var selectedBackgroundColor: ColorConfig = [
         .Active : NSColor(white: 0.86, alpha: 1),
         .WindowInactive : NSColor(white: 0.96, alpha: 1),
-        .Inactive : NSColor(white: 0.78, alpha: 1)
+        .Inactive : NSColor(white: 0.76, alpha: 1)
     ]
     
     var selectedTextColor : ColorConfig = [
