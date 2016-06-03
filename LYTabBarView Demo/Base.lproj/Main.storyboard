@@ -625,6 +625,12 @@
                                                 <action selector="toggleBorder:" target="Ady-hI-5gd" id="yWh-cD-uQj"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Toggle Activity" id="YSY-Ha-eVL">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleActivity:" target="Ady-hI-5gd" id="Lq2-oc-4fv"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
