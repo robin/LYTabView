@@ -110,6 +110,7 @@ class LYTabItemView: NSButton {
         titleView.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
         titleView.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: ypadding).active = true
         titleView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -ypadding).active = true
+        titleView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, forOrientation: .Horizontal)
         
         closeButton = LYTabCloseButton(frame: .zero)
         closeButton.translatesAutoresizingMaskIntoConstraints = false

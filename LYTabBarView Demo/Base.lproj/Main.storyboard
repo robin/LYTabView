@@ -705,34 +705,44 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="LYTabView_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="415"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="566"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cpB-JG-Fv7">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="415"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="566"/>
                                 <subviews>
                                     <customView fixedFrame="YES" id="vv0-I0-yKh" customClass="LYTabView" customModule="LYTabView">
-                                        <rect key="frame" x="0.0" y="0.0" width="473" height="415"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="473" height="566"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <splitView fixedFrame="YES" dividerStyle="paneSplitter" id="8ek-mO-GIz">
-                                        <rect key="frame" x="483" y="0.0" width="285" height="415"/>
+                                        <rect key="frame" x="483" y="0.0" width="285" height="566"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" id="lyP-q5-FNT" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="0.0" width="285" height="99.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="285" height="68.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <customView fixedFrame="YES" id="7s4-0a-o9Y" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="109.5" width="285" height="99.5"/>
+                                                <rect key="frame" x="0.0" y="78.5" width="285" height="86.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <customView fixedFrame="YES" id="gUB-Dc-Q2v" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="219" width="285" height="196"/>
+                                                <rect key="frame" x="0.0" y="175" width="285" height="60.5"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            </customView>
+                                            <customView fixedFrame="YES" id="D4z-zh-3nB" customClass="LYTabView" customModule="LYTabView">
+                                                <rect key="frame" x="0.0" y="245.5" width="285" height="61"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            </customView>
+                                            <customView fixedFrame="YES" id="JTe-DI-XdS" customClass="LYTabView" customModule="LYTabView">
+                                                <rect key="frame" x="0.0" y="316.5" width="285" height="249.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                         </subviews>
                                         <holdingPriorities>
+                                            <real value="250"/>
+                                            <real value="250"/>
                                             <real value="250"/>
                                             <real value="250"/>
                                             <real value="250"/>
@@ -757,11 +767,13 @@
                         <outlet property="tabView21" destination="lyP-q5-FNT" id="ueF-MD-yEK"/>
                         <outlet property="tabView22" destination="7s4-0a-o9Y" id="GCR-Np-lKR"/>
                         <outlet property="tabView23" destination="gUB-Dc-Q2v" id="F1k-dI-TFx"/>
+                        <outlet property="tabView24" destination="D4z-zh-3nB" id="7Yw-6y-ook"/>
+                        <outlet property="tabView25" destination="JTe-DI-XdS" id="fCp-dz-FwT"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="219" y="727.5"/>
+            <point key="canvasLocation" x="219" y="803"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bTS-WD-44T">

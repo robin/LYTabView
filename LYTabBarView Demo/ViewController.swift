@@ -15,6 +15,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var tabView21: LYTabView!
     @IBOutlet weak var tabView22: LYTabView!
     @IBOutlet weak var tabView23: LYTabView!
+    @IBOutlet weak var tabView24: LYTabView!
+    @IBOutlet weak var tabView25: LYTabView!
    var tabBarView: LYTabBarView!
     
     override func viewDidLoad() {
@@ -29,9 +31,13 @@ class ViewController: NSViewController {
         tabView21.tabBarView.hideIfOnlyOneTabExists = false
         tabView22.tabBarView.hideIfOnlyOneTabExists = false
         tabView23.tabBarView.hideIfOnlyOneTabExists = false
+        tabView24.tabBarView.hideIfOnlyOneTabExists = false
+        tabView25.tabBarView.hideIfOnlyOneTabExists = false
         addViewWithLabel("Tab", tabView: tabView21)
         addViewWithLabel("Tab", tabView: tabView22)
         addViewWithLabel("Tab", tabView: tabView23)
+        addViewWithLabel("Tab", tabView: tabView24)
+        addViewWithLabel("Tab", tabView: tabView25)
 
         self.tabBarView.addNewTabButtonTarget = self
         self.tabBarView.addNewTabButtonAction = #selector(addNewTab)
