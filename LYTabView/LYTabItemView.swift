@@ -96,7 +96,7 @@ class LYTabItemView: NSButton {
     
     func setupViews() {
         self.bordered = false
-        self.setContentHuggingPriority(240, forOrientation: .Vertical)
+        self.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, forOrientation: .Horizontal)
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.editable = false

@@ -12,6 +12,9 @@ import LYTabView
 class ViewController: NSViewController {
 
     @IBOutlet weak var tabView: LYTabView!
+    @IBOutlet weak var tabView21: LYTabView!
+    @IBOutlet weak var tabView22: LYTabView!
+    @IBOutlet weak var tabView23: LYTabView!
    var tabBarView: LYTabBarView!
     
     override func viewDidLoad() {
@@ -22,6 +25,13 @@ class ViewController: NSViewController {
         self.tabBarView.hasBorder = true
         addViewWithLabel("Tab")
         addViewWithLabel("View")
+        
+        tabView21.tabBarView.hideIfOnlyOneTabExists = false
+        tabView22.tabBarView.hideIfOnlyOneTabExists = false
+        tabView23.tabBarView.hideIfOnlyOneTabExists = false
+        addViewWithLabel("Tab", tabView: tabView21)
+        addViewWithLabel("Tab", tabView: tabView22)
+        addViewWithLabel("Tab", tabView: tabView23)
 
         self.tabBarView.addNewTabButtonTarget = self
         self.tabBarView.addNewTabButtonAction = #selector(addNewTab)
@@ -36,15 +46,19 @@ class ViewController: NSViewController {
         }
     }
 
-    func addViewWithLabel(label:String) {
+    func addViewWithLabel(label:String, tabView : LYTabView) {
         let item = NSTabViewItem()
         item.label = label
         if let labelViewController = self.storyboard?.instantiateControllerWithIdentifier("labelViewController") {
             labelViewController.setTitle(label)
             item.view = labelViewController.view
         }
+        
+        tabView.tabBarView.addTabViewItem(item, animated: true)
+    }
 
-        self.tabBarView.addTabViewItem(item, animated: true)
+    func addViewWithLabel(label:String) {
+        self.addViewWithLabel(label, tabView: self.tabView)
     }
     
     @IBAction func toggleAddNewTabButton(sender:AnyObject?) {

@@ -705,27 +705,63 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="LYTabView_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="415"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="vv0-I0-yKh" customClass="LYTabView" customModule="LYTabView">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                            </customView>
+                            <splitView dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cpB-JG-Fv7">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="415"/>
+                                <subviews>
+                                    <customView fixedFrame="YES" id="vv0-I0-yKh" customClass="LYTabView" customModule="LYTabView">
+                                        <rect key="frame" x="0.0" y="0.0" width="473" height="415"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    </customView>
+                                    <splitView fixedFrame="YES" dividerStyle="paneSplitter" id="8ek-mO-GIz">
+                                        <rect key="frame" x="483" y="0.0" width="285" height="415"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <customView fixedFrame="YES" id="lyP-q5-FNT" customClass="LYTabView" customModule="LYTabView">
+                                                <rect key="frame" x="0.0" y="0.0" width="285" height="99.5"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            </customView>
+                                            <customView fixedFrame="YES" id="7s4-0a-o9Y" customClass="LYTabView" customModule="LYTabView">
+                                                <rect key="frame" x="0.0" y="109.5" width="285" height="99.5"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            </customView>
+                                            <customView fixedFrame="YES" id="gUB-Dc-Q2v" customClass="LYTabView" customModule="LYTabView">
+                                                <rect key="frame" x="0.0" y="219" width="285" height="196"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            </customView>
+                                        </subviews>
+                                        <holdingPriorities>
+                                            <real value="250"/>
+                                            <real value="250"/>
+                                            <real value="250"/>
+                                        </holdingPriorities>
+                                    </splitView>
+                                </subviews>
+                                <holdingPriorities>
+                                    <real value="250"/>
+                                    <real value="250"/>
+                                </holdingPriorities>
+                            </splitView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="vv0-I0-yKh" secondAttribute="bottom" id="6Gn-lO-Xpp"/>
-                            <constraint firstItem="vv0-I0-yKh" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="70A-SD-yAA"/>
-                            <constraint firstItem="vv0-I0-yKh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="YT5-Jq-tUR"/>
-                            <constraint firstAttribute="trailing" secondItem="vv0-I0-yKh" secondAttribute="trailing" id="Zlg-ml-Sa7"/>
+                            <constraint firstItem="cpB-JG-Fv7" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="MPQ-fq-s5N"/>
+                            <constraint firstItem="cpB-JG-Fv7" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="WFd-uL-AVG"/>
+                            <constraint firstAttribute="trailing" secondItem="cpB-JG-Fv7" secondAttribute="trailing" id="bEW-Ns-rdM"/>
+                            <constraint firstAttribute="bottom" secondItem="cpB-JG-Fv7" secondAttribute="bottom" id="sgz-ma-nRe"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="tabView" destination="vv0-I0-yKh" id="Jre-3S-THt"/>
+                        <outlet property="tabView21" destination="lyP-q5-FNT" id="ueF-MD-yEK"/>
+                        <outlet property="tabView22" destination="7s4-0a-o9Y" id="GCR-Np-lKR"/>
+                        <outlet property="tabView23" destination="gUB-Dc-Q2v" id="F1k-dI-TFx"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="219" y="727.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bTS-WD-44T">
@@ -756,7 +792,7 @@
                 <customObject id="hlf-4G-QZf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="bpN-GZ-t1d"/>
             </objects>
-            <point key="canvasLocation" x="108" y="1008"/>
+            <point key="canvasLocation" x="98" y="1179"/>
         </scene>
     </scenes>
 </document>
