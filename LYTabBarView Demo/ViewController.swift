@@ -52,10 +52,10 @@ class ViewController: NSViewController {
         }
     }
 
-    func addViewWithLabel(label:String, tabView : LYTabView) {
+    func addViewWithLabel(_ label:String, tabView : LYTabView) {
         let item = NSTabViewItem()
         item.label = label
-        if let labelViewController = self.storyboard?.instantiateControllerWithIdentifier("labelViewController") {
+        if let labelViewController = self.storyboard?.instantiateController(withIdentifier: "labelViewController") {
             labelViewController.setTitle(label)
             item.view = labelViewController.view
         }
@@ -63,21 +63,21 @@ class ViewController: NSViewController {
         tabView.tabBarView.addTabViewItem(item, animated: true)
     }
 
-    func addViewWithLabel(label:String) {
+    func addViewWithLabel(_ label:String) {
         self.addViewWithLabel(label, tabView: self.tabView)
     }
     
-    @IBAction func toggleAddNewTabButton(sender:AnyObject?) {
+    @IBAction func toggleAddNewTabButton(_ sender:AnyObject?) {
         tabBarView.showAddNewTabButton = !tabBarView.showAddNewTabButton
     }
     
-    @IBAction func addNewTab(sender:AnyObject?) {
+    @IBAction func addNewTab(_ sender:AnyObject?) {
         let count = self.tabBarView.tabViewItems.count
         let label = "Untitled \(count)"
         addViewWithLabel(label)
     }
     
-    @IBAction func performCloseTab(sender:AnyObject?) {
+    @IBAction func performCloseTab(_ sender:AnyObject?) {
         if tabBarView.tabViewItems.count > 1 {
             tabBarView.closeCurrentTab(sender)
         } else {
@@ -85,29 +85,29 @@ class ViewController: NSViewController {
         }
     }
     
-    @IBAction func toggleTitleBar(sender: AnyObject?) {
+    @IBAction func toggleTitleBar(_ sender: AnyObject?) {
         if let window = self.view.window {
             if window.titlebarAppearsTransparent {
                 window.titlebarAppearsTransparent = false
-                window.titleVisibility = .Visible
-                window.styleMask = window.styleMask & (~NSFullSizeContentViewWindowMask)
+                window.titleVisibility = .visible
+                window.styleMask.remove(NSFullSizeContentViewWindowMask)
                 tabBarView.paddingWindowButton = false
             }
             else
             {
                 window.titlebarAppearsTransparent = true
-                window.titleVisibility = .Hidden
-                window.styleMask |= NSFullSizeContentViewWindowMask
+                window.titleVisibility = .hidden
+                _ = window.styleMask.update(with: NSFullSizeContentViewWindowMask)
                 tabBarView.paddingWindowButton = true
             }
         }
     }
     
-    @IBAction func toggleBorder(sender: AnyObject?) {
+    @IBAction func toggleBorder(_ sender: AnyObject?) {
         tabBarView.hasBorder = !tabBarView.hasBorder
     }
     
-    @IBAction func toggleActivity(sender: AnyObject?) {
+    @IBAction func toggleActivity(_ sender: AnyObject?) {
         tabBarView.isActive = !tabBarView.isActive
     }
 }

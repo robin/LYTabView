@@ -11,16 +11,16 @@ import Cocoa
 
 
 enum BarStatus {
-    case Active
-    case WindowInactive
-    case Inactive
+    case active
+    case windowInactive
+    case inactive
 }
 
 typealias ColorConfig = [BarStatus:NSColor]
 
 @IBDesignable
 public class LYTabBarView: NSView {
-    private let serialQueue = dispatch_queue_create("Operations.TabBarView.UpdaterQueue", DISPATCH_QUEUE_SERIAL)
+    private let serialQueue = DispatchQueue(label: "Operations.TabBarView.UpdaterQueue", attributes: DispatchQueueAttributes.serial)
     private var _needsUpdate = false
 
     @IBOutlet public var delegate : NSTabViewDelegate?
@@ -52,7 +52,7 @@ public class LYTabBarView: NSView {
 
     public var paddingWindowButton : Bool = false {
         didSet {
-            windowButtonPaddingView.hidden = !paddingWindowButton
+            windowButtonPaddingView.isHidden = !paddingWindowButton
             self.needsDisplay = true
         }
     }
@@ -60,35 +60,35 @@ public class LYTabBarView: NSView {
     var status : BarStatus {
         let isWindowActive = self.isWindowActive
         if self.isActive && isWindowActive {
-            return .Active
+            return .active
         } else if !isWindowActive {
-            return .WindowInactive
+            return .windowInactive
         } else {
-            return .Inactive
+            return .inactive
         }
     }
     
     var backgroundColor : ColorConfig = [
-        .Active : NSColor(white: 0.73, alpha: 1),
-        .WindowInactive : NSColor(white: 0.86, alpha: 1),
-        .Inactive : NSColor(white: 0.70, alpha: 1)
+        .active : NSColor(white: 0.73, alpha: 1),
+        .windowInactive : NSColor(white: 0.86, alpha: 1),
+        .inactive : NSColor(white: 0.70, alpha: 1)
     ]
     
     var borderColor : ColorConfig = [
-        .Active : NSColor(white: 0.61, alpha: 1),
-        .WindowInactive : NSColor(white: 0.86, alpha: 1),
-        .Inactive : NSColor(white: 0.61, alpha: 1)
+        .active : NSColor(white: 0.61, alpha: 1),
+        .windowInactive : NSColor(white: 0.86, alpha: 1),
+        .inactive : NSColor(white: 0.61, alpha: 1)
     ]
     
     var selectedBorderColor : ColorConfig = [
-        .Active : NSColor(white: 0.71, alpha: 1),
-        .WindowInactive : NSColor(white: 0.86, alpha: 1),
-        .Inactive : NSColor(white: 0.71, alpha: 1)
+        .active : NSColor(white: 0.71, alpha: 1),
+        .windowInactive : NSColor(white: 0.86, alpha: 1),
+        .inactive : NSColor(white: 0.71, alpha: 1)
     ]
     
     public var showAddNewTabButton : Bool = true {
         didSet {
-            addTabButton.hidden = !showAddNewTabButton
+            addTabButton.isHidden = !showAddNewTabButton
             self.needsUpdate = true
         }
     }
@@ -123,7 +123,11 @@ public class LYTabBarView: NSView {
     
     var isWindowActive : Bool {
         if let window = self.window {
-            return (window.keyWindow || window.mainWindow || (window.isKindOfClass(NSPanel) && NSApp.active))
+            if let _ = window as? NSPanel {
+                return NSApp.isActive
+            } else {
+                return window.isKeyWindow || window.isMainWindow
+            }
         }
         return false
     }
@@ -152,47 +156,47 @@ public class LYTabBarView: NSView {
     private func setupViews() {
         outterStackView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(outterStackView)
-        outterStackView.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
-        outterStackView.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
-        outterStackView.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
-        outterStackView.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
-        outterStackView.orientation = .Horizontal
-        outterStackView.distribution = .Fill
+        outterStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        outterStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        outterStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        outterStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        outterStackView.orientation = .horizontal
+        outterStackView.distribution = .fill
         outterStackView.spacing = 1
-        outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, forOrientation: .Horizontal)
+        outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        outterStackView.addView(stackView, inGravity: .Center)
-        stackView.orientation = .Horizontal
-        stackView.distribution = .FillEqually
+        outterStackView.addView(stackView, in: .center)
+        stackView.orientation = .horizontal
+        stackView.distribution = .fillEqually
         stackView.spacing = 1
-        stackView.setHuggingPriority(NSLayoutPriorityDefaultLow, forOrientation: .Horizontal)
+        stackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
         
         addTabButton = NSButton(frame: .zero)
         addTabButton.translatesAutoresizingMaskIntoConstraints = false
-        addTabButton.setButtonType(.MomentaryChangeButton)
+        addTabButton.setButtonType(.momentaryChangeButton)
         addTabButton.image = NSImage(named: NSImageNameAddTemplate)
-        addTabButton.bezelStyle = .ShadowlessSquareBezelStyle
-        addTabButton.bordered = false
-        addTabButton.imagePosition = .ImageOnly
-        addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(22)
-        addTabButtonHeightConstraint?.active = true
-        addTabButton.widthAnchor.constraintEqualToAnchor(addTabButton.heightAnchor).active = true
+        addTabButton.bezelStyle = .shadowlessSquareBezelStyle
+        addTabButton.isBordered = false
+        addTabButton.imagePosition = .imageOnly
+        addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: 22)
+        addTabButtonHeightConstraint?.isActive = true
+        addTabButton.widthAnchor.constraint(equalTo: addTabButton.heightAnchor).isActive = true
         if showAddNewTabButton {
-            outterStackView.addView(addTabButton, inGravity: .Bottom)
+            outterStackView.addView(addTabButton, in: .bottom)
         }
         
         windowButtonPaddingView.translatesAutoresizingMaskIntoConstraints = false
-        outterStackView.addView(windowButtonPaddingView, inGravity: .Top)
-        windowButtonPaddingViewWidthConstraint = windowButtonPaddingView.widthAnchor.constraintEqualToConstant(68)
-        windowButtonPaddingViewWidthConstraint?.active =  true
-        windowButtonPaddingView.hidden = !paddingWindowButton
+        outterStackView.addView(windowButtonPaddingView, in: .top)
+        windowButtonPaddingViewWidthConstraint = windowButtonPaddingView.widthAnchor.constraint(equalToConstant: 68)
+        windowButtonPaddingViewWidthConstraint?.isActive =  true
+        windowButtonPaddingView.isHidden = !paddingWindowButton
     }
     
     public override func viewDidMoveToWindow() {
         if let window = self.window {
             var width : CGFloat = 68
-            if let lastButton = window.standardWindowButton(.ZoomButton), let firstButton = window.standardWindowButton(.CloseButton) {
+            if let lastButton = window.standardWindowButton(.zoomButton), let firstButton = window.standardWindowButton(.closeButton) {
                 width = firstButton.frame.origin.x + lastButton.frame.origin.x + lastButton.frame.size.width
             }
 
@@ -213,28 +217,28 @@ public class LYTabBarView: NSView {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default().removeObserver(self)
     }
     
-    public func addTabViewItem(item: NSTabViewItem, animated : Bool = false) {
+    public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
         let tabView = createLYTabItemView(item)
-        stackView.addView(tabView, inGravity: .Center, animated: animated) { 
+        stackView.addView(tabView, inGravity: .center, animated: animated) { 
             self.needsUpdate = true
         }
         self.tabView?.addTabViewItem(item)
         if tabItemViews().count == 1 {
             if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
                 let height = aTabView.intrinsicContentSize.height
-                constraint.active = false
-                addTabButtonHeightConstraint = addTabButton.heightAnchor.constraintEqualToConstant(height)
-                addTabButtonHeightConstraint?.active = true
+                constraint.isActive = false
+                addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: height)
+                addTabButtonHeightConstraint?.isActive = true
             }
             self.invalidateIntrinsicContentSize()
         }
         selectTabViewItem(item)
     }
 
-    public func removeTabViewItem(tabviewItem : NSTabViewItem, animated : Bool = false) {
+    public func removeTabViewItem(_ tabviewItem : NSTabViewItem, animated : Bool = false) {
         if let tabItemView = self.itemViewForItem(tabviewItem) {
             self.stackView.removeView(tabItemView, animated: true, completionHandler: {
                 self.needsUpdate = true
@@ -243,7 +247,7 @@ public class LYTabBarView: NSView {
         self.tabView?.removeTabViewItem(tabviewItem)
     }
     
-    func removeAllTabViewItemExcept(tabViewItem: NSTabViewItem) {
+    func removeAllTabViewItemExcept(_ tabViewItem: NSTabViewItem) {
         for tabItemView in self.tabItemViews() {
             if tabItemView.tabViewItem != tabViewItem {
                 self.stackView.removeView(tabItemView)
@@ -253,10 +257,10 @@ public class LYTabBarView: NSView {
     }
     
     func tabItemViews() -> [LYTabItemView] {
-        return self.stackView.viewsInGravity(.Center).flatMap { $0 as? LYTabItemView }
+        return self.stackView.views(in: .center).flatMap { $0 as? LYTabItemView }
     }
     
-    func shouldShowCloseButton(tabBarItem : NSTabViewItem) -> Bool {
+    func shouldShowCloseButton(_ tabBarItem : NSTabViewItem) -> Bool {
         return true
     }
     
@@ -269,10 +273,10 @@ public class LYTabBarView: NSView {
                 _needsUpdate = newState
                 return
             }
-            dispatch_sync(serialQueue) {
+            serialQueue.sync {
                 if !self.needsUpdate {
                     self._needsUpdate = true
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                    OperationQueue.main().addOperation({ 
                         self.update()
                     })
                 }
@@ -291,7 +295,7 @@ public class LYTabBarView: NSView {
             let tabItemViews = self.tabItemViews()
             for tabView in tabItemViews {
                 if let tabItem = tabView.tabViewItem {
-                    if tabItems.indexOf(tabItem) == nil {
+                    if tabItems.index(of: tabItem) == nil {
                         self.stackView.removeView(tabView)
                     }
                 }
@@ -320,13 +324,13 @@ public class LYTabBarView: NSView {
     func checkVisibilityAccordingToTabCount() {
         let count = tabViewItems.count
         if hideIfOnlyOneTabExists {
-            self.animatorOrNot().hidden = count <= 1
+            self.animatorOrNot().isHidden = count <= 1
         } else {
-            self.animatorOrNot().hidden = count < 1
+            self.animatorOrNot().isHidden = count < 1
         }
     }
     
-    func selectTabViewItem(tabViewItem : NSTabViewItem) {
+    func selectTabViewItem(_ tabViewItem : NSTabViewItem) {
         self.tabView?.selectTabViewItem(tabViewItem)
     }
     
@@ -341,12 +345,12 @@ public class LYTabBarView: NSView {
         return nil
     }
     
-    public override func viewWillMoveToWindow(newWindow: NSWindow?) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(windowStatusDidChange), name: NSWindowDidBecomeKeyNotification, object: newWindow)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(windowStatusDidChange), name: NSWindowDidResignKeyNotification, object: newWindow)
+    public override func viewWillMove(toWindow newWindow: NSWindow?) {
+        NotificationCenter.default().addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidBecomeKey, object: newWindow)
+        NotificationCenter.default().addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidResignKey, object: newWindow)
     }
     
-    func windowStatusDidChange(notification : NSNotification) {
+    func windowStatusDidChange(_ notification : Notification) {
         self.needsDisplay = true
         self.stackView.needsDisplay = true
         for itemViews in self.tabItemViews() {
@@ -354,7 +358,7 @@ public class LYTabBarView: NSView {
         }
     }
     
-    public override func drawRect(dirtyRect: NSRect) {
+    public override func draw(_ dirtyRect: NSRect) {
         let status = self.status
         self.backgroundColor[status]!.setFill()
         NSRectFill(self.bounds)
@@ -379,20 +383,20 @@ public class LYTabBarView: NSView {
         
         if paddingWindowButton {
             let paddingRect = NSRect(x: 0, y: 0, width: self.windowButtonPaddingView.frame.size.width, height: self.frame.size.height)
-            NSColor.clearColor().setFill()
+            NSColor.clear().setFill()
             NSRectFill(paddingRect)
         }
     }
     
-    @IBAction public func closeCurrentTab(sender:AnyObject?) {
+    @IBAction public func closeCurrentTab(_ sender:AnyObject?) {
         if let selectedView = selectedTabView() {
             removeTabViewItem(selectedView.tabViewItem, animated: true)
         }
     }
 
-    private func moveTo(dragTabItemView : LYTabItemView, position : NSInteger, movingItemView : LYTabItemView) {
+    private func moveTo(_ dragTabItemView : LYTabItemView, position : NSInteger, movingItemView : LYTabItemView) {
         self.stackView.removeView(dragTabItemView)
-        self.stackView.insertView(dragTabItemView, atIndex: position, inGravity: .Center)
+        self.stackView.insertView(dragTabItemView, at: position, in: .center)
         if needAnimation {
             NSAnimationContext.runAnimationGroup({ (context) in
                 let origFrame = movingItemView.frame
@@ -409,7 +413,7 @@ public class LYTabBarView: NSView {
         }
     }
     
-    func handleDraggingTab(dragRect : NSRect, dragTabItemView : LYTabItemView) {
+    func handleDraggingTab(_ dragRect : NSRect, dragTabItemView : LYTabItemView) {
         var idx = 0
         var moved = false
         for itemView in self.tabItemViews() {
@@ -427,7 +431,7 @@ public class LYTabBarView: NSView {
         }
         if !moved {
             idx = self.tabItemViews().count - 1
-            for itemView in self.tabItemViews().reverse() {
+            for itemView in self.tabItemViews().reversed() {
                 if itemView != dragTabItemView && !itemView.isMoving {
                     let midx = NSMidX(itemView.frame)
                     if (midx <= NSMaxX(dragRect)){
@@ -442,24 +446,24 @@ public class LYTabBarView: NSView {
         }
     }
     
-    func updateTabViewForMovedTabItem(tabItem : NSTabViewItem) {
-        for (idx, itemView) in self.tabItemViews().enumerate() {
+    func updateTabViewForMovedTabItem(_ tabItem : NSTabViewItem) {
+        for (idx, itemView) in self.tabItemViews().enumerated() {
             if itemView.tabViewItem == tabItem {
                 self.tabView?.removeTabViewItem(tabItem)
-                self.tabView?.insertTabViewItem(tabItem, atIndex: idx)
+                self.tabView?.insertTabViewItem(tabItem, at: idx)
             }
         }
         self.tabView?.selectTabViewItem(tabItem)
     }
     
-    private func createLYTabItemView(item : NSTabViewItem) -> LYTabItemView {
+    private func createLYTabItemView(_ item : NSTabViewItem) -> LYTabItemView {
         let tabView = LYTabItemView(tabViewItem: item)
         tabView.tabBarView = self
         tabView.translatesAutoresizingMaskIntoConstraints = false
         return tabView
     }
     
-    private func itemViewForItem(item: NSTabViewItem) -> LYTabItemView? {
+    private func itemViewForItem(_ item: NSTabViewItem) -> LYTabItemView? {
         for tabItemView in self.tabItemViews() {
             if tabItemView.tabViewItem == item {
                 return tabItemView
@@ -468,9 +472,9 @@ public class LYTabBarView: NSView {
         return nil
     }
     
-    private func insertTabViewItem(item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
+    private func insertTabViewItem(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
         let tabView = createLYTabItemView(item)
-        stackView.insertView(tabView, atIndex: index, inGravity: .Center, animated: animated, completionHandler: {
+        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: {
             self.needsUpdate = true
         })
         if tabItemViews().count == 1 {
@@ -489,22 +493,22 @@ public class LYTabBarView: NSView {
 }
 
 extension LYTabBarView : NSTabViewDelegate {
-    public func tabViewDidChangeNumberOfTabViewItems(tabView: NSTabView) {
+    public func tabViewDidChangeNumberOfTabViewItems(_ tabView: NSTabView) {
         self.needsUpdate = true
         self.delegate?.tabViewDidChangeNumberOfTabViewItems?(tabView)
     }
     
-    public func tabView(tabView: NSTabView, didSelectTabViewItem tabViewItem: NSTabViewItem?) {
+    public func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         self.updateTabState()
-        self.delegate?.tabView?(tabView, didSelectTabViewItem: tabViewItem)
+        self.delegate?.tabView?(tabView, didSelect: tabViewItem)
     }
     
-    public func tabView(tabView: NSTabView, willSelectTabViewItem tabViewItem: NSTabViewItem?) {
-        self.delegate?.tabView?(tabView, willSelectTabViewItem: tabViewItem)
+    public func tabView(_ tabView: NSTabView, willSelect tabViewItem: NSTabViewItem?) {
+        self.delegate?.tabView?(tabView, willSelect: tabViewItem)
     }
     
-    public func tabView(tabView: NSTabView, shouldSelectTabViewItem tabViewItem: NSTabViewItem?) -> Bool {
-        if let rslt = self.delegate?.tabView?(tabView, shouldSelectTabViewItem: tabViewItem) {
+    public func tabView(_ tabView: NSTabView, shouldSelect tabViewItem: NSTabViewItem?) -> Bool {
+        if let rslt = self.delegate?.tabView?(tabView, shouldSelect: tabViewItem) {
             return rslt
         }
         return true

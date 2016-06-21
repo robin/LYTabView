@@ -10,8 +10,8 @@ import Foundation
 import Cocoa
 
 extension NSStackView {
-    func insertView(aView: NSView,atIndex index: Int, inGravity gravity: NSStackViewGravity, animated: Bool, completionHandler: (() -> Void)?) {
-        self.insertView(aView, atIndex: index, inGravity: gravity)
+    func insertView(_ aView: NSView,atIndex index: Int, inGravity gravity: NSStackViewGravity, animated: Bool, completionHandler: (() -> Void)?) {
+        self.insertView(aView, at: index, in: gravity)
         if animated {
             NSAnimationContext.runAnimationGroup({ (context) in
                     context.duration = 0.3
@@ -21,8 +21,8 @@ extension NSStackView {
         }
     }
     
-    func addView(aView: NSView,inGravity gravity: NSStackViewGravity, animated: Bool, completionHandler: (() -> Void)?) {
-        self.addView(aView, inGravity: gravity)
+    func addView(_ aView: NSView,inGravity gravity: NSStackViewGravity, animated: Bool, completionHandler: (() -> Void)?) {
+        self.addView(aView, in: gravity)
         if animated {
             aView.setFrameOrigin(NSPoint(x: NSMaxX(self.frame), y: self.frame.origin.y))
             NSAnimationContext.runAnimationGroup({ (context) in
@@ -33,7 +33,7 @@ extension NSStackView {
         }
     }
     
-    func removeView(aView: NSView, animated: Bool, completionHandler: (() -> Void)?) {
+    func removeView(_ aView: NSView, animated: Bool, completionHandler: (() -> Void)?) {
         self.removeView(aView)
         if animated {
             NSAnimationContext.runAnimationGroup({ (context) in
