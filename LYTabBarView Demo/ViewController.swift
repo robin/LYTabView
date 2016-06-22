@@ -25,22 +25,26 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
         self.tabBarView = tabView.tabBarView
         self.tabBarView.hasBorder = true
-        addViewWithLabel("Tab")
-        addViewWithLabel("View")
+        addViewWithLabel("Tab", aTabBarView: self.tabBarView)
+        addViewWithLabel("View", aTabBarView: self.tabBarView)
         
         tabView21.tabBarView.hideIfOnlyOneTabExists = false
         tabView22.tabBarView.hideIfOnlyOneTabExists = false
         tabView23.tabBarView.hideIfOnlyOneTabExists = false
         tabView24.tabBarView.hideIfOnlyOneTabExists = false
         tabView25.tabBarView.hideIfOnlyOneTabExists = false
-        addViewWithLabel("Tab", tabView: tabView21)
-        addViewWithLabel("Tab", tabView: tabView22)
-        addViewWithLabel("Tab", tabView: tabView23)
-        addViewWithLabel("Tab", tabView: tabView24)
-        addViewWithLabel("Tab", tabView: tabView25)
+        addViewWithLabel("Tab", aTabBarView: tabView21.tabBarView)
+        addViewWithLabel("Tab", aTabBarView: tabView22.tabBarView)
+        addViewWithLabel("Tab", aTabBarView: tabView23.tabBarView)
+        addViewWithLabel("Tab", aTabBarView: tabView24.tabBarView)
+        addViewWithLabel("Tab", aTabBarView: tabView25.tabBarView)
 
-        self.tabBarView.addNewTabButtonTarget = self
-        self.tabBarView.addNewTabButtonAction = #selector(addNewTab)
+        [self.tabBarView, tabView21.tabBarView,
+         tabView22.tabBarView, tabView23.tabBarView,
+         tabView24.tabBarView, tabView25.tabBarView].forEach { (tabBarView) in
+            tabBarView?.addNewTabButtonTarget = self
+            tabBarView?.addNewTabButtonAction = #selector(addNewTab)
+        }
     }
     
     override func viewWillAppear() {
@@ -52,21 +56,16 @@ class ViewController: NSViewController {
         }
     }
 
-    func addViewWithLabel(_ label:String, tabView : LYTabView) {
+    func addViewWithLabel(_ label:String, aTabBarView : LYTabBarView) {
         let item = NSTabViewItem()
         item.label = label
         if let labelViewController = self.storyboard?.instantiateController(withIdentifier: "labelViewController") {
             labelViewController.setTitle(label)
             item.view = labelViewController.view
         }
-        
-        tabView.tabBarView.addTabViewItem(item, animated: true)
+        aTabBarView.addTabViewItem(item, animated: true)
     }
 
-    func addViewWithLabel(_ label:String) {
-        self.addViewWithLabel(label, tabView: self.tabView)
-    }
-    
     @IBAction func toggleAddNewTabButton(_ sender:AnyObject?) {
         tabBarView.showAddNewTabButton = !tabBarView.showAddNewTabButton
     }
@@ -74,7 +73,9 @@ class ViewController: NSViewController {
     @IBAction func addNewTab(_ sender:AnyObject?) {
         let count = self.tabBarView.tabViewItems.count
         let label = "Untitled \(count)"
-        addViewWithLabel(label)
+        if let tbView = sender as? LYTabBarView {
+            addViewWithLabel(label, aTabBarView: tbView)
+        }
     }
     
     @IBAction func performCloseTab(_ sender:AnyObject?) {

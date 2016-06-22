@@ -93,27 +93,9 @@ public class LYTabBarView: NSView {
         }
     }
     
-    public var addNewTabButtonTarget : AnyObject? {
-        set(newTarget) {
-            addTabButton.target = newTarget
-        }
-        get {
-            return addTabButton.target
-        }
-    }
+    public var addNewTabButtonTarget : AnyObject?
     
-    public var addNewTabButtonAction : Selector? {
-        set(newAction) {
-            if let action = newAction {
-                addTabButton.action = action
-            } else {
-                addTabButton.action = nil
-            }
-        }
-        get {
-            return addTabButton.action
-        }
-    }
+    public var addNewTabButtonAction : Selector?
     
     public var tabViewItems : [NSTabViewItem] {
         get {
@@ -179,6 +161,8 @@ public class LYTabBarView: NSView {
         addTabButton.bezelStyle = .shadowlessSquareBezelStyle
         addTabButton.isBordered = false
         addTabButton.imagePosition = .imageOnly
+        addTabButton.target = self
+        addTabButton.action = #selector(addNewTab)
         addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: 22)
         addTabButtonHeightConstraint?.isActive = true
         addTabButton.widthAnchor.constraint(equalTo: addTabButton.heightAnchor).isActive = true
@@ -391,6 +375,14 @@ public class LYTabBarView: NSView {
     @IBAction public func closeCurrentTab(_ sender:AnyObject?) {
         if let selectedView = selectedTabView() {
             removeTabViewItem(selectedView.tabViewItem, animated: true)
+        }
+    }
+
+    func addNewTab(_ sender:AnyObject?) {
+        if let target = self.addNewTabButtonTarget, let action = self.addNewTabButtonAction {
+            DispatchQueue.main.async {
+                _=target.perform(action, with: self)
+            }
         }
     }
 
