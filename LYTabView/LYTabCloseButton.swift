@@ -14,11 +14,11 @@ class LYTabCloseButton: LYHoverButton {
     var roundCornerRadius : CGFloat = 2
 
     func setupButton() {
-        self.setButtonType(.MomentaryPushInButton)
-        self.bezelStyle = .ShadowlessSquareBezelStyle
+        self.setButtonType(.momentaryPushInButton)
+        self.bezelStyle = .shadowlessSquareBezelStyle
         self.image = LYTabCloseButton.closeImage
-        self.bordered = false
-        self.imagePosition = .ImageOnly
+        self.isBordered = false
+        self.imagePosition = .imageOnly
     }
 
     override init(frame frameRect: NSRect) {
@@ -31,7 +31,7 @@ class LYTabCloseButton: LYHoverButton {
         setupButton()
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         let path = NSBezierPath(roundedRect: self.bounds, xRadius: roundCornerRadius, yRadius: roundCornerRadius)
         if hovered {
             self.hoverBackgroundColor?.setFill()
@@ -39,6 +39,6 @@ class LYTabCloseButton: LYHoverButton {
             self.backgroundColor.setFill()
         }
         path.fill()
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
 }

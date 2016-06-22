@@ -10,12 +10,12 @@ import Foundation
 import Cocoa
 
 extension NSImage {
-    public func scaleToSize(size: CGSize) -> NSImage {
+    public func scaleToSize(_ size: CGSize) -> NSImage {
         let scaledImage = NSImage(size: size)
         let rect = NSRect(origin: CGPoint(x: 0,y: 0), size: size)
         scaledImage.lockFocus()
-        NSGraphicsContext.currentContext()?.imageInterpolation = .High
-        self.drawInRect(rect, fromRect: NSZeroRect, operation: .CompositeSourceOver, fraction: 1.0)
+        NSGraphicsContext.current()?.imageInterpolation = .high
+        self.draw(in: rect, from: NSZeroRect, operation: .sourceOver, fraction: 1.0)
         scaledImage.unlockFocus()        
         return scaledImage
     }
