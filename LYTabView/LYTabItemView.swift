@@ -166,6 +166,12 @@ class LYTabItemView: NSButton {
         setupViews()
     }
     
+    deinit {
+        if let tabViewItem = self.tabViewItem {
+            tabViewItem.removeObserver(self, forKeyPath: "label")
+        }
+    }
+    
     override func drawRect(dirtyRect: NSRect) {
         let status = self.tabBarView.status
         if shouldDrawInHighLight {
