@@ -231,7 +231,6 @@ public class LYTabBarView: NSView {
             }
             self.invalidateIntrinsicContentSize()
         }
-        selectTabViewItem(item)
     }
 
     public func removeTabViewItem(tabviewItem : NSTabViewItem, animated : Bool = false) {
