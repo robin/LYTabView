@@ -51,6 +51,9 @@ public class LYTabView: NSView {
         stackView.leadingAnchor.constraintEqualToAnchor(tabBarView.leadingAnchor).active = true
         stackView.trailingAnchor.constraintEqualToAnchor(tabBarView.trailingAnchor).active = true
         
+        stackView.leadingAnchor.constraintEqualToAnchor(tabView.leadingAnchor).active = true
+        stackView.trailingAnchor.constraintEqualToAnchor(tabView.trailingAnchor).active = true
+ 
         tabView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, forOrientation: .Vertical)
         tabBarView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultHigh, forOrientation: .Vertical)
         tabBarView.setContentHuggingPriority(NSLayoutPriorityDefaultHigh, forOrientation: .Vertical)
