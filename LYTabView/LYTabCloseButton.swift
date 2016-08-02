@@ -14,8 +14,8 @@ class LYTabCloseButton: LYHoverButton {
     var roundCornerRadius : CGFloat = 2
 
     func setupButton() {
-        self.setButtonType(.momentaryPushInButton)
-        self.bezelStyle = .shadowlessSquareBezelStyle
+        self.setButtonType(.momentaryPushIn)
+        self.bezelStyle = .shadowlessSquare
         self.image = LYTabCloseButton.closeImage
         self.isBordered = false
         self.imagePosition = .imageOnly

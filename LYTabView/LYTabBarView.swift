@@ -156,9 +156,9 @@ public class LYTabBarView: NSView {
         
         addTabButton = NSButton(frame: .zero)
         addTabButton.translatesAutoresizingMaskIntoConstraints = false
-        addTabButton.setButtonType(.momentaryChangeButton)
+        addTabButton.setButtonType(.momentaryChange)
         addTabButton.image = NSImage(named: NSImageNameAddTemplate)
-        addTabButton.bezelStyle = .shadowlessSquareBezelStyle
+        addTabButton.bezelStyle = .shadowlessSquare
         addTabButton.isBordered = false
         addTabButton.imagePosition = .imageOnly
         addTabButton.target = self
@@ -201,7 +201,7 @@ public class LYTabBarView: NSView {
     }
     
     deinit {
-        NotificationCenter.default().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
@@ -260,7 +260,7 @@ public class LYTabBarView: NSView {
             serialQueue.sync {
                 if !self.needsUpdate {
                     self._needsUpdate = true
-                    OperationQueue.main().addOperation({ 
+                    OperationQueue.main.addOperation({
                         self.update()
                     })
                 }
@@ -330,8 +330,8 @@ public class LYTabBarView: NSView {
     }
     
     public override func viewWillMove(toWindow newWindow: NSWindow?) {
-        NotificationCenter.default().addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidBecomeKey, object: newWindow)
-        NotificationCenter.default().addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidResignKey, object: newWindow)
+        NotificationCenter.default.addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidBecomeKey, object: newWindow)
+        NotificationCenter.default.addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidResignKey, object: newWindow)
     }
     
     func windowStatusDidChange(_ notification : Notification) {
