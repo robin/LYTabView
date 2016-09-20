@@ -19,14 +19,14 @@ enum BarStatus {
 typealias ColorConfig = [BarStatus:NSColor]
 
 @IBDesignable
-public class LYTabBarView: NSView {
-    private let serialQueue = DispatchQueue(label: "Operations.TabBarView.UpdaterQueue", attributes: DispatchQueueAttributes.serial)
-    private var _needsUpdate = false
+open class LYTabBarView: NSView {
+    fileprivate let serialQueue = DispatchQueue(label: "Operations.TabBarView.UpdaterQueue")
+    fileprivate var _needsUpdate = false
 
-    @IBOutlet public var delegate : NSTabViewDelegate?
+    @IBOutlet open var delegate : NSTabViewDelegate?
     
-    public var needAnimation : Bool = true
-    public var isActive : Bool = true {
+    open var needAnimation : Bool = true
+    open var isActive : Bool = true {
         didSet {
             
             self.needsDisplay = true
@@ -36,13 +36,13 @@ public class LYTabBarView: NSView {
             }
         }
     }
-    public var hideIfOnlyOneTabExists : Bool = true {
+    open var hideIfOnlyOneTabExists : Bool = true {
         didSet {
             checkVisibilityAccordingToTabCount()
         }
     }
     
-    public var hasBorder : Bool = false {
+    open var hasBorder : Bool = false {
         didSet {
             self.needsDisplay = true
             self.needsLayout = true
@@ -50,7 +50,7 @@ public class LYTabBarView: NSView {
         }
     }
 
-    public var paddingWindowButton : Bool = false {
+    open var paddingWindowButton : Bool = false {
         didSet {
             windowButtonPaddingView.isHidden = !paddingWindowButton
             self.needsDisplay = true
@@ -86,18 +86,18 @@ public class LYTabBarView: NSView {
         .inactive : NSColor(white: 0.71, alpha: 1)
     ]
     
-    public var showAddNewTabButton : Bool = true {
+    open var showAddNewTabButton : Bool = true {
         didSet {
             addTabButton.isHidden = !showAddNewTabButton
             self.needsUpdate = true
         }
     }
     
-    public var addNewTabButtonTarget : AnyObject?
+    open var addNewTabButtonTarget : AnyObject?
     
-    public var addNewTabButtonAction : Selector?
+    open var addNewTabButtonAction : Selector?
     
-    public var tabViewItems : [NSTabViewItem] {
+    open var tabViewItems : [NSTabViewItem] {
         get {
             return self.tabView?.tabViewItems ?? []
         }
@@ -121,13 +121,13 @@ public class LYTabBarView: NSView {
     }
 
     let stackView = NSStackView(frame: .zero)
-    private let outterStackView = NSStackView(frame: .zero)
-    private var addTabButton : NSButton!
-    private var addTabButtonHeightConstraint : NSLayoutConstraint?
-    private let windowButtonPaddingView : NSView = NSView(frame: .zero)
-    private var windowButtonPaddingViewWidthConstraint : NSLayoutConstraint?
+    fileprivate let outterStackView = NSStackView(frame: .zero)
+    fileprivate var addTabButton : NSButton!
+    fileprivate var addTabButtonHeightConstraint : NSLayoutConstraint?
+    fileprivate let windowButtonPaddingView : NSView = NSView(frame: .zero)
+    fileprivate var windowButtonPaddingViewWidthConstraint : NSLayoutConstraint?
     
-    override public var intrinsicContentSize: NSSize {
+    override open var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
         if let aTabView = self.tabItemViews().first {
             height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 0)
@@ -135,7 +135,7 @@ public class LYTabBarView: NSView {
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
     
-    private func setupViews() {
+    fileprivate func setupViews() {
         outterStackView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(outterStackView)
         outterStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -177,7 +177,7 @@ public class LYTabBarView: NSView {
         windowButtonPaddingView.isHidden = !paddingWindowButton
     }
     
-    public override func viewDidMoveToWindow() {
+    open override func viewDidMoveToWindow() {
         if let window = self.window {
             var width : CGFloat = 68
             if let lastButton = window.standardWindowButton(.zoomButton), let firstButton = window.standardWindowButton(.closeButton) {
@@ -328,7 +328,7 @@ public class LYTabBarView: NSView {
         return nil
     }
     
-    public override func viewWillMove(toWindow newWindow: NSWindow?) {
+    open override func viewWillMove(toWindow newWindow: NSWindow?) {
         NotificationCenter.default.addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidBecomeKey, object: newWindow)
         NotificationCenter.default.addObserver(self, selector: #selector(windowStatusDidChange), name: NSNotification.Name.NSWindowDidResignKey, object: newWindow)
     }
@@ -341,7 +341,7 @@ public class LYTabBarView: NSView {
         }
     }
     
-    public override func draw(_ dirtyRect: NSRect) {
+    open override func draw(_ dirtyRect: NSRect) {
         let status = self.status
         self.backgroundColor[status]!.setFill()
         NSRectFill(self.bounds)
@@ -366,7 +366,7 @@ public class LYTabBarView: NSView {
         
         if paddingWindowButton {
             let paddingRect = NSRect(x: 0, y: 0, width: self.windowButtonPaddingView.frame.size.width, height: self.frame.size.height)
-            NSColor.clear().setFill()
+            NSColor.clear.setFill()
             NSRectFill(paddingRect)
         }
     }
@@ -473,7 +473,7 @@ public class LYTabBarView: NSView {
         }
     }
     
-    public override func prepareForInterfaceBuilder() {
+    open override func prepareForInterfaceBuilder() {
         var ibTabItem = NSTabViewItem()
         ibTabItem.label = "Tab"
         self.addTabViewItem(ibTabItem)

@@ -9,12 +9,12 @@
 import Foundation
 import Cocoa
 
-public class LYTabView: NSView {
-    public let tabBarView : LYTabBarView
-    public let tabView : NSTabView
+open class LYTabView: NSView {
+    open let tabBarView : LYTabBarView
+    open let tabView : NSTabView
     let stackView : NSStackView
     
-    public var delegate : NSTabViewDelegate? {
+    open var delegate : NSTabViewDelegate? {
         get {
             return tabBarView.delegate
         }
@@ -23,9 +23,9 @@ public class LYTabView: NSView {
         }
     }
     
-    public var numberOfTabViewItems: Int { return self.tabView.numberOfTabViewItems }
-    public var tabViewItems: [NSTabViewItem] { return self.tabView.tabViewItems }
-    public var selectedTabViewItem: NSTabViewItem? { return self.tabView.selectedTabViewItem }
+    open var numberOfTabViewItems: Int { return self.tabView.numberOfTabViewItems }
+    open var tabViewItems: [NSTabViewItem] { return self.tabView.tabViewItems }
+    open var selectedTabViewItem: NSTabViewItem? { return self.tabView.selectedTabViewItem }
     
     func setupViews() {
         tabView.delegate = tabBarView

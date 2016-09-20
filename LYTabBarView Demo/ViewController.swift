@@ -50,7 +50,7 @@ class ViewController: NSViewController {
     override func viewWillAppear() {
     }
 
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
@@ -60,8 +60,8 @@ class ViewController: NSViewController {
         let item = NSTabViewItem()
         item.label = label
         if let labelViewController = self.storyboard?.instantiateController(withIdentifier: "labelViewController") {
-            labelViewController.setTitle(label)
-            item.view = labelViewController.view
+            (labelViewController as AnyObject).setTitle(label)
+            item.view = (labelViewController as AnyObject).view
         }
         aTabBarView.addTabViewItem(item, animated: true)
     }

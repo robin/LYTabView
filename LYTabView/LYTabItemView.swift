@@ -10,8 +10,8 @@ import Foundation
 import Cocoa
 
 class LYTabItemView: NSButton {
-    private let titleView = NSTextField(frame: .zero)
-    private var closeButton : LYHoverButton!
+    fileprivate let titleView = NSTextField(frame: .zero)
+    fileprivate var closeButton : LYHoverButton!
 
     var tabBarView : LYTabBarView!
     var tabViewItem : NSTabViewItem!
@@ -22,8 +22,8 @@ class LYTabItemView: NSButton {
     }
 
     // hover effect
-    private var hovered = false
-    private var trackingArea : NSTrackingArea?
+    fileprivate var hovered = false
+    fileprivate var trackingArea : NSTrackingArea?
 
     // style
     var xpadding : CGFloat = 4
@@ -41,7 +41,7 @@ class LYTabItemView: NSButton {
         .inactive : NSColor(white: 0.68, alpha: 1)
     ]
 
-    dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
+    dynamic fileprivate var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
         didSet {
             needsDisplay = true
         }
@@ -53,7 +53,7 @@ class LYTabItemView: NSButton {
     ]
     
     var selectedTextColor : ColorConfig = [
-        .active : NSColor.textColor(),
+        .active : NSColor.textColor,
         .windowInactive : NSColor(white: 0.4, alpha: 1),
         .inactive : NSColor(white: 0.4, alpha: 1)
     ]
@@ -73,19 +73,19 @@ class LYTabItemView: NSButton {
     
     var isMoving = false
     
-    private var shouldDrawInHighLight : Bool {
+    fileprivate var shouldDrawInHighLight : Bool {
         return tabViewItem.tabState == .selectedTab && !isDragging
     }
     
-    private var needAnimation : Bool {
+    fileprivate var needAnimation : Bool {
         return self.tabBarView.needAnimation
     }
     
-    override static func defaultAnimation(forKey key: String) -> AnyObject? {
+    override static func defaultAnimation(forKey key: String) -> Any? {
         if key == "realBackgroundColor" {
             return CABasicAnimation()
         }
-        return super.defaultAnimation(forKey: key)
+        return super.defaultAnimation(forKey: key) as AnyObject?
     }
 
     // Drag and Drop
@@ -190,7 +190,7 @@ class LYTabItemView: NSButton {
         }
     }
     
-    override func mouseDown(_ theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         self.tabBarView.selectTabViewItem(self.tabViewItem)
     }
     
@@ -206,7 +206,7 @@ class LYTabItemView: NSButton {
         self.addTrackingArea(self.trackingArea!)
     }
     
-    override func mouseEntered(_ theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         if hovered {
             return
         }
@@ -218,7 +218,7 @@ class LYTabItemView: NSButton {
         closeButton.animatorOrNot(needAnimation).isHidden = false
     }
     
-    override func mouseExited(_ theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         if !hovered {
             return
         }
@@ -230,7 +230,7 @@ class LYTabItemView: NSButton {
         closeButton.animatorOrNot(needAnimation).isHidden = true
     }
 
-    override func mouseDragged(_ theEvent: NSEvent) {
+    override func mouseDragged(with theEvent: NSEvent) {
         if (!isDragging) {
             setupDragAndDrop(theEvent)
         }
@@ -263,7 +263,7 @@ class LYTabItemView: NSButton {
         self.tabBarView.removeAllTabViewItemExcept(self.tabViewItem)
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "label" {
             if let item = self.tabViewItem {
                 self.title = item.label
