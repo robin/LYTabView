@@ -1,6 +1,6 @@
 # LYTabView
 
-[![Platform](http://img.shields.io/badge/platform-macOS-blue.svg?style=flat)](https://developer.apple.com/macos/)
+[![Platform](http://img.shields.io/badge/platform-macOS-e3693c.svg?style=flat)](https://developer.apple.com/macos/)
 [![Swift 3](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](http://mit-license.org)
 [![Twitter](https://img.shields.io/badge/twitter-@robinlu-blue.svg?style=flat)](http://twitter.com/robinlu)
