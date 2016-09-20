@@ -1,4 +1,10 @@
 # LYTabView
+
+[![Platform](http://img.shields.io/badge/platform-macOS-blue.svg?style=flat)](https://developer.apple.com/macos/)
+[![Swift 3](https://img.shields.io/badge/Swift-3-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](http://mit-license.org)
+[![Twitter](https://img.shields.io/badge/twitter-@robinlu-blue.svg?style=flat)](http://twitter.com/robinlu)
+
 `LYTabView` is a customized Tab View with modernized tab bar style for Mac OS X.
 
 ![Mac OS X Tab View](https://raw.githubusercontent.com/robin/LYTabView/master/images/LYTabBar.png)
