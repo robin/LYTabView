@@ -206,9 +206,11 @@ open class LYTabBarView: NSView {
     
     public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
         let tabView = createLYTabItemView(item)
-        stackView.addView(tabView, inGravity: .center, animated: animated) { 
+        stackView.addView(tabView, inGravity: .center, animated: animated) {
             self.needsUpdate = true
         }
+        stackView.topAnchor.constraint(equalTo: tabView.topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: tabView.bottomAnchor).isActive = true
         self.tabView?.addTabViewItem(item)
         if tabItemViews().count == 1 {
             if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
