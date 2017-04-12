@@ -130,7 +130,7 @@ open class LYTabBarView: NSView {
     override open var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
         if let aTabView = self.tabItemViews().first {
-            height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 0)
+            height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 1)
         }
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
@@ -144,6 +144,7 @@ open class LYTabBarView: NSView {
         outterStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         outterStackView.orientation = .horizontal
         outterStackView.distribution = .fill
+        outterStackView.alignment = .top
         outterStackView.spacing = 1
         outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
 
@@ -205,22 +206,7 @@ open class LYTabBarView: NSView {
     }
     
     public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
-        let tabView = createLYTabItemView(item)
-        stackView.addView(tabView, inGravity: .center, animated: animated) {
-            self.needsUpdate = true
-        }
-        stackView.topAnchor.constraint(equalTo: tabView.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: tabView.bottomAnchor).isActive = true
-        self.tabView?.addTabViewItem(item)
-        if tabItemViews().count == 1 {
-            if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
-                let height = aTabView.intrinsicContentSize.height
-                constraint.isActive = false
-                addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: height)
-                addTabButtonHeightConstraint?.isActive = true
-            }
-            self.invalidateIntrinsicContentSize()
-        }
+        self.insertTabViewItem(item, index: self.tabViewItems.count-1, animated:animated)
     }
 
     public func removeTabViewItem(_ tabviewItem : NSTabViewItem, animated : Bool = false) {
@@ -467,6 +453,12 @@ open class LYTabBarView: NSView {
             self.needsUpdate = true
         })
         if tabItemViews().count == 1 {
+            if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
+                let height = aTabView.intrinsicContentSize.height
+                constraint.isActive = false
+                addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: height)
+                addTabButtonHeightConstraint?.isActive = true
+            }
             self.invalidateIntrinsicContentSize()
         }
     }
