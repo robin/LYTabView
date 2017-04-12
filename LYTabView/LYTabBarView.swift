@@ -130,7 +130,7 @@ open class LYTabBarView: NSView {
     override open var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
         if let aTabView = self.tabItemViews().first {
-            height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 0)
+            height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 1)
         }
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
@@ -144,6 +144,7 @@ open class LYTabBarView: NSView {
         outterStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         outterStackView.orientation = .horizontal
         outterStackView.distribution = .fill
+        outterStackView.alignment = .top
         outterStackView.spacing = 1
         outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
 
