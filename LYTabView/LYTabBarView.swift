@@ -69,15 +69,15 @@ open class LYTabBarView: NSView {
     }
     
     var backgroundColor : ColorConfig = [
-        .active : NSColor(white: 0.73, alpha: 1),
+        .active : NSColor(white: 0.77, alpha: 1),
         .windowInactive : NSColor(white: 0.86, alpha: 1),
         .inactive : NSColor(white: 0.70, alpha: 1)
     ]
     
     var borderColor : ColorConfig = [
-        .active : NSColor(white: 0.61, alpha: 1),
+        .active : NSColor(white: 0.72, alpha: 1),
         .windowInactive : NSColor(white: 0.86, alpha: 1),
-        .inactive : NSColor(white: 0.61, alpha: 1)
+        .inactive : NSColor(white: 0.71, alpha: 1)
     ]
     
     var selectedBorderColor : ColorConfig = [
@@ -343,7 +343,7 @@ open class LYTabBarView: NSView {
     
     open override func draw(_ dirtyRect: NSRect) {
         let status = self.status
-        self.backgroundColor[status]!.setFill()
+        self.borderColor[status]!.setFill()
         NSRectFill(self.bounds)
         let yBorder : CGFloat = hasBorder ? -0.5 : 0.5
         for tabView in self.tabItemViews() {
@@ -351,17 +351,13 @@ open class LYTabBarView: NSView {
             if self.selectedTabView() == tabView {
                 rect = NSInsetRect(tabView.frame, 1, yBorder)
                 selectedBorderColor[status]!.setStroke()
-            } else {
-                borderColor[status]!.setStroke()
+                let border = NSBezierPath(rect: rect)
+                border.lineWidth = 1
+                border.stroke()
             }
-            let border = NSBezierPath(rect: rect)
-            border.lineWidth = 1
-            border.stroke()
         }
         let rect = addTabButton.frame
-        let border = NSBezierPath(rect: NSInsetRect(rect, -0.5, yBorder))
-        borderColor[status]!.setStroke()
-        border.stroke()
+        self.backgroundColor[status]!.setFill()
         NSRectFill(rect)
         
         if paddingWindowButton {

@@ -30,13 +30,13 @@ class LYTabItemView: NSButton {
     var ypadding : CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
     var backgroundColor : ColorConfig = [
-        .active : NSColor(white: 0.73, alpha: 1),
+        .active : NSColor(white: 0.77, alpha: 1),
         .windowInactive : NSColor(white: 0.94, alpha: 1),
         .inactive : NSColor(white: 0.70, alpha: 1)
     ]
 
     var hoverBackgroundColor : ColorConfig = [
-        .active : NSColor(white: 0.70, alpha: 1),
+        .active : NSColor(white: 0.75, alpha: 1),
         .windowInactive : NSColor(white: 0.94, alpha: 1),
         .inactive : NSColor(white: 0.68, alpha: 1)
     ]
