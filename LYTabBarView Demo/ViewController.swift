@@ -32,7 +32,7 @@ class ViewController: NSViewController {
         tabView23.tabBarView.hideIfOnlyOneTabExists = false
         tabView24.tabBarView.hideIfOnlyOneTabExists = false
         tabView25.tabBarView.hideIfOnlyOneTabExists = false
-        addViewWithLabel("Tab", aTabBarView: tabView21.tabBarView)
+        addViewWithLabel("Tab with long title", aTabBarView: tabView21.tabBarView)
         addViewWithLabel("Tab", aTabBarView: tabView22.tabBarView)
         addViewWithLabel("Tab", aTabBarView: tabView23.tabBarView)
         addViewWithLabel("Tab", aTabBarView: tabView24.tabBarView)
