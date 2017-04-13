@@ -24,6 +24,35 @@ open class LYTabBarView: NSView {
     fileprivate var _needsUpdate = false
 
     @IBOutlet open var delegate : NSTabViewDelegate?
+
+    public enum BoderStyle {
+        case none
+        case top
+        case bottom
+        case both
+
+        func borderOffset(width:CGFloat = 1) -> CGFloat {
+            switch self {
+            case .none:
+                return 0
+            case .top, .bottom:
+                return width
+            case .both:
+                return width * 2
+            }
+        }
+
+        var alignment : NSLayoutAttribute {
+            switch self {
+            case .none, .both:
+                return .centerY
+            case .top:
+                return .bottom
+            case .bottom:
+                return .top
+            }
+        }
+    }
     
     open var needAnimation : Bool = true
     open var isActive : Bool = true {
@@ -41,12 +70,13 @@ open class LYTabBarView: NSView {
             checkVisibilityAccordingToTabCount()
         }
     }
-    
-    open var hasBorder : Bool = false {
+
+    open var borderStyle : BoderStyle = .none {
         didSet {
+            self.outterStackView.alignment = borderStyle.alignment
+            self.invalidateIntrinsicContentSize()
             self.needsDisplay = true
             self.needsLayout = true
-            self.invalidateIntrinsicContentSize()
         }
     }
 
@@ -130,7 +160,7 @@ open class LYTabBarView: NSView {
     override open var intrinsicContentSize: NSSize {
         var height : CGFloat = 22;
         if let aTabView = self.tabItemViews().first {
-            height = aTabView.intrinsicContentSize.height + (hasBorder ? 2 : 1)
+            height = aTabView.intrinsicContentSize.height + borderStyle.borderOffset()
         }
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
@@ -144,7 +174,7 @@ open class LYTabBarView: NSView {
         outterStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         outterStackView.orientation = .horizontal
         outterStackView.distribution = .fill
-        outterStackView.alignment = .top
+        outterStackView.alignment = borderStyle.alignment
         outterStackView.spacing = 1
         outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
 
@@ -205,10 +235,6 @@ open class LYTabBarView: NSView {
         NotificationCenter.default.removeObserver(self)
     }
     
-    public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
-        self.insertTabViewItem(item, index: self.tabViewItems.count-1, animated:animated)
-    }
-
     public func removeTabViewItem(_ tabviewItem : NSTabViewItem, animated : Bool = false) {
         if let tabItemView = self.itemViewForItem(tabviewItem) {
             self.stackView.removeView(tabItemView, animated: true, completionHandler: {
@@ -276,7 +302,7 @@ open class LYTabBarView: NSView {
             let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
             for item in tabItems {
                 if !currentTabItems.contains(item) {
-                    self.insertTabViewItem(item, index: idx)
+                    self.insertTabItemView(item, index: idx)
                 }
                 idx += 1
             }
@@ -333,17 +359,6 @@ open class LYTabBarView: NSView {
         let status = self.status
         self.borderColor[status]!.setFill()
         NSRectFill(self.bounds)
-        let yBorder : CGFloat = hasBorder ? -0.5 : 0.5
-        for tabView in self.tabItemViews() {
-            var rect = NSInsetRect(tabView.frame, -0.5, yBorder)
-            if self.selectedTabView() == tabView {
-                rect = NSInsetRect(tabView.frame, 1, yBorder)
-                selectedBorderColor[status]!.setStroke()
-                let border = NSBezierPath(rect: rect)
-                border.lineWidth = 1
-                border.stroke()
-            }
-        }
         let rect = addTabButton.frame
         self.backgroundColor[status]!.setFill()
         NSRectFill(rect)
@@ -446,12 +461,13 @@ open class LYTabBarView: NSView {
         }
         return nil
     }
-    
-    private func insertTabViewItem(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
-        let tabView = createLYTabItemView(item)
-        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: {
-            self.needsUpdate = true
-        })
+
+    public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
+        self.tabView?.addTabViewItem(item)
+        self.insertTabItemView(item, index: self.tabItemViews().count, animated:animated)
+    }
+
+    func resetHeight() {
         if tabItemViews().count == 1 {
             if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
                 let height = aTabView.intrinsicContentSize.height
@@ -461,6 +477,14 @@ open class LYTabBarView: NSView {
             }
             self.invalidateIntrinsicContentSize()
         }
+    }
+
+    private func insertTabItemView(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
+        let tabView = createLYTabItemView(item)
+        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: {
+            self.needsUpdate = true
+        })
+        resetHeight()
     }
     
     open override func prepareForInterfaceBuilder() {

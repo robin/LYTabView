@@ -24,7 +24,6 @@ class ViewController: NSViewController {
 
         // Do any additional setup after loading the view.
         self.tabBarView = tabView.tabBarView
-        self.tabBarView.hasBorder = true
         addViewWithLabel("Tab", aTabBarView: self.tabBarView)
         addViewWithLabel("View", aTabBarView: self.tabBarView)
         
@@ -105,7 +104,16 @@ class ViewController: NSViewController {
     }
     
     @IBAction func toggleBorder(_ sender: AnyObject?) {
-        tabBarView.hasBorder = !tabBarView.hasBorder
+        switch tabBarView.borderStyle {
+        case .none:
+            tabBarView.borderStyle = .top
+        case .top:
+            tabBarView.borderStyle = .bottom
+        case .bottom:
+            tabBarView.borderStyle = .both
+        case .both:
+            tabBarView.borderStyle = .none
+        }
     }
     
     @IBAction func toggleActivity(_ sender: AnyObject?) {

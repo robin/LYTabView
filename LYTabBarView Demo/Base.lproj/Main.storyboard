@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11129.15" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11129.15"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -720,15 +721,15 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" id="lyP-q5-FNT" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="0.0" width="285" height="69"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="285" height="68.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <customView fixedFrame="YES" id="7s4-0a-o9Y" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="79" width="285" height="87"/>
+                                                <rect key="frame" x="0.0" y="78.5" width="285" height="87"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <customView fixedFrame="YES" id="gUB-Dc-Q2v" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="175" width="285" height="61"/>
+                                                <rect key="frame" x="0.0" y="175.5" width="285" height="60.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <customView fixedFrame="YES" id="D4z-zh-3nB" customClass="LYTabView" customModule="LYTabView">
@@ -736,7 +737,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <customView fixedFrame="YES" id="JTe-DI-XdS" customClass="LYTabView" customModule="LYTabView">
-                                                <rect key="frame" x="0.0" y="317" width="285" height="250"/>
+                                                <rect key="frame" x="0.0" y="317" width="285" height="249"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                         </subviews>
@@ -783,7 +784,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WWx-uQ-PxG">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="251" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWx-uQ-PxG">
                                 <rect key="frame" x="207" y="142" width="37" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="qfi-xQ-ErS">
                                     <font key="font" metaFont="titleBar"/>
