@@ -151,6 +151,7 @@ open class LYTabBarView: NSView {
     }
 
     let stackView = NSStackView(frame: .zero)
+    let buttonHeight : CGFloat = 20
     fileprivate let outterStackView = NSStackView(frame: .zero)
     fileprivate var addTabButton : NSButton!
     fileprivate var addTabButtonHeightConstraint : NSLayoutConstraint?
@@ -158,7 +159,7 @@ open class LYTabBarView: NSView {
     fileprivate var windowButtonPaddingViewWidthConstraint : NSLayoutConstraint?
     
     override open var intrinsicContentSize: NSSize {
-        var height : CGFloat = 22;
+        var height : CGFloat = buttonHeight;
         if let aTabView = self.tabItemViews().first {
             height = aTabView.intrinsicContentSize.height + borderStyle.borderOffset()
         }
@@ -194,7 +195,7 @@ open class LYTabBarView: NSView {
         addTabButton.imagePosition = .imageOnly
         addTabButton.target = self
         addTabButton.action = #selector(addNewTab)
-        addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: 22)
+        addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: buttonHeight)
         addTabButtonHeightConstraint?.isActive = true
         addTabButton.widthAnchor.constraint(equalTo: addTabButton.heightAnchor).isActive = true
         if showAddNewTabButton {
