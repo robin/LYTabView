@@ -273,12 +273,30 @@ open class LYTabBarView: NSView {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
+    func removeTabItemView(tabItemView:LYTabItemView, animated: Bool ) {
+        self.stackView.removeView(tabItemView, animated: animated) {
+            self.needsUpdate = true
+        }
+        if hasPackedTabViewItems {
+            let item = packedTabViewItems[0]
+            removePackedTabItem(at: 0)
+            self.insertTabItem(item, index: self.tabItemViews().count)
+        }
+    }
+
+    func removePackedTabItem(at:Int) {
+        packedTabViewItems.remove(at: at)
+        if packedTabViewItems.isEmpty {
+            packedTabButton.isHidden = true
+        }
+    }
+
     public func removeTabViewItem(_ tabviewItem : NSTabViewItem, animated : Bool = false) {
         if let tabItemView = self.itemViewForItem(tabviewItem) {
-            self.stackView.removeView(tabItemView, animated: true, completionHandler: {
-                self.needsUpdate = true
-            })
+            removeTabItemView(tabItemView: tabItemView, animated: animated)
+        } else if let index = self.packedTabViewItems.index(of: tabviewItem) {
+            removePackedTabItem(at: index)
         }
         self.tabView?.removeTabViewItem(tabviewItem)
     }
@@ -341,7 +359,7 @@ open class LYTabBarView: NSView {
             let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
             for item in tabItems {
                 if !currentTabItems.contains(item) && !self.packedTabViewItems.contains(item) {
-                    self.insertTabItemView(item, index: idx)
+                    self.insertTabItem(item, index: idx)
                 }
                 idx += 1
             }
@@ -413,8 +431,8 @@ open class LYTabBarView: NSView {
     }
     
     @IBAction public func closeCurrentTab(_ sender:AnyObject?) {
-        if let selectedView = selectedTabView() {
-            removeTabViewItem(selectedView.tabViewItem, animated: true)
+        if let item = self.tabView?.selectedTabViewItem {
+            removeTabViewItem(item, animated: true)
         }
     }
 
@@ -531,7 +549,7 @@ open class LYTabBarView: NSView {
 
     public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
         self.tabView?.addTabViewItem(item)
-        self.insertTabItemView(item, index: self.tabItemViews().count, animated:animated)
+        self.insertTabItem(item, index: self.tabItemViews().count + self.packedTabViewItems.count, animated:animated)
     }
 
     func resetHeight() {
@@ -556,11 +574,9 @@ open class LYTabBarView: NSView {
         self.packedTabViewItems.insert(item, at: index)
     }
 
-    private func insertTabItemView(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
-        if needPackItem() {
-            packedTabButton.isHidden = false
-        }
-        if hasPackedTabViewItems || needPackItem() {
+    private func insertTabItem(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
+        packedTabButton.isHidden = !needPackItem()
+        if !packedTabButton.isHidden {
             if index >= self.tabItemViews().count {
                 self.insertToPackedItems(item, index: index - self.tabItemViews().count)
                 return
