@@ -340,7 +340,7 @@ open class LYTabBarView: NSView {
             var idx = 0
             let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
             for item in tabItems {
-                if !currentTabItems.contains(item) {
+                if !currentTabItems.contains(item) && !self.packedTabViewItems.contains(item) {
                     self.insertTabItemView(item, index: idx)
                 }
                 idx += 1
@@ -426,8 +426,29 @@ open class LYTabBarView: NSView {
         }
     }
 
+    func selectPackedItem(_ sender:AnyObject) {
+        if let item = sender as? NSMenuItem, let tabItem = item.representedObject as? NSTabViewItem {
+            self.tabView?.selectTabViewItem(tabItem)
+            item.state = NSOnState
+        }
+    }
+
     func showPackedList(_ sender:AnyObject?) {
-        // TODO
+        let menu = NSMenu()
+        let selectedItem = self.tabView?.selectedTabViewItem
+        for item in self.packedTabViewItems {
+            let menuItem = NSMenuItem(title: item.label, action: nil, keyEquivalent: "")
+            if item == selectedItem {
+                menuItem.state = NSOnState
+            }
+            menuItem.representedObject = item
+            menuItem.target = self
+            menuItem.action = #selector(selectPackedItem)
+            menu.addItem(menuItem)
+        }
+        if let event = self.window?.currentEvent {
+            NSMenu.popUpContextMenu(menu, with: event, for: self.packedTabButton)
+        }
     }
 
     private func moveTo(_ dragTabItemView : LYTabItemView, position : NSInteger, movingItemView : LYTabItemView) {
