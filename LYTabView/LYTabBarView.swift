@@ -86,7 +86,16 @@ open class LYTabBarView: NSView {
             self.needsDisplay = true
         }
     }
-    
+
+    open var minTabItemWidth : CGFloat = 100 {
+        didSet {
+            if let constraint = minViewWidthConstraint {
+                constraint.constant = self.minTabItemWidth
+                self.needsLayout = true
+            }
+        }
+    }
+
     var status : BarStatus {
         let isWindowActive = self.isWindowActive
         if self.isActive && isWindowActive {
@@ -132,7 +141,13 @@ open class LYTabBarView: NSView {
             return self.tabView?.tabViewItems ?? []
         }
     }
-    
+
+    var packedTabViewItems : [NSTabViewItem] = [NSTabViewItem]()
+
+    var hasPackedTabViewItems : Bool {
+        return !packedTabViewItems.isEmpty
+    }
+
     var isWindowActive : Bool {
         if let window = self.window {
             if let _ = window as? NSPanel {
@@ -151,12 +166,22 @@ open class LYTabBarView: NSView {
     }
 
     let stackView = NSStackView(frame: .zero)
-    let buttonHeight : CGFloat = 20
-    fileprivate let outterStackView = NSStackView(frame: .zero)
-    fileprivate var addTabButton : NSButton!
-    fileprivate var addTabButtonHeightConstraint : NSLayoutConstraint?
-    fileprivate let windowButtonPaddingView : NSView = NSView(frame: .zero)
-    fileprivate var windowButtonPaddingViewWidthConstraint : NSLayoutConstraint?
+    private var buttonHeight : CGFloat {
+        if let tabItemView = self.tabItemViews().first {
+            return tabItemView.frame.size.height
+        }
+        return 20
+    }
+    private let outterStackView = NSStackView(frame: .zero)
+    private var addTabButton : NSButton!
+    private var packedTabButton : NSButton!
+    private var buttonHeightConstraints = [NSLayoutConstraint]()
+    private let windowButtonPaddingView : NSView = NSView(frame: .zero)
+    private var windowButtonPaddingViewWidthConstraint : NSLayoutConstraint?
+    private var minViewWidthConstraint : NSLayoutConstraint?
+    private var minViewWidth : CGFloat {
+        return minTabItemWidth + 2 * buttonHeight
+    }
     
     override open var intrinsicContentSize: NSSize {
         var height : CGFloat = buttonHeight;
@@ -165,7 +190,24 @@ open class LYTabBarView: NSView {
         }
         return NSMakeSize(NSViewNoIntrinsicMetric, height)
     }
-    
+
+    func buildBarButton(image:NSImage?, action:Selector?) -> NSButton {
+        let button = NSButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setButtonType(.momentaryChange)
+        button.image = image
+        button.bezelStyle = .shadowlessSquare
+        button.isBordered = false
+        button.imagePosition = .imageOnly
+        button.target = self
+        button.action = action
+        let constraint = button.heightAnchor.constraint(equalToConstant: buttonHeight)
+        constraint.isActive = true
+        buttonHeightConstraints.append(constraint)
+        button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
+        return button
+    }
+
     fileprivate func setupViews() {
         outterStackView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(outterStackView)
@@ -178,6 +220,8 @@ open class LYTabBarView: NSView {
         outterStackView.alignment = borderStyle.alignment
         outterStackView.spacing = 1
         outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
+        minViewWidthConstraint = outterStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: self.minViewWidth)
+        minViewWidthConstraint?.isActive = true
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         outterStackView.addView(stackView, in: .center)
@@ -185,28 +229,35 @@ open class LYTabBarView: NSView {
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         stackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
-        
-        addTabButton = NSButton(frame: .zero)
-        addTabButton.translatesAutoresizingMaskIntoConstraints = false
-        addTabButton.setButtonType(.momentaryChange)
-        addTabButton.image = NSImage(named: NSImageNameAddTemplate)
-        addTabButton.bezelStyle = .shadowlessSquare
-        addTabButton.isBordered = false
-        addTabButton.imagePosition = .imageOnly
-        addTabButton.target = self
-        addTabButton.action = #selector(addNewTab)
-        addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: buttonHeight)
-        addTabButtonHeightConstraint?.isActive = true
-        addTabButton.widthAnchor.constraint(equalTo: addTabButton.heightAnchor).isActive = true
-        if showAddNewTabButton {
-            outterStackView.addView(addTabButton, in: .bottom)
-        }
-        
+
+        packedTabButton = buildBarButton(image: NSImage(named: NSImageNameRightFacingTriangleTemplate),
+                                         action: #selector(showPackedList))
+        addTabButton = buildBarButton(image: NSImage(named: NSImageNameAddTemplate),
+                                      action: #selector(addNewTab))
+
+        outterStackView.addView(packedTabButton, in: .bottom)
+        outterStackView.addView(addTabButton, in: .bottom)
+        packedTabButton.isHidden = true
+        addTabButton.isHidden = !showAddNewTabButton
+
         windowButtonPaddingView.translatesAutoresizingMaskIntoConstraints = false
         outterStackView.addView(windowButtonPaddingView, in: .top)
         windowButtonPaddingViewWidthConstraint = windowButtonPaddingView.widthAnchor.constraint(equalToConstant: 68)
         windowButtonPaddingViewWidthConstraint?.isActive =  true
         windowButtonPaddingView.isHidden = !paddingWindowButton
+
+
+        // Listen to bound changes
+        self.postsBoundsChangedNotifications = true
+        self.postsFrameChangedNotifications = true
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(boundDidChangeNotification),
+                                               name: NSNotification.Name.NSViewBoundsDidChange,
+                                               object: self)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(boundDidChangeNotification),
+                                               name: NSNotification.Name.NSViewFrameDidChange,
+                                               object: self)
     }
     
     open override func viewDidMoveToWindow() {
@@ -222,6 +273,7 @@ open class LYTabBarView: NSView {
 
         }
     }
+
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
@@ -235,12 +287,34 @@ open class LYTabBarView: NSView {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
+    func popFirstPackedItem() {
+        if hasPackedTabViewItems {
+            let item = packedTabViewItems[0]
+            removePackedTabItem(at: 0)
+            self.insertTabItem(item, index: self.tabItemViews().count)
+        }
+    }
+
+    func removeTabItemView(tabItemView:LYTabItemView, animated: Bool ) {
+        self.stackView.removeView(tabItemView, animated: animated) {
+            self.needsUpdate = true
+        }
+        popFirstPackedItem()
+    }
+
+    func removePackedTabItem(at:Int) {
+        packedTabViewItems.remove(at: at)
+        if packedTabViewItems.isEmpty {
+            packedTabButton.isHidden = true
+        }
+    }
+
     public func removeTabViewItem(_ tabviewItem : NSTabViewItem, animated : Bool = false) {
         if let tabItemView = self.itemViewForItem(tabviewItem) {
-            self.stackView.removeView(tabItemView, animated: true, completionHandler: {
-                self.needsUpdate = true
-            })
+            removeTabItemView(tabItemView: tabItemView, animated: animated)
+        } else if let index = self.packedTabViewItems.index(of: tabviewItem) {
+            removePackedTabItem(at: index)
         }
         self.tabView?.removeTabViewItem(tabviewItem)
     }
@@ -298,12 +372,13 @@ open class LYTabBarView: NSView {
                     }
                 }
             }
+            adjustPackedItem()
             
             var idx = 0
             let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
             for item in tabItems {
-                if !currentTabItems.contains(item) {
-                    self.insertTabItemView(item, index: idx)
+                if !currentTabItems.contains(item) && !self.packedTabViewItems.contains(item) {
+                    self.insertTabItem(item, index: idx)
                 }
                 idx += 1
             }
@@ -360,10 +435,13 @@ open class LYTabBarView: NSView {
         let status = self.status
         self.borderColor[status]!.setFill()
         NSRectFill(self.bounds)
-        let rect = addTabButton.frame
         self.backgroundColor[status]!.setFill()
-        NSRectFill(rect)
-        
+        for button in [packedTabButton, addTabButton] {
+            if let rect = button?.frame {
+                NSRectFill(rect)
+            }
+        }
+
         if paddingWindowButton {
             let paddingRect = NSRect(x: 0, y: 0, width: self.windowButtonPaddingView.frame.size.width, height: self.frame.size.height)
             NSColor.clear.setFill()
@@ -372,8 +450,8 @@ open class LYTabBarView: NSView {
     }
     
     @IBAction public func closeCurrentTab(_ sender:AnyObject?) {
-        if let selectedView = selectedTabView() {
-            removeTabViewItem(selectedView.tabViewItem, animated: true)
+        if let item = self.tabView?.selectedTabViewItem {
+            removeTabViewItem(item, animated: true)
         }
     }
 
@@ -382,6 +460,31 @@ open class LYTabBarView: NSView {
             DispatchQueue.main.async {
                 _=target.perform(action, with: self)
             }
+        }
+    }
+
+    func selectPackedItem(_ sender:AnyObject) {
+        if let item = sender as? NSMenuItem, let tabItem = item.representedObject as? NSTabViewItem {
+            self.tabView?.selectTabViewItem(tabItem)
+            item.state = NSOnState
+        }
+    }
+
+    func showPackedList(_ sender:AnyObject?) {
+        let menu = NSMenu()
+        let selectedItem = self.tabView?.selectedTabViewItem
+        for item in self.packedTabViewItems {
+            let menuItem = NSMenuItem(title: item.label, action: nil, keyEquivalent: "")
+            if item == selectedItem {
+                menuItem.state = NSOnState
+            }
+            menuItem.representedObject = item
+            menuItem.target = self
+            menuItem.action = #selector(selectPackedItem)
+            menu.addItem(menuItem)
+        }
+        if let event = self.window?.currentEvent {
+            NSMenu.popUpContextMenu(menu, with: event, for: self.packedTabButton)
         }
     }
 
@@ -465,29 +568,70 @@ open class LYTabBarView: NSView {
 
     public func addTabViewItem(_ item: NSTabViewItem, animated : Bool = false) {
         self.tabView?.addTabViewItem(item)
-        self.insertTabItemView(item, index: self.tabItemViews().count, animated:animated)
+        self.insertTabItem(item, index: self.tabItemViews().count + self.packedTabViewItems.count, animated:animated)
     }
 
     func resetHeight() {
         if tabItemViews().count == 1 {
-            if let constraint = addTabButtonHeightConstraint, let aTabView = self.tabItemViews().first {
+            if let aTabView = self.tabItemViews().first {
                 let height = aTabView.intrinsicContentSize.height
-                constraint.isActive = false
-                addTabButtonHeightConstraint = addTabButton.heightAnchor.constraint(equalToConstant: height)
-                addTabButtonHeightConstraint?.isActive = true
+                for constraint in buttonHeightConstraints {
+                    constraint.constant = height
+                }
             }
             self.invalidateIntrinsicContentSize()
         }
     }
 
-    private func insertTabItemView(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
+    private func needPackItem(addtion:Int = 0) -> Bool {
+        let buttonsWidth : CGFloat = (showAddNewTabButton ? 2 : 1) * self.buttonHeight
+        let width = (self.frame.size.width - buttonsWidth)/CGFloat(self.tabItemViews().count+addtion)
+        return width < self.minTabItemWidth
+    }
+
+    private func packLastTab() {
+        guard let lastTabView = self.tabItemViews().last else {
+            return
+        }
+        self.insertToPackedItems(lastTabView.tabViewItem, index: 0)
+        self.stackView.removeView(lastTabView)
+    }
+
+    private func insertToPackedItems(_ item: NSTabViewItem, index: NSInteger ) {
+        self.packedTabViewItems.insert(item, at: index)
+    }
+
+    private func insertTabItem(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
+        let needPack = needPackItem(addtion:1)
+        if needPack || (hasPackedTabViewItems && index > self.tabItemViews().count) {
+            packedTabButton.isHidden = false
+            if index >= self.tabItemViews().count {
+                self.insertToPackedItems(item, index: index - self.tabItemViews().count)
+                return
+            }
+            packLastTab()
+        }
         let tabView = createLYTabItemView(item)
-        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: {
-            self.needsUpdate = true
-        })
+        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: nil)
         resetHeight()
     }
-    
+
+    func adjustPackedItem() {
+        if needPackItem() {
+            packedTabButton.isHidden = false
+            packLastTab()
+        } else if hasPackedTabViewItems && !needPackItem(addtion: 1) {
+            popFirstPackedItem()
+        }
+    }
+
+    @objc private func boundDidChangeNotification(notification:Notification) {
+        guard let _ = self.tabItemViews().last, !self.stackView.isHidden && self.tabViewItems.count > 1 else {
+            return
+        }
+        adjustPackedItem()
+    }
+
     open override func prepareForInterfaceBuilder() {
         var ibTabItem = NSTabViewItem()
         ibTabItem.label = "Tab"
