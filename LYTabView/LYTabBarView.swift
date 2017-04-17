@@ -245,6 +245,19 @@ open class LYTabBarView: NSView {
         windowButtonPaddingViewWidthConstraint = windowButtonPaddingView.widthAnchor.constraint(equalToConstant: 68)
         windowButtonPaddingViewWidthConstraint?.isActive =  true
         windowButtonPaddingView.isHidden = !paddingWindowButton
+
+
+        // Listen to bound changes
+        self.postsBoundsChangedNotifications = true
+        self.postsFrameChangedNotifications = true
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(boundDidChangeNotification),
+                                               name: NSNotification.Name.NSViewBoundsDidChange,
+                                               object: self)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(boundDidChangeNotification),
+                                               name: NSNotification.Name.NSViewFrameDidChange,
+                                               object: self)
     }
     
     open override func viewDidMoveToWindow() {
@@ -260,6 +273,7 @@ open class LYTabBarView: NSView {
 
         }
     }
+
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
@@ -274,15 +288,19 @@ open class LYTabBarView: NSView {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func removeTabItemView(tabItemView:LYTabItemView, animated: Bool ) {
-        self.stackView.removeView(tabItemView, animated: animated) {
-            self.needsUpdate = true
-        }
+    func popFirstPackedItem() {
         if hasPackedTabViewItems {
             let item = packedTabViewItems[0]
             removePackedTabItem(at: 0)
             self.insertTabItem(item, index: self.tabItemViews().count)
         }
+    }
+
+    func removeTabItemView(tabItemView:LYTabItemView, animated: Bool ) {
+        self.stackView.removeView(tabItemView, animated: animated) {
+            self.needsUpdate = true
+        }
+        popFirstPackedItem()
     }
 
     func removePackedTabItem(at:Int) {
@@ -354,6 +372,7 @@ open class LYTabBarView: NSView {
                     }
                 }
             }
+            adjustPackedItem()
             
             var idx = 0
             let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
@@ -564,35 +583,55 @@ open class LYTabBarView: NSView {
         }
     }
 
-    private func needPackItem() -> Bool {
+    private func needPackItem(addtion:Int = 0) -> Bool {
         let buttonsWidth : CGFloat = (showAddNewTabButton ? 2 : 1) * self.buttonHeight
-        let width = (self.frame.size.width - buttonsWidth)/CGFloat(self.tabItemViews().count+1)
+        let width = (self.frame.size.width - buttonsWidth)/CGFloat(self.tabItemViews().count+addtion)
         return width < self.minTabItemWidth
     }
 
-    func insertToPackedItems(_ item: NSTabViewItem, index: NSInteger ) {
+    private func packLastTab() {
+        guard let lastTabView = self.tabItemViews().last else {
+            return
+        }
+        self.insertToPackedItems(lastTabView.tabViewItem, index: 0)
+        self.stackView.removeView(lastTabView)
+    }
+
+    private func insertToPackedItems(_ item: NSTabViewItem, index: NSInteger ) {
         self.packedTabViewItems.insert(item, at: index)
     }
 
     private func insertTabItem(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
-        packedTabButton.isHidden = !needPackItem()
-        if !packedTabButton.isHidden {
+        let needPack = needPackItem(addtion:1)
+        if needPack || (hasPackedTabViewItems && index > self.tabItemViews().count) {
+            packedTabButton.isHidden = false
             if index >= self.tabItemViews().count {
                 self.insertToPackedItems(item, index: index - self.tabItemViews().count)
                 return
             }
-            if let lastTabView = self.stackView.views.last as? LYTabItemView{
-                self.insertToPackedItems(lastTabView.tabViewItem,index:0)
-                self.stackView.removeView(lastTabView)
-            }
+            packLastTab()
         }
         let tabView = createLYTabItemView(item)
-        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: {
-            self.needsUpdate = true
-        })
+        stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: nil)
         resetHeight()
     }
-    
+
+    func adjustPackedItem() {
+        if needPackItem() {
+            packedTabButton.isHidden = false
+            packLastTab()
+        } else if hasPackedTabViewItems && !needPackItem(addtion: 1) {
+            popFirstPackedItem()
+        }
+    }
+
+    @objc private func boundDidChangeNotification(notification:Notification) {
+        guard let _ = self.tabItemViews().last, !self.stackView.isHidden && self.tabViewItems.count > 1 else {
+            return
+        }
+        adjustPackedItem()
+    }
+
     open override func prepareForInterfaceBuilder() {
         var ibTabItem = NSTabViewItem()
         ibTabItem.label = "Tab"
