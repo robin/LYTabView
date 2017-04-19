@@ -148,7 +148,7 @@ class LYTabItemView: NSButton {
         var size = titleView.intrinsicContentSize
         size.height += ypadding * 2
         if let minHeight = self.tabBarView.minTabHeight, size.height < minHeight {
-            size.height = minHeight - self.tabBarView.borderStyle.borderOffset()
+            size.height = minHeight
         }
         size.width += xpadding * 3 + closeButtonSize.width
         return size
