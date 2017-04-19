@@ -108,8 +108,9 @@ class LYTabItemView: NSButton {
         titleView.trailingAnchor.constraint(greaterThanOrEqualTo: self.trailingAnchor, constant: -padding).isActive = true
         titleView.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor, constant: padding).isActive = true
         titleView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        titleView.topAnchor.constraint(equalTo: self.topAnchor, constant: ypadding).isActive = true
-        titleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -ypadding).isActive = true
+        titleView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        titleView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: ypadding).isActive = true
+        titleView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -ypadding).isActive = true
         titleView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, for: .horizontal)
         titleView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: .horizontal)
         titleView.lineBreakMode = .byTruncatingTail
@@ -124,9 +125,10 @@ class LYTabItemView: NSButton {
         closeButton.isHidden = true
         self.addSubview(closeButton)
         closeButton.trailingAnchor.constraint(greaterThanOrEqualTo: self.titleView.leadingAnchor, constant: -xpadding).isActive = true
-        closeButton.topAnchor.constraint(equalTo: self.topAnchor, constant: ypadding).isActive = true
+        closeButton.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: ypadding).isActive = true
         closeButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: xpadding).isActive = true
-        closeButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -ypadding).isActive = true
+        closeButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        closeButton.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -ypadding).isActive = true
         
         let menu = NSMenu()
         let addMenuItem = NSMenuItem(title: NSLocalizedString("New Tab", comment: "New Tab"), action:#selector(addNewTab), keyEquivalent: "")
@@ -145,6 +147,9 @@ class LYTabItemView: NSButton {
     override var intrinsicContentSize: NSSize {
         var size = titleView.intrinsicContentSize
         size.height += ypadding * 2
+        if let minHeight = self.tabBarView.minTabHeight, size.height < minHeight {
+            size.height = minHeight - self.tabBarView.borderStyle.borderOffset()
+        }
         size.width += xpadding * 3 + closeButtonSize.width
         return size
     }

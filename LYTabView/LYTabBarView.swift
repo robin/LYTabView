@@ -96,6 +96,12 @@ open class LYTabBarView: NSView {
         }
     }
 
+    open var minTabHeight : CGFloat? {
+        didSet {
+            resetHeight()
+        }
+    }
+
     var status : BarStatus {
         let isWindowActive = self.isWindowActive
         if self.isActive && isWindowActive {
@@ -229,6 +235,7 @@ open class LYTabBarView: NSView {
         stackView.distribution = .fillEqually
         stackView.spacing = 1
         stackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
+        stackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .vertical)        
 
         packedTabButton = buildBarButton(image: NSImage(named: NSImageNameRightFacingTriangleTemplate),
                                          action: #selector(showPackedList))
@@ -572,14 +579,11 @@ open class LYTabBarView: NSView {
     }
 
     func resetHeight() {
-        if tabItemViews().count == 1 {
-            if let aTabView = self.tabItemViews().first {
-                let height = aTabView.intrinsicContentSize.height
-                for constraint in buttonHeightConstraints {
-                    constraint.constant = height
-                }
+        if let aTabView = self.tabItemViews().first {
+            let height = aTabView.intrinsicContentSize.height
+            for constraint in buttonHeightConstraints {
+                constraint.constant = height
             }
-            self.invalidateIntrinsicContentSize()
         }
     }
 
@@ -613,7 +617,9 @@ open class LYTabBarView: NSView {
         }
         let tabView = createLYTabItemView(item)
         stackView.insertView(tabView, atIndex: index, inGravity: .center, animated: animated, completionHandler: nil)
-        resetHeight()
+        if tabItemViews().count == 1  {
+            resetHeight()
+        }
     }
 
     func adjustPackedItem() {

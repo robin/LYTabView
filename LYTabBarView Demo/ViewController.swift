@@ -24,8 +24,9 @@ class ViewController: NSViewController {
 
         // Do any additional setup after loading the view.
         self.tabBarView = tabView.tabBarView
-        addViewWithLabel("Tab", aTabBarView: self.tabBarView)
-        addViewWithLabel("View", aTabBarView: self.tabBarView)
+        addViewWithLabel("Tab", aTabBarView: self.tabBarView, fromTabView: true)
+        addViewWithLabel("View", aTabBarView: self.tabBarView, fromTabView: true)
+        self.tabBarView.minTabHeight = 28
         
         tabView21.tabBarView.hideIfOnlyOneTabExists = false
         tabView22.tabBarView.hideIfOnlyOneTabExists = false
@@ -33,10 +34,12 @@ class ViewController: NSViewController {
         tabView24.tabBarView.hideIfOnlyOneTabExists = false
         tabView25.tabBarView.hideIfOnlyOneTabExists = false
         addViewWithLabel("Tab with long title", aTabBarView: tabView21.tabBarView)
-        addViewWithLabel("Tab", aTabBarView: tabView22.tabBarView)
+        addViewWithLabel("Tab with different height", aTabBarView: tabView22.tabBarView)
         addViewWithLabel("Tab", aTabBarView: tabView23.tabBarView)
         addViewWithLabel("Tab", aTabBarView: tabView24.tabBarView)
         addViewWithLabel("Tab", aTabBarView: tabView25.tabBarView)
+
+        tabView22.tabBarView.minTabHeight = 28
 
         [self.tabBarView, tabView21.tabBarView,
          tabView22.tabBarView, tabView23.tabBarView,
@@ -55,14 +58,18 @@ class ViewController: NSViewController {
         }
     }
 
-    func addViewWithLabel(_ label:String, aTabBarView : LYTabBarView) {
+    func addViewWithLabel(_ label:String, aTabBarView : LYTabBarView, fromTabView:Bool = false) {
         let item = NSTabViewItem()
         item.label = label
         if let labelViewController = self.storyboard?.instantiateController(withIdentifier: "labelViewController") {
             (labelViewController as AnyObject).setTitle(label)
             item.view = (labelViewController as AnyObject).view
         }
-        aTabBarView.addTabViewItem(item, animated: true)
+        if fromTabView {
+            tabView.tabView.addTabViewItem(item)
+        } else {
+            aTabBarView.addTabViewItem(item, animated: true)
+        }
     }
 
     @IBAction func toggleAddNewTabButton(_ sender:AnyObject?) {
