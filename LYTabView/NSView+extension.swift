@@ -10,7 +10,7 @@ import Foundation
 import Cocoa
 
 extension NSAnimatablePropertyContainer {
-    func animatorOrNot(_ needAnimator : Bool = true) -> Self {
+    func animatorOrNot(_ needAnimator: Bool = true) -> Self {
         if needAnimator {
             return self.animator()
         }
