@@ -90,7 +90,7 @@ open class LYTabBarView: NSView {
     open var minTabItemWidth : CGFloat = 100 {
         didSet {
             if let constraint = minViewWidthConstraint {
-                constraint.constant = self.minTabItemWidth
+                constraint.constant = self.minViewWidth
                 self.needsLayout = true
             }
         }
@@ -558,10 +558,11 @@ open class LYTabBarView: NSView {
     }
     
     private func createLYTabItemView(_ item : NSTabViewItem) -> LYTabItemView {
-        let tabView = LYTabItemView(tabViewItem: item)
-        tabView.tabBarView = self
-        tabView.translatesAutoresizingMaskIntoConstraints = false
-        return tabView
+        let tabItemView = LYTabItemView(tabViewItem: item)
+        tabItemView.tabBarView = self
+        tabItemView.translatesAutoresizingMaskIntoConstraints = false
+        tabItemView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: .horizontal)
+        return tabItemView
     }
     
     private func itemViewForItem(_ item: NSTabViewItem) -> LYTabItemView? {
@@ -624,8 +625,10 @@ open class LYTabBarView: NSView {
 
     func adjustPackedItem() {
         if needPackItem() {
-            packedTabButton.isHidden = false
-            packLastTab()
+            if self.tabItemViews().count > 1 {
+                packedTabButton.isHidden = false
+                packLastTab()
+            }
         } else if hasPackedTabViewItems && !needPackItem(addtion: 1) {
             popFirstPackedItem()
         }
