@@ -136,12 +136,12 @@ open class LYTabBarView: NSView {
             self.needsUpdate = true
         }
     }
-    
-    open weak var addNewTabButtonTarget : AnyObject?
-    
-    open var addNewTabButtonAction : Selector?
-    
-    open var tabViewItems : [NSTabViewItem] {
+
+    open weak var addNewTabButtonTarget: AnyObject?
+
+    open var addNewTabButtonAction: Selector?
+
+    open var tabViewItems: [NSTabViewItem] {
         return self.tabView?.tabViewItems ?? []
     }
 
@@ -461,7 +461,7 @@ open class LYTabBarView: NSView {
         }
     }
 
-    func addNewTab(_ sender:AnyObject?) {
+    func addNewTab(_ sender: AnyObject?) {
         if let action = self.addNewTabButtonAction {
             DispatchQueue.main.async {
                 NSApplication.shared().sendAction(action, to: self.addNewTabButtonTarget, from: self)
