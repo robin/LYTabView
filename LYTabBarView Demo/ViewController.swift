@@ -44,9 +44,9 @@ class ViewController: NSViewController {
         [self.tabBarView, tabView21.tabBarView,
          tabView22.tabBarView, tabView23.tabBarView,
          tabView24.tabBarView, tabView25.tabBarView].forEach { (tabBarView) in
-            tabBarView?.addNewTabButtonTarget = self
             tabBarView?.addNewTabButtonAction = #selector(addNewTab)
         }
+        self.tabBarView.addNewTabButtonTarget = self
     }
 
     override func viewWillAppear() {
