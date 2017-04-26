@@ -11,10 +11,10 @@ import Cocoa
 
 class LYTabItemView: NSButton {
     fileprivate let titleView = NSTextField(frame: .zero)
-    fileprivate var closeButton : LYHoverButton!
+    fileprivate var closeButton: LYHoverButton!
 
-    var tabBarView : LYTabBarView!
-    var tabViewItem : NSTabViewItem!
+    var tabBarView: LYTabBarView!
+    var tabViewItem: NSTabViewItem!
     var drawBorder = false {
         didSet {
             self.needsDisplay = true
@@ -23,22 +23,22 @@ class LYTabItemView: NSButton {
 
     // hover effect
     fileprivate var hovered = false
-    fileprivate var trackingArea : NSTrackingArea?
+    fileprivate var trackingArea: NSTrackingArea?
 
     // style
-    var xpadding : CGFloat = 4
-    var ypadding : CGFloat = 2
+    var xpadding: CGFloat = 4
+    var ypadding: CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
-    var backgroundColor : ColorConfig = [
-        .active : NSColor(white: 0.77, alpha: 1),
-        .windowInactive : NSColor(white: 0.94, alpha: 1),
-        .inactive : NSColor(white: 0.70, alpha: 1)
+    var backgroundColor: ColorConfig = [
+        .active: NSColor(white: 0.77, alpha: 1),
+        .windowInactive: NSColor(white: 0.94, alpha: 1),
+        .inactive: NSColor(white: 0.70, alpha: 1)
     ]
 
-    var hoverBackgroundColor : ColorConfig = [
-        .active : NSColor(white: 0.75, alpha: 1),
-        .windowInactive : NSColor(white: 0.94, alpha: 1),
-        .inactive : NSColor(white: 0.68, alpha: 1)
+    var hoverBackgroundColor: ColorConfig = [
+        .active: NSColor(white: 0.75, alpha: 1),
+        .windowInactive: NSColor(white: 0.94, alpha: 1),
+        .inactive: NSColor(white: 0.68, alpha: 1)
     ]
 
     dynamic fileprivate var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
@@ -47,21 +47,21 @@ class LYTabItemView: NSButton {
         }
     }
     var selectedBackgroundColor: ColorConfig = [
-        .active : NSColor(white: 0.86, alpha: 1),
-        .windowInactive : NSColor(white: 0.96, alpha: 1),
-        .inactive : NSColor(white: 0.76, alpha: 1)
+        .active: NSColor(white: 0.86, alpha: 1),
+        .windowInactive: NSColor(white: 0.96, alpha: 1),
+        .inactive: NSColor(white: 0.76, alpha: 1)
     ]
-    
-    var selectedTextColor : ColorConfig = [
-        .active : NSColor.textColor,
-        .windowInactive : NSColor(white: 0.4, alpha: 1),
-        .inactive : NSColor(white: 0.4, alpha: 1)
+
+    var selectedTextColor: ColorConfig = [
+        .active: NSColor.textColor,
+        .windowInactive: NSColor(white: 0.4, alpha: 1),
+        .inactive: NSColor(white: 0.4, alpha: 1)
     ]
 
     var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
     var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
-    
-    override var title : String {
+
+    override var title: String {
         get {
             return titleView.stringValue
         }
@@ -70,17 +70,17 @@ class LYTabItemView: NSButton {
             self.invalidateIntrinsicContentSize()
         }
     }
-    
+
     var isMoving = false
-    
-    fileprivate var shouldDrawInHighLight : Bool {
+
+    fileprivate var shouldDrawInHighLight: Bool {
         return tabViewItem.tabState == .selectedTab && !isDragging
     }
-    
-    fileprivate var needAnimation : Bool {
+
+    fileprivate var needAnimation: Bool {
         return self.tabBarView.needAnimation
     }
-    
+
     override static func defaultAnimation(forKey key: String) -> Any? {
         if key == "realBackgroundColor" {
             return CABasicAnimation()
@@ -89,15 +89,15 @@ class LYTabItemView: NSButton {
     }
 
     // Drag and Drop
-    var dragOffset : CGFloat?
+    var dragOffset: CGFloat?
     var isDragging = false
-    var draggingView : NSImageView?
-    var draggingViewLeadingConstraint : NSLayoutConstraint?
-    
+    var draggingView: NSImageView?
+    var draggingViewLeadingConstraint: NSLayoutConstraint?
+
     func setupViews() {
         self.isBordered = false
         self.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, for: .horizontal)
-        
+
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.isEditable = false
         titleView.alignment = .center
@@ -105,7 +105,8 @@ class LYTabItemView: NSButton {
         titleView.drawsBackground = false
         self.addSubview(titleView)
         let padding = xpadding*2+closeButtonSize.width
-        titleView.trailingAnchor.constraint(greaterThanOrEqualTo: self.trailingAnchor, constant: -padding).isActive = true
+        titleView.trailingAnchor
+            .constraint(greaterThanOrEqualTo: self.trailingAnchor, constant: -padding).isActive = true
         titleView.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor, constant: padding).isActive = true
         titleView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         titleView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -114,7 +115,7 @@ class LYTabItemView: NSButton {
         titleView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, for: .horizontal)
         titleView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: .horizontal)
         titleView.lineBreakMode = .byTruncatingTail
-        
+
         closeButton = LYTabCloseButton(frame: .zero)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.hoverBackgroundColor = closeButtonHoverBackgroundColor
@@ -124,26 +125,31 @@ class LYTabItemView: NSButton {
         closeButton.widthAnchor.constraint(equalToConstant: closeButtonSize.width).isActive = true
         closeButton.isHidden = true
         self.addSubview(closeButton)
-        closeButton.trailingAnchor.constraint(greaterThanOrEqualTo: self.titleView.leadingAnchor, constant: -xpadding).isActive = true
+        closeButton.trailingAnchor
+            .constraint(greaterThanOrEqualTo: self.titleView.leadingAnchor, constant: -xpadding).isActive = true
         closeButton.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: ypadding).isActive = true
         closeButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: xpadding).isActive = true
         closeButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         closeButton.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -ypadding).isActive = true
-        
+
         let menu = NSMenu()
-        let addMenuItem = NSMenuItem(title: NSLocalizedString("New Tab", comment: "New Tab"), action:#selector(addNewTab), keyEquivalent: "")
+        let addMenuItem = NSMenuItem(title: NSLocalizedString("New Tab", comment: "New Tab"),
+                                     action:#selector(addNewTab), keyEquivalent: "")
         addMenuItem.target = self
         menu.addItem(addMenuItem)
-        let closeMenuItem = NSMenuItem(title: NSLocalizedString("Close Tab", comment: "Close Tab"), action: #selector(closeTab), keyEquivalent: "")
+        let closeMenuItem = NSMenuItem(title: NSLocalizedString("Close Tab", comment: "Close Tab"),
+                                       action: #selector(closeTab), keyEquivalent: "")
         closeMenuItem.target = self
         menu.addItem(closeMenuItem)
-        let closeOthersMenuItem = NSMenuItem(title: NSLocalizedString("Close other Tabs", comment: "Close other Tab"), action: #selector(closeOtherTabs), keyEquivalent: "")
+        let closeOthersMenuItem = NSMenuItem(title: NSLocalizedString("Close other Tabs",
+                                                                      comment: "Close other Tab"),
+                                             action: #selector(closeOtherTabs), keyEquivalent: "")
         closeOthersMenuItem.target = self
         menu.addItem(closeOthersMenuItem)
         menu.delegate = self
         self.menu = menu
     }
-    
+
     override var intrinsicContentSize: NSSize {
         var size = titleView.intrinsicContentSize
         size.height += ypadding * 2
@@ -153,8 +159,8 @@ class LYTabItemView: NSButton {
         size.width += xpadding * 3 + closeButtonSize.width
         return size
     }
-    
-    convenience init(tabViewItem : NSTabViewItem) {
+
+    convenience init(tabViewItem: NSTabViewItem) {
         self.init(frame: .zero)
         self.tabViewItem = tabViewItem
         if let tabViewItem = self.tabViewItem {
@@ -162,23 +168,23 @@ class LYTabItemView: NSButton {
             self.title = tabViewItem.label
         }
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
     }
-    
+
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         setupViews()
     }
-    
+
     deinit {
         if let tabViewItem = self.tabViewItem {
             tabViewItem.removeObserver(self, forKeyPath: "label")
         }
     }
-    
+
     override func draw(_ dirtyRect: NSRect) {
         let status = self.tabBarView.status
         if shouldDrawInHighLight {
@@ -196,23 +202,23 @@ class LYTabItemView: NSButton {
             path.stroke()
         }
     }
-    
+
     override func mouseDown(with theEvent: NSEvent) {
         self.tabBarView.selectTabViewItem(self.tabViewItem)
     }
-    
+
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
-        
+
         if let trackingArea = self.trackingArea {
             self.removeTrackingArea(trackingArea)
         }
-        
-        let options : NSTrackingAreaOptions = [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect]
+
+        let options: NSTrackingAreaOptions = [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect]
         self.trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
         self.addTrackingArea(self.trackingArea!)
     }
-    
+
     override func mouseEntered(with theEvent: NSEvent) {
         if hovered {
             return
@@ -224,7 +230,7 @@ class LYTabItemView: NSButton {
         }
         closeButton.animatorOrNot(needAnimation).isHidden = false
     }
-    
+
     override func mouseExited(with theEvent: NSEvent) {
         if !hovered {
             return
@@ -238,11 +244,11 @@ class LYTabItemView: NSButton {
     }
 
     override func mouseDragged(with theEvent: NSEvent) {
-        if (!isDragging) {
+        if !isDragging {
             setupDragAndDrop(theEvent)
         }
     }
-    
+
     func updateColors() {
         let status = self.tabBarView.status
         if hovered {
@@ -251,32 +257,32 @@ class LYTabItemView: NSButton {
             self.realBackgroundColor = backgroundColor[status]!
         }
     }
-    
+
     override func viewDidMoveToWindow() {
         self.updateColors()
     }
-    
-    @IBAction func addNewTab(_ sender:AnyObject?) {
+
+    @IBAction func addNewTab(_ sender: AnyObject?) {
         if let target = self.tabBarView.addNewTabButtonTarget, let action = self.tabBarView.addNewTabButtonAction {
             _ = target.perform(action, with: self)
         }
     }
-    
-    @IBAction func closeTab(_ sender:AnyObject?) {
+
+    @IBAction func closeTab(_ sender: AnyObject?) {
         self.tabBarView.removeTabViewItem(self.tabViewItem, animated: true)
     }
-    
-    @IBAction func closeOtherTabs(_ send:AnyObject?) {
+
+    @IBAction func closeOtherTabs(_ send: AnyObject?) {
         self.tabBarView.removeAllTabViewItemExcept(self.tabViewItem)
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "label" {
             if let item = self.tabViewItem {
                 self.title = item.label
             }
-        }
-        else {
+        } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
@@ -299,18 +305,19 @@ extension LYTabItemView : NSDraggingSource {
         let draggingSession = self.beginDraggingSession(with: [dragItem], event: theEvent, source: self)
         draggingSession.animatesToStartingPositionsOnCancelOrFail = true
     }
-    
-    func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+
+    func draggingSession(_ session: NSDraggingSession,
+                         sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
         if context == .withinApplication {
             return .move
         }
         return NSDragOperation()
     }
-    
-     func ignoreModifierKeys(for session: NSDraggingSession) -> Bool {
+
+    func ignoreModifierKeys(for session: NSDraggingSession) -> Bool {
         return true
     }
-    
+
     func draggingSession(_ session: NSDraggingSession, willBeginAt screenPoint: NSPoint) {
         dragOffset = self.frame.origin.x - screenPoint.x
         closeButton.isHidden = true
@@ -324,18 +331,20 @@ extension LYTabItemView : NSDraggingSource {
             draggingView.topAnchor.constraint(equalTo: self.tabBarView.topAnchor).isActive = true
             draggingView.bottomAnchor.constraint(equalTo: self.tabBarView.bottomAnchor).isActive = true
             draggingView.widthAnchor.constraint(equalToConstant: self.frame.width)
-            self.draggingViewLeadingConstraint = draggingView.leadingAnchor.constraint(equalTo: self.tabBarView.stackView.leadingAnchor, constant: self.frame.origin.x)
+            self.draggingViewLeadingConstraint = draggingView.leadingAnchor
+                .constraint(equalTo: self.tabBarView.stackView.leadingAnchor, constant: self.frame.origin.x)
             self.draggingViewLeadingConstraint?.isActive = true
         }
         isDragging = true
         self.titleView.isHidden = true
         self.needsDisplay = true
     }
-    
+
     func draggingSession(_ session: NSDraggingSession, movedTo screenPoint: NSPoint) {
-        if let constraint = self.draggingViewLeadingConstraint, let offset = self.dragOffset, let draggingView = self.draggingView {
+        if let constraint = self.draggingViewLeadingConstraint,
+            let offset = self.dragOffset, let draggingView = self.draggingView {
             var constant = screenPoint.x + offset
-            let min : CGFloat = 0
+            let min: CGFloat = 0
             if constant < min {
                 constant = min
             }
@@ -344,11 +353,11 @@ extension LYTabItemView : NSDraggingSource {
                 constant = max
             }
             constraint.constant = constant
-            
+
             self.tabBarView.handleDraggingTab(draggingView.frame, dragTabItemView: self)
         }
     }
-    
+
     func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
         dragOffset = nil
         isDragging = false

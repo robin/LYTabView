@@ -18,7 +18,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var tabView24: LYTabView!
     @IBOutlet weak var tabView25: LYTabView!
    var tabBarView: LYTabBarView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,7 +27,7 @@ class ViewController: NSViewController {
         addViewWithLabel("Tab", aTabBarView: self.tabBarView, fromTabView: true)
         addViewWithLabel("View", aTabBarView: self.tabBarView, fromTabView: true)
         self.tabBarView.minTabHeight = 28
-        
+
         tabView21.tabBarView.hideIfOnlyOneTabExists = false
         tabView22.tabBarView.hideIfOnlyOneTabExists = false
         tabView23.tabBarView.hideIfOnlyOneTabExists = false
@@ -48,7 +48,7 @@ class ViewController: NSViewController {
         }
         self.tabBarView.addNewTabButtonTarget = self
     }
-    
+
     override func viewWillAppear() {
     }
 
@@ -58,7 +58,7 @@ class ViewController: NSViewController {
         }
     }
 
-    func addViewWithLabel(_ label:String, aTabBarView : LYTabBarView, fromTabView:Bool = false) {
+    func addViewWithLabel(_ label: String, aTabBarView: LYTabBarView, fromTabView: Bool = false) {
         let item = NSTabViewItem()
         item.label = label
         if let labelViewController = self.storyboard?.instantiateController(withIdentifier: "labelViewController") {
@@ -72,26 +72,26 @@ class ViewController: NSViewController {
         }
     }
 
-    @IBAction func toggleAddNewTabButton(_ sender:AnyObject?) {
+    @IBAction func toggleAddNewTabButton(_ sender: AnyObject?) {
         tabBarView.showAddNewTabButton = !tabBarView.showAddNewTabButton
     }
-    
-    @IBAction func addNewTab(_ sender:AnyObject?) {
+
+    @IBAction func addNewTab(_ sender: AnyObject?) {
         let count = self.tabBarView.tabViewItems.count
         let label = "Untitled \(count)"
         if let tbView = sender as? LYTabBarView {
             addViewWithLabel(label, aTabBarView: tbView)
         }
     }
-    
-    @IBAction func performCloseTab(_ sender:AnyObject?) {
+
+    @IBAction func performCloseTab(_ sender: AnyObject?) {
         if tabBarView.tabViewItems.count > 1 {
             tabBarView.closeCurrentTab(sender)
         } else {
             self.view.window?.performClose(sender)
         }
     }
-    
+
     @IBAction func toggleTitleBar(_ sender: AnyObject?) {
         if let window = self.view.window {
             if window.titlebarAppearsTransparent {
@@ -99,9 +99,7 @@ class ViewController: NSViewController {
                 window.titleVisibility = .visible
                 window.styleMask.remove(NSFullSizeContentViewWindowMask)
                 tabBarView.paddingWindowButton = false
-            }
-            else
-            {
+            } else {
                 window.titlebarAppearsTransparent = true
                 window.titleVisibility = .hidden
                 _ = window.styleMask.update(with: NSFullSizeContentViewWindowMask)
@@ -109,7 +107,7 @@ class ViewController: NSViewController {
             }
         }
     }
-    
+
     @IBAction func toggleBorder(_ sender: AnyObject?) {
         switch tabBarView.borderStyle {
         case .none:
@@ -122,9 +120,8 @@ class ViewController: NSViewController {
             tabBarView.borderStyle = .none
         }
     }
-    
+
     @IBAction func toggleActivity(_ sender: AnyObject?) {
         tabBarView.isActive = !tabBarView.isActive
     }
 }
-
