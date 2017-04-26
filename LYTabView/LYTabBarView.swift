@@ -138,7 +138,7 @@ open class LYTabBarView: NSView {
         }
     }
     
-    open var addNewTabButtonTarget : AnyObject?
+    open weak var addNewTabButtonTarget : AnyObject?
     
     open var addNewTabButtonAction : Selector?
     
@@ -463,9 +463,9 @@ open class LYTabBarView: NSView {
     }
 
     func addNewTab(_ sender:AnyObject?) {
-        if let target = self.addNewTabButtonTarget, let action = self.addNewTabButtonAction {
+        if let action = self.addNewTabButtonAction {
             DispatchQueue.main.async {
-                _=target.perform(action, with: self)
+                NSApplication.shared().sendAction(action, to: self.addNewTabButtonTarget, from: self)
             }
         }
     }
