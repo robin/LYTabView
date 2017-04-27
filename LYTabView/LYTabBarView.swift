@@ -360,13 +360,11 @@ public class LYTabBarView: NSView {
         _needsUpdate = false
 
         if let tabView = self.tabView {
-            restoreLastTabItemView()
-            let tabItems = tabView.tabViewItems
             let tabItemViews = self.tabItemViews()
-            for tabView in tabItemViews {
-                if let tabItem = tabView.tabViewItem {
+            for tabItemView in tabItemViews {
+                if let tabItem = tabItemView.tabViewItem {
                     if tabItems.index(of: tabItem) == nil {
-                        self.tabContainerView.removeView(tabView)
+                        self.tabContainerView.removeView(tabItemView)
                     }
                 }
             }
@@ -598,12 +596,7 @@ public class LYTabBarView: NSView {
         return width < self.minTabItemWidth
     }
 
-    private func restoreLastTabItemView() {
-        self.tabItemViews().last?.tabViewItem = self.lastUnpackedItem
-    }
-
     private func packLastTab() {
-        restoreLastTabItemView()
         guard let lastTabView = self.tabItemViews().last else {
             return
         }
@@ -613,11 +606,16 @@ public class LYTabBarView: NSView {
     }
 
     private func popFirstPackedItem() {
-        if hasPackedTabViewItems {
-            restoreLastTabItemView()
+        if let lastTabViewItem = self.tabItemViews().last?.tabViewItem,
+            hasPackedTabViewItems {
+            let lastUnpackedItem = self.lastUnpackedItem
             let item = packedTabViewItems[0]
             removePackedTabItem(at: 0)
+            self.tabItemViews().last?.tabViewItem = lastUnpackedItem
             self.insertTabItem(item, index: self.tabItemViews().count)
+            if self.packedTabViewItems.contains(lastTabViewItem) {
+                self.tabItemViews().last?.tabViewItem = lastTabViewItem
+            }
             updateTabState()
         }
     }

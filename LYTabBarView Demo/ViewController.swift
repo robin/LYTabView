@@ -27,6 +27,7 @@ class ViewController: NSViewController {
         addViewWithLabel("Tab", aTabBarView: self.tabBarView, fromTabView: true)
         addViewWithLabel("View", aTabBarView: self.tabBarView, fromTabView: true)
         self.tabBarView.minTabHeight = 28
+        self.tabBarView.minTabItemWidth = 120
 
         tabView21.tabBarView.hideIfOnlyOneTabExists = false
         tabView22.tabBarView.hideIfOnlyOneTabExists = false
