@@ -14,7 +14,7 @@ class LYHoverButton: NSButton {
     var backgroundColor = NSColor.clear
 
     var hovered = false
-    fileprivate var trackingArea: NSTrackingArea?
+    private var trackingArea: NSTrackingArea?
 
     override func updateTrackingAreas() {
         super.updateTrackingAreas()

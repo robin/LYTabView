@@ -22,8 +22,8 @@ class LYTabItemView: NSButton {
     }
 
     // hover effect
-    fileprivate var hovered = false
-    fileprivate var trackingArea: NSTrackingArea?
+    private var hovered = false
+    private var trackingArea: NSTrackingArea?
 
     // style
     var xpadding: CGFloat = 4
@@ -41,7 +41,7 @@ class LYTabItemView: NSButton {
         .inactive: NSColor(white: 0.68, alpha: 1)
     ]
 
-    dynamic fileprivate var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
+    dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
         didSet {
             needsDisplay = true
         }
@@ -73,11 +73,11 @@ class LYTabItemView: NSButton {
 
     var isMoving = false
 
-    fileprivate var shouldDrawInHighLight: Bool {
+    private var shouldDrawInHighLight: Bool {
         return tabViewItem.tabState == .selectedTab && !isDragging
     }
 
-    fileprivate var needAnimation: Bool {
+    private var needAnimation: Bool {
         return self.tabBarView.needAnimation
     }
 
@@ -332,7 +332,7 @@ extension LYTabItemView : NSDraggingSource {
             draggingView.bottomAnchor.constraint(equalTo: self.tabBarView.bottomAnchor).isActive = true
             draggingView.widthAnchor.constraint(equalToConstant: self.frame.width)
             self.draggingViewLeadingConstraint = draggingView.leadingAnchor
-                .constraint(equalTo: self.tabBarView.stackView.leadingAnchor, constant: self.frame.origin.x)
+                .constraint(equalTo: self.tabBarView.tabContainerView.leadingAnchor, constant: self.frame.origin.x)
             self.draggingViewLeadingConstraint?.isActive = true
         }
         isDragging = true
@@ -348,7 +348,7 @@ extension LYTabItemView : NSDraggingSource {
             if constant < min {
                 constant = min
             }
-            let max = self.tabBarView.stackView.frame.size.width - self.frame.size.width
+            let max = self.tabBarView.tabContainerView.frame.size.width - self.frame.size.width
             if constant > max {
                 constant = max
             }

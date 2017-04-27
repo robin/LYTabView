@@ -9,12 +9,20 @@
 import Foundation
 import Cocoa
 
-open class LYTabView: NSView {
-    open let tabBarView: LYTabBarView
-    open let tabView: NSTabView
-    let stackView: NSStackView
+/// Description
+public class LYTabView: NSView {
 
-    open var delegate: NSTabViewDelegate? {
+    /// Tab bar view of the LYTabView
+    public let tabBarView: LYTabBarView
+
+    /// Native NSTabView of the LYTabView
+    public let tabView: NSTabView
+
+    //
+    private let stackView: NSStackView
+
+    /// delegate of LYTabView
+    public var delegate: NSTabViewDelegate? {
         get {
             return tabBarView.delegate
         }
@@ -23,11 +31,11 @@ open class LYTabView: NSView {
         }
     }
 
-    open var numberOfTabViewItems: Int { return self.tabView.numberOfTabViewItems }
-    open var tabViewItems: [NSTabViewItem] { return self.tabView.tabViewItems }
-    open var selectedTabViewItem: NSTabViewItem? { return self.tabView.selectedTabViewItem }
+    public var numberOfTabViewItems: Int { return self.tabView.numberOfTabViewItems }
+    public var tabViewItems: [NSTabViewItem] { return self.tabView.tabViewItems }
+    public var selectedTabViewItem: NSTabViewItem? { return self.tabView.selectedTabViewItem }
 
-    func setupViews() {
+    final private func setupViews() {
         tabView.delegate = tabBarView
         tabView.tabViewType = .noTabsNoBorder
         tabBarView.tabView = tabView
@@ -77,7 +85,7 @@ open class LYTabView: NSView {
 
 public extension LYTabView {
     public func addTabViewItem(_ tabViewItem: NSTabViewItem) {
-        self.tabView.addTabViewItem(tabViewItem)
+        self.tabBarView.addTabViewItem(tabViewItem)
     }
 
     public func insertTabViewItem(_ tabViewItem: NSTabViewItem, atIndex index: Int) {
@@ -85,7 +93,7 @@ public extension LYTabView {
     }
 
     public func removeTabViewItem(_ tabViewItem: NSTabViewItem) {
-        self.tabView.removeTabViewItem(tabViewItem)
+        self.tabBarView.removeTabViewItem(tabViewItem)
     }
 
     public func indexOfTabViewItem(_ tabViewItem: NSTabViewItem) -> Int {
@@ -96,7 +104,7 @@ public extension LYTabView {
         return self.tabView.indexOfTabViewItem(withIdentifier: identifier)
     }
 
-    public func tabViewItemAtIndex(_ index: Int) -> NSTabViewItem {
+    public func tabViewItem(at index: Int) -> NSTabViewItem {
         return self.tabView.tabViewItem(at: index)
     }
 
@@ -120,11 +128,11 @@ public extension LYTabView {
         self.tabView.selectTabViewItem(tabViewItem)
     }
 
-    public func selectTabViewItemAtIndex(_ index: Int) {
+    public func selectTabViewItem(at index: Int) {
         self.tabView.selectTabViewItem(at: index)
     }
 
-    public func selectTabViewItemWithIdentifier(_ identifier: AnyObject) {
+    public func selectTabViewItem(withIdentifier identifier: AnyObject) {
         self.tabView.selectTabViewItem(withIdentifier: identifier)
     }
 

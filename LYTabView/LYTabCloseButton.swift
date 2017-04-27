@@ -10,7 +10,7 @@ import Foundation
 import Cocoa
 
 class LYTabCloseButton: LYHoverButton {
-    fileprivate static let closeImage = NSImage(named: NSImageNameStopProgressTemplate)?
+    private static let closeImage = NSImage(named: NSImageNameStopProgressTemplate)?
         .scaleToSize(CGSize(width:8, height:8))
     var roundCornerRadius: CGFloat = 2
 
