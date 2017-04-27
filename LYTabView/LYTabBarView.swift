@@ -146,6 +146,9 @@ public class LYTabBarView: NSView {
     }
 
     private var packedTabViewItems: [NSTabViewItem] = [NSTabViewItem]()
+    private var lastUnpackedItem: NSTabViewItem {
+        return self.tabViewItems[self.tabItemViews().count-1]
+    }
 
     private var hasPackedTabViewItems: Bool {
         return !packedTabViewItems.isEmpty
@@ -292,14 +295,6 @@ public class LYTabBarView: NSView {
         NotificationCenter.default.removeObserver(self)
     }
 
-    private func popFirstPackedItem() {
-        if hasPackedTabViewItems {
-            let item = packedTabViewItems[0]
-            removePackedTabItem(at: 0)
-            self.insertTabItem(item, index: self.tabItemViews().count)
-        }
-    }
-
     private func removeTabItemView(tabItemView: LYTabItemView, animated: Bool ) {
         self.tabContainerView.removeView(tabItemView, animated: animated) {
             self.needsUpdate = true
@@ -315,9 +310,7 @@ public class LYTabBarView: NSView {
     }
 
     public func removeTabViewItem(_ tabviewItem: NSTabViewItem, animated: Bool = false) {
-        if let tabItemView = self.itemViewForItem(tabviewItem) {
-            removeTabItemView(tabItemView: tabItemView, animated: animated)
-        } else if let index = self.packedTabViewItems.index(of: tabviewItem) {
+        if let index = self.packedTabViewItems.index(of: tabviewItem) {
             removePackedTabItem(at: index)
         }
         self.tabView?.removeTabViewItem(tabviewItem)
@@ -367,6 +360,7 @@ public class LYTabBarView: NSView {
         _needsUpdate = false
 
         if let tabView = self.tabView {
+            restoreLastTabItemView()
             let tabItems = tabView.tabViewItems
             let tabItemViews = self.tabItemViews()
             for tabView in tabItemViews {
@@ -387,11 +381,16 @@ public class LYTabBarView: NSView {
                 idx += 1
             }
             checkVisibilityAccordingToTabCount()
-            self.needsDisplay = true
+            updateTabState()
         }
     }
 
     func updateTabState() {
+        if let item = self.tabView?.selectedTabViewItem {
+            if self.selectedTabView() == nil {
+                self.tabItemViews().last?.tabViewItem = item
+            }
+        }
         for v in self.tabItemViews() {
             v.needsDisplay = true
         }
@@ -481,7 +480,9 @@ public class LYTabBarView: NSView {
     @objc private func showPackedList(_ sender: AnyObject?) {
         let menu = NSMenu()
         let selectedItem = self.tabView?.selectedTabViewItem
-        for item in self.packedTabViewItems {
+        var itemsInMenu = [lastUnpackedItem]
+        itemsInMenu.append(contentsOf: self.packedTabViewItems)
+        for item in itemsInMenu {
             let menuItem = NSMenuItem(title: item.label, action: nil, keyEquivalent: "")
             if item == selectedItem {
                 menuItem.state = NSOnState
@@ -591,13 +592,28 @@ public class LYTabBarView: NSView {
         return width < self.minTabItemWidth
     }
 
+    private func restoreLastTabItemView() {
+        self.tabItemViews().last?.tabViewItem = self.lastUnpackedItem
+    }
+
     private func packLastTab() {
-        guard let lastTabView = self.tabItemViews().last,
-            let tabViewItem = lastTabView.tabViewItem else {
+        restoreLastTabItemView()
+        guard let lastTabView = self.tabItemViews().last else {
             return
         }
-        self.insertToPackedItems(tabViewItem, index: 0)
+        self.insertToPackedItems(self.lastUnpackedItem, index: 0)
         self.tabContainerView.removeView(lastTabView)
+        updateTabState()
+    }
+
+    private func popFirstPackedItem() {
+        if hasPackedTabViewItems {
+            restoreLastTabItemView()
+            let item = packedTabViewItems[0]
+            removePackedTabItem(at: 0)
+            self.insertTabItem(item, index: self.tabItemViews().count)
+            updateTabState()
+        }
     }
 
     private func insertToPackedItems(_ item: NSTabViewItem, index: NSInteger ) {
@@ -656,6 +672,7 @@ public class LYTabBarView: NSView {
 extension LYTabBarView : NSTabViewDelegate {
     public func tabViewDidChangeNumberOfTabViewItems(_ tabView: NSTabView) {
         self.needsUpdate = true
+        updateTabState()
         self.delegate?.tabViewDidChangeNumberOfTabViewItems?(tabView)
     }
 
