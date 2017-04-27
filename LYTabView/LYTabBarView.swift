@@ -360,24 +360,23 @@ public class LYTabBarView: NSView {
         _needsUpdate = false
 
         if let tabView = self.tabView {
+            let lastTabItem = self.tabItemViews().last?.tabViewItem
             let tabItemViews = self.tabItemViews()
-            for tabItemView in tabItemViews {
-                if let tabItem = tabItemView.tabViewItem {
-                    if tabItems.index(of: tabItem) == nil {
-                        self.tabContainerView.removeView(tabItemView)
-                    }
-                }
-            }
-            adjustPackedItem()
-
-            var idx = 0
-            let currentTabItems = self.tabItemViews().flatMap { $0.tabViewItem }
-            for item in tabItems {
-                if !currentTabItems.contains(item) && !self.packedTabViewItems.contains(item) {
+            self.packedTabViewItems.removeAll()
+            for (idx, item) in tabView.tabViewItems.enumerated() {
+                if idx < tabItemViews.count {
+                    tabItemViews[idx].tabViewItem = item
+                } else {
                     self.insertTabItem(item, index: idx)
                 }
-                idx += 1
             }
+            for itemView in self.tabItemViews().dropFirst(tabView.tabViewItems.count) {
+                itemView.removeFromSuperview()
+            }
+            if let lastItem = lastTabItem, self.packedTabViewItems.contains(lastItem) {
+                self.tabItemViews().last?.tabViewItem = lastTabItem
+            }
+            packedTabButton.isHidden = !self.hasPackedTabViewItems
             checkVisibilityAccordingToTabCount()
             updateTabState()
         }
@@ -498,12 +497,6 @@ public class LYTabBarView: NSView {
     private func moveTo(_ dragTabItemView: LYTabItemView, position: NSInteger, movingItemView: LYTabItemView) {
         self.tabContainerView.removeView(dragTabItemView)
         self.tabContainerView.insertView(dragTabItemView, at: position, in: .center)
-        if let tabItem = dragTabItemView.tabViewItem {
-            if let index = self.packedTabViewItems.index(of: tabItem) {
-                self.packedTabViewItems.remove(at: index)
-                self.insertToPackedItems(self.lastUnpackedItem, index: 0)
-            }
-        }
         if needAnimation {
             NSAnimationContext.runAnimationGroup({ (_) in
                 let origFrame = movingItemView.frame
@@ -555,6 +548,7 @@ public class LYTabBarView: NSView {
 
     func updateTabViewForMovedTabItem(_ tabItem: NSTabViewItem) {
         for (idx, itemView) in self.tabItemViews().enumerated() where itemView.tabViewItem == tabItem {
+            self.tabView?.selectTabViewItem(at: 0)
             self.tabView?.removeTabViewItem(tabItem)
             self.tabView?.insertTabViewItem(tabItem, at: idx)
         }
