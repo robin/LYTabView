@@ -500,6 +500,12 @@ public class LYTabBarView: NSView {
     private func moveTo(_ dragTabItemView: LYTabItemView, position: NSInteger, movingItemView: LYTabItemView) {
         self.tabContainerView.removeView(dragTabItemView)
         self.tabContainerView.insertView(dragTabItemView, at: position, in: .center)
+        if let tabItem = dragTabItemView.tabViewItem {
+            if let index = self.packedTabViewItems.index(of: tabItem) {
+                self.packedTabViewItems.remove(at: index)
+                self.insertToPackedItems(self.lastUnpackedItem, index: 0)
+            }
+        }
         if needAnimation {
             NSAnimationContext.runAnimationGroup({ (_) in
                 let origFrame = movingItemView.frame
