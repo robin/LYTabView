@@ -326,7 +326,9 @@ public class LYTabBarView: NSView {
     public func removeAllTabViewItemExcept(_ tabViewItem: NSTabViewItem) {
         for tabItemView in self.tabItemViews() where tabItemView.tabViewItem != tabViewItem {
             self.tabContainerView.removeView(tabItemView)
-            self.tabView?.removeTabViewItem(tabItemView.tabViewItem)
+            if let item = tabItemView.tabViewItem {
+                self.tabView?.removeTabViewItem(item)
+            }
         }
     }
 
@@ -590,10 +592,11 @@ public class LYTabBarView: NSView {
     }
 
     private func packLastTab() {
-        guard let lastTabView = self.tabItemViews().last else {
+        guard let lastTabView = self.tabItemViews().last,
+            let tabViewItem = lastTabView.tabViewItem else {
             return
         }
-        self.insertToPackedItems(lastTabView.tabViewItem, index: 0)
+        self.insertToPackedItems(tabViewItem, index: 0)
         self.tabContainerView.removeView(lastTabView)
     }
 

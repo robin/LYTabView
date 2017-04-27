@@ -14,7 +14,18 @@ class LYTabItemView: NSButton {
     fileprivate var closeButton: LYHoverButton!
 
     var tabBarView: LYTabBarView!
-    var tabViewItem: NSTabViewItem!
+    var tabViewItem: NSTabViewItem? {
+        didSet {
+            if let item = oldValue {
+                item.removeObserver(self, forKeyPath: "label")
+            }
+            if let item = self.tabViewItem {
+                item.addObserver(self, forKeyPath: "label",
+                                 options: [], context: nil)
+                self.title = item.label
+            }
+        }
+    }
     var drawBorder = false {
         didSet {
             self.needsDisplay = true
@@ -74,7 +85,10 @@ class LYTabItemView: NSButton {
     var isMoving = false
 
     private var shouldDrawInHighLight: Bool {
-        return tabViewItem.tabState == .selectedTab && !isDragging
+        if let tabViewItem = self.tabViewItem {
+            return tabViewItem.tabState == .selectedTab && !isDragging
+        }
+        return false
     }
 
     private var needAnimation: Bool {
@@ -204,7 +218,9 @@ class LYTabItemView: NSButton {
     }
 
     override func mouseDown(with theEvent: NSEvent) {
-        self.tabBarView.selectTabViewItem(self.tabViewItem)
+        if let tabViewItem = self.tabViewItem {
+            self.tabBarView.selectTabViewItem(tabViewItem)
+        }
     }
 
     override func updateTrackingAreas() {
@@ -269,11 +285,15 @@ class LYTabItemView: NSButton {
     }
 
     @IBAction func closeTab(_ sender: AnyObject?) {
-        self.tabBarView.removeTabViewItem(self.tabViewItem, animated: true)
+        if let tabViewItem = self.tabViewItem {
+            self.tabBarView.removeTabViewItem(tabViewItem, animated: true)
+        }
     }
 
     @IBAction func closeOtherTabs(_ send: AnyObject?) {
-        self.tabBarView.removeAllTabViewItemExcept(self.tabViewItem)
+        if let tabViewItem = self.tabViewItem {
+            self.tabBarView.removeAllTabViewItemExcept(tabViewItem)
+        }
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?,
@@ -366,7 +386,9 @@ extension LYTabItemView : NSDraggingSource {
         self.draggingView?.removeFromSuperview()
         self.draggingViewLeadingConstraint = nil
         self.needsDisplay = true
-        self.tabBarView.updateTabViewForMovedTabItem(self.tabViewItem)
+        if let tabViewItem = self.tabViewItem {
+            self.tabBarView.updateTabViewForMovedTabItem(tabViewItem)
+        }
     }
 }
 
