@@ -210,7 +210,7 @@ class LYTabItemView: NSButton {
         }
         NSRectFill(self.bounds)
         if self.drawBorder {
-            let boderFrame = NSInsetRect(self.bounds, 1, -1)
+            let boderFrame = self.bounds.insetBy(dx: 1, dy: -1)
             self.tabBarView.borderColor[status]!.setStroke()
             let path = NSBezierPath(rect: boderFrame)
             path.stroke()
