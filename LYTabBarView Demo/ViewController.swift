@@ -78,10 +78,10 @@ class ViewController: NSViewController {
     }
 
     @IBAction func addNewTab(_ sender: AnyObject?) {
-        let count = self.tabBarView.tabViewItems.count
-        let label = "Untitled \(count)"
-        if let tbView = sender as? LYTabBarView {
-            addViewWithLabel(label, aTabBarView: tbView)
+        if let tabBarView = (sender as? LYTabBarView) ?? self.tabBarView {
+            let count = tabBarView.tabViewItems.count
+            let label = "Untitled \(count)"
+            addViewWithLabel(label, aTabBarView: tabBarView)
         }
     }
 

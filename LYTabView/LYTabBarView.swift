@@ -317,11 +317,8 @@ public class LYTabBarView: NSView {
     }
 
     public func removeAllTabViewItemExcept(_ tabViewItem: NSTabViewItem) {
-        for tabItemView in self.tabItemViews() where tabItemView.tabViewItem != tabViewItem {
-            self.tabContainerView.removeView(tabItemView)
-            if let item = tabItemView.tabViewItem {
-                self.tabView?.removeTabViewItem(item)
-            }
+        for tabItem in self.tabViewItems where tabItem != tabViewItem {
+            self.tabView?.removeTabViewItem(tabItem)
         }
     }
 
