@@ -156,12 +156,12 @@ class LYTabItemView: NSButton {
         closeMenuItem.target = self
         menu.addItem(closeMenuItem)
         let closeOthersMenuItem = NSMenuItem(title: NSLocalizedString("Close other Tabs",
-                                                                      comment: "Close other Tab"),
+                                                                      comment: "Close other Tabs"),
                                              action: #selector(closeOtherTabs), keyEquivalent: "")
         closeOthersMenuItem.target = self
         menu.addItem(closeOthersMenuItem)
 
-        let closeToRightMenuItem = NSMenuItem(title: "Close Tab to the Right",
+        let closeToRightMenuItem = NSMenuItem(title: "Close Tabs to the Right",
                                               action: #selector(closeToRight),
                                               keyEquivalent: "")
         closeToRightMenuItem.target = self
