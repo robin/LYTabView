@@ -322,6 +322,15 @@ public class LYTabBarView: NSView {
         }
     }
 
+    func removeFrom(_ tabViewItem: NSTabViewItem) {
+        if let index = self.tabViewItems.index(of: tabViewItem) {
+            let dropItems = self.tabViewItems.dropFirst(index+1)
+            for tabItem in dropItems {
+                self.tabView?.removeTabViewItem(tabItem)
+            }
+        }
+    }
+
     private func tabItemViews() -> [LYTabItemView] {
         return self.tabContainerView.views(in: .center).flatMap { $0 as? LYTabItemView }
     }

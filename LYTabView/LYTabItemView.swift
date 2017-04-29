@@ -160,6 +160,13 @@ class LYTabItemView: NSButton {
                                              action: #selector(closeOtherTabs), keyEquivalent: "")
         closeOthersMenuItem.target = self
         menu.addItem(closeOthersMenuItem)
+
+        let closeToRightMenuItem = NSMenuItem(title: "Close Tab to the Right",
+                                              action: #selector(closeToRight),
+                                              keyEquivalent: "")
+        closeToRightMenuItem.target = self
+        menu.addItem(closeToRightMenuItem)
+
         menu.delegate = self
         self.menu = menu
     }
@@ -296,6 +303,12 @@ class LYTabItemView: NSButton {
         }
     }
 
+    @IBAction func closeToRight(_ sender: Any) {
+        if let tabViewItem = self.tabViewItem {
+            self.tabBarView.removeFrom(tabViewItem)
+        }
+    }
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?,
                                change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "label" {
@@ -396,6 +409,13 @@ extension LYTabItemView : NSMenuDelegate {
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.action == #selector(addNewTab) {
             return (self.tabBarView.addNewTabButtonTarget != nil) && (self.tabBarView.addNewTabButtonAction != nil)
+        }
+        if menuItem.action == #selector(closeToRight) {
+            if let tabItem = self.tabViewItem,
+                let tabView = self.tabViewItem?.tabView {
+                return tabItem != tabView.tabViewItems.last
+            }
+            return false
         }
         return true
     }
