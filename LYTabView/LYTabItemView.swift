@@ -192,7 +192,6 @@ class LYTabItemView: NSButton {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupViews()
     }
 
     override init(frame frameRect: NSRect) {

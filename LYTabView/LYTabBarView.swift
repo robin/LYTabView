@@ -283,10 +283,9 @@ public class LYTabBarView: NSView {
 
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupViews()
     }
 
-    required public override init(frame frameRect: NSRect) {
+    public override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         setupViews()
     }

@@ -29,7 +29,6 @@ class LYTabCloseButton: LYHoverButton {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupButton()
     }
 
     override func draw(_ dirtyRect: NSRect) {
