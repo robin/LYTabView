@@ -660,7 +660,9 @@ public class LYTabBarView: NSView {
         guard self.tabItemViews().last != nil, !self.tabContainerView.isHidden && self.tabViewItems.count > 1 else {
             return
         }
-        adjustPackedItem()
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.adjustPackedItem()
+        }
     }
 
     open override func prepareForInterfaceBuilder() {
