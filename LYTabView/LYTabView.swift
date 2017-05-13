@@ -13,13 +13,13 @@ import Cocoa
 public class LYTabView: NSView {
 
     /// Tab bar view of the LYTabView
-    public let tabBarView: LYTabBarView
+    public let tabBarView: LYTabBarView = LYTabBarView(frame: .zero)
 
     /// Native NSTabView of the LYTabView
-    public let tabView: NSTabView
+    public let tabView: NSTabView = NSTabView(frame: .zero)
 
     //
-    private let stackView: NSStackView
+    private let stackView: NSStackView = NSStackView(frame: .zero)
 
     /// delegate of LYTabView
     public var delegate: NSTabViewDelegate? {
@@ -67,17 +67,11 @@ public class LYTabView: NSView {
     }
 
     required public init?(coder: NSCoder) {
-        tabView = NSTabView(coder: coder)!
-        tabBarView = LYTabBarView(coder: coder)!
-        stackView = NSStackView(frame:.zero)
         super.init(coder: coder)
         setupViews()
     }
 
     required public override init(frame frameRect: NSRect) {
-        tabView = NSTabView(frame: .zero)
-        tabBarView = LYTabBarView(frame: .zero)
-        stackView = NSStackView(frame: frameRect)
         super.init(frame: frameRect)
         setupViews()
     }
