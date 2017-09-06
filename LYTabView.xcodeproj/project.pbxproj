@@ -264,6 +264,7 @@
 					};
 					AE25629F1CAA612C00644D9F = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0830;
 					};
 					AE2562B31CAA614C00644D9F = {
 						CreatedOnToolsVersion = 7.3;
@@ -535,6 +536,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.robinlu.LYTabBarViewTests;
 				PRODUCT_NAME = LYTabViewTests;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -547,6 +549,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.robinlu.LYTabBarViewTests;
 				PRODUCT_NAME = LYTabViewTests;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
