@@ -14,7 +14,7 @@ extension NSImage {
         let scaledImage = NSImage(size: size)
         let rect = NSRect(origin: CGPoint(x: 0, y: 0), size: size)
         scaledImage.lockFocus()
-        NSGraphicsContext.current()?.imageInterpolation = .high
+        NSGraphicsContext.current?.imageInterpolation = .high
         self.draw(in: rect, from: NSRect.zero, operation: .sourceOver, fraction: 1.0)
         scaledImage.unlockFocus()
         return scaledImage

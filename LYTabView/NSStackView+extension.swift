@@ -11,7 +11,7 @@ import Cocoa
 
 extension NSStackView {
     func insertView(_ aView: NSView, atIndex index: Int,
-                    inGravity gravity: NSStackViewGravity,
+                    inGravity gravity: NSStackView.Gravity,
                     animated: Bool, completionHandler: (() -> Void)?) {
         self.insertView(aView, at: index, in: gravity)
         if animated {
@@ -24,7 +24,7 @@ extension NSStackView {
     }
 
     func addView(_ aView: NSView,
-                 inGravity gravity: NSStackViewGravity,
+                 inGravity gravity: NSStackView.Gravity,
                  animated: Bool, completionHandler: (() -> Void)?) {
         self.addView(aView, in: gravity)
         if animated {

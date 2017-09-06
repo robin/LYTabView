@@ -41,7 +41,7 @@ public class LYTabBarView: NSView {
             }
         }
 
-        var alignment: NSLayoutAttribute {
+        var alignment: NSLayoutConstraint.Attribute {
             switch self {
             case .none, .both:
                 return .centerY
@@ -194,7 +194,7 @@ public class LYTabBarView: NSView {
         if let aTabView = self.tabItemViews().first {
             height = aTabView.intrinsicContentSize.height + borderStyle.borderOffset()
         }
-        return NSSize(width: NSViewNoIntrinsicMetric, height: height)
+        return NSSize(width: NSView.noIntrinsicMetric, height: height)
     }
 
     private func buildBarButton(image: NSImage?, action: Selector?) -> NSButton {
@@ -225,7 +225,7 @@ public class LYTabBarView: NSView {
         outterStackView.distribution = .fill
         outterStackView.alignment = borderStyle.alignment
         outterStackView.spacing = 1
-        outterStackView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
+        outterStackView.setHuggingPriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
         minViewWidthConstraint = outterStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: self.minViewWidth)
         minViewWidthConstraint?.isActive = true
 
@@ -234,12 +234,12 @@ public class LYTabBarView: NSView {
         tabContainerView.orientation = .horizontal
         tabContainerView.distribution = .fillEqually
         tabContainerView.spacing = 1
-        tabContainerView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .horizontal)
-        tabContainerView.setHuggingPriority(NSLayoutPriorityDefaultLow, for: .vertical)
+        tabContainerView.setHuggingPriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
+        tabContainerView.setHuggingPriority(NSLayoutConstraint.Priority.defaultLow, for: .vertical)
 
-        packedTabButton = buildBarButton(image: NSImage(named: NSImageNameRightFacingTriangleTemplate),
+        packedTabButton = buildBarButton(image: NSImage(named: NSImage.Name.rightFacingTriangleTemplate),
                                          action: #selector(showPackedList))
-        addTabButton = buildBarButton(image: NSImage(named: NSImageNameAddTemplate),
+        addTabButton = buildBarButton(image: NSImage(named: NSImage.Name.addTemplate),
                                       action: #selector(addNewTab))
 
         outterStackView.addView(packedTabButton, in: .bottom)
@@ -258,11 +258,11 @@ public class LYTabBarView: NSView {
         self.postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(boundDidChangeNotification),
-                                               name: NSNotification.Name.NSViewBoundsDidChange,
+                                               name: NSView.boundsDidChangeNotification,
                                                object: self)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(boundDidChangeNotification),
-                                               name: NSNotification.Name.NSViewFrameDidChange,
+                                               name: NSView.frameDidChangeNotification,
                                                object: self)
     }
 
@@ -424,10 +424,10 @@ public class LYTabBarView: NSView {
 
     open override func viewWillMove(toWindow newWindow: NSWindow?) {
         NotificationCenter.default.addObserver(self, selector: #selector(windowStatusDidChange),
-                                               name: NSNotification.Name.NSWindowDidBecomeKey,
+                                               name: NSWindow.didBecomeKeyNotification,
                                                object: newWindow)
         NotificationCenter.default.addObserver(self, selector: #selector(windowStatusDidChange),
-                                               name: NSNotification.Name.NSWindowDidResignKey,
+                                               name: NSWindow.didResignKeyNotification,
                                                object: newWindow)
     }
 
@@ -442,11 +442,11 @@ public class LYTabBarView: NSView {
     open override func draw(_ dirtyRect: NSRect) {
         let status = self.status
         self.borderColor[status]!.setFill()
-        NSRectFill(self.bounds)
+        self.bounds.fill()
         self.backgroundColor[status]!.setFill()
         for button in [packedTabButton, addTabButton] {
             if let rect = button?.frame {
-                NSRectFill(rect)
+                rect.fill()
             }
         }
 
@@ -455,7 +455,7 @@ public class LYTabBarView: NSView {
                                      width: self.windowButtonPaddingView.frame.size.width,
                                      height: self.frame.size.height)
             NSColor.clear.setFill()
-            NSRectFill(paddingRect)
+            paddingRect.fill()
         }
     }
 
@@ -468,7 +468,7 @@ public class LYTabBarView: NSView {
     @objc private func addNewTab(_ sender: AnyObject?) {
         if let action = self.addNewTabButtonAction {
             DispatchQueue.main.async {
-                NSApplication.shared().sendAction(action, to: self.addNewTabButtonTarget, from: self)
+                NSApplication.shared.sendAction(action, to: self.addNewTabButtonTarget, from: self)
             }
         }
     }
@@ -476,7 +476,7 @@ public class LYTabBarView: NSView {
     @objc private func selectPackedItem(_ sender: AnyObject) {
         if let item = sender as? NSMenuItem, let tabItem = item.representedObject as? NSTabViewItem {
             self.tabView?.selectTabViewItem(tabItem)
-            item.state = NSOnState
+            item.state = .on
         }
     }
 
@@ -488,7 +488,7 @@ public class LYTabBarView: NSView {
         for item in itemsInMenu {
             let menuItem = NSMenuItem(title: item.label, action: nil, keyEquivalent: "")
             if item == selectedItem {
-                menuItem.state = NSOnState
+                menuItem.state = .on
             }
             menuItem.representedObject = item
             menuItem.target = self
@@ -565,7 +565,7 @@ public class LYTabBarView: NSView {
         let tabItemView = LYTabItemView(tabViewItem: item)
         tabItemView.tabBarView = self
         tabItemView.translatesAutoresizingMaskIntoConstraints = false
-        tabItemView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: .horizontal)
+        tabItemView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
         return tabItemView
     }
 
