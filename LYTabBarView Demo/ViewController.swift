@@ -62,7 +62,7 @@ class ViewController: NSViewController {
     func addViewWithLabel(_ label: String, aTabBarView: LYTabBarView, fromTabView: Bool = false) {
         let item = NSTabViewItem()
         item.label = label
-        if let labelViewController = self.storyboard?.instantiateController(withIdentifier: "labelViewController") {
+        if let labelViewController = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "labelViewController")) {
             (labelViewController as AnyObject).setTitle(label)
             item.view = (labelViewController as AnyObject).view
         }
@@ -98,12 +98,12 @@ class ViewController: NSViewController {
             if window.titlebarAppearsTransparent {
                 window.titlebarAppearsTransparent = false
                 window.titleVisibility = .visible
-                window.styleMask.remove(NSFullSizeContentViewWindowMask)
+                window.styleMask.remove(.fullSizeContentView)
                 tabBarView.paddingWindowButton = false
             } else {
                 window.titlebarAppearsTransparent = true
                 window.titleVisibility = .hidden
-                _ = window.styleMask.update(with: NSFullSizeContentViewWindowMask)
+                _ = window.styleMask.update(with: .fullSizeContentView)
                 tabBarView.paddingWindowButton = true
             }
         }

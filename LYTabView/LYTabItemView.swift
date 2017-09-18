@@ -52,7 +52,7 @@ class LYTabItemView: NSButton {
         .inactive: NSColor(white: 0.68, alpha: 1)
     ]
 
-    dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
+    @objc dynamic private var realBackgroundColor = NSColor(white: 0.73, alpha: 1) {
         didSet {
             needsDisplay = true
         }
@@ -95,8 +95,8 @@ class LYTabItemView: NSButton {
         return self.tabBarView.needAnimation
     }
 
-    override static func defaultAnimation(forKey key: String) -> Any? {
-        if key == "realBackgroundColor" {
+    override static func defaultAnimation(forKey key: NSAnimatablePropertyKey) -> Any? {
+        if key.rawValue == "realBackgroundColor" {
             return CABasicAnimation()
         }
         return super.defaultAnimation(forKey: key) as AnyObject?
@@ -110,7 +110,8 @@ class LYTabItemView: NSButton {
 
     func setupViews() {
         self.isBordered = false
-        self.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, for: .horizontal)
+        let lowerPriority = NSLayoutConstraint.Priority(rawValue:NSLayoutConstraint.Priority.defaultLow.rawValue-10)
+        self.setContentHuggingPriority(lowerPriority, for: .horizontal)
 
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.isEditable = false
@@ -126,8 +127,8 @@ class LYTabItemView: NSButton {
         titleView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         titleView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: ypadding).isActive = true
         titleView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -ypadding).isActive = true
-        titleView.setContentHuggingPriority(NSLayoutPriorityDefaultLow-10, for: .horizontal)
-        titleView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: .horizontal)
+        titleView.setContentHuggingPriority(lowerPriority, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
         titleView.lineBreakMode = .byTruncatingTail
 
         closeButton = LYTabCloseButton(frame: .zero)
@@ -215,7 +216,7 @@ class LYTabItemView: NSButton {
             self.realBackgroundColor.setFill()
             titleView.textColor = unselectedForegroundColor
         }
-        NSRectFill(self.bounds)
+        self.bounds.fill()
         if self.drawBorder {
             let boderFrame = self.bounds.insetBy(dx: 1, dy: -1)
             self.tabBarView.borderColor[status]!.setStroke()
@@ -237,7 +238,7 @@ class LYTabItemView: NSButton {
             self.removeTrackingArea(trackingArea)
         }
 
-        let options: NSTrackingAreaOptions = [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect]
+        let options: NSTrackingArea.Options = [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect]
         self.trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
         self.addTrackingArea(self.trackingArea!)
     }
@@ -322,7 +323,9 @@ class LYTabItemView: NSButton {
 }
 
 extension LYTabItemView : NSPasteboardItemDataProvider {
-    func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
+    func pasteboard(_ pasteboard: NSPasteboard?,
+                    item: NSPasteboardItem,
+                    provideDataForType type: NSPasteboard.PasteboardType) {
     }
 }
 
