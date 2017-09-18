@@ -143,8 +143,7 @@
 				AEB984A11CAE7EA40030F752 /* LYHoverButton.swift */,
 				AE269DE21CB6266000DD4F45 /* LYTabCloseButton.swift */,
 			);
-			name = LYTabView;
-			path = LYTabBarView;
+			path = LYTabView;
 			sourceTree = "<group>";
 		};
 		AE2562A41CAA612C00644D9F /* LYTabBarViewTests */ = {
@@ -579,7 +578,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.robinlu.LYTabBarView-Demo";
 				PRODUCT_NAME = "LYTabView Demo";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -594,7 +593,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.robinlu.LYTabBarView-Demo";
 				PRODUCT_NAME = "LYTabView Demo";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
