@@ -58,10 +58,10 @@ public class LYTabView: NSView {
         stackView.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor).isActive = true
 
-        stackView.leadingAnchor.constraint(equalTo:tabView.leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo:tabView.trailingAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: tabView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: tabView.trailingAnchor).isActive = true
 
-        let lowerPriority = NSLayoutConstraint.Priority(rawValue:NSLayoutConstraint.Priority.defaultLow.rawValue-10)
+        let lowerPriority = NSLayoutConstraint.Priority(rawValue: NSLayoutConstraint.Priority.defaultLow.rawValue-10)
         tabView.setContentHuggingPriority(lowerPriority, for: .vertical)
         tabBarView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.defaultHigh, for: .vertical)
         tabBarView.setContentHuggingPriority(NSLayoutConstraint.Priority.defaultHigh, for: .vertical)

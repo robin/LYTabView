@@ -14,16 +14,10 @@ class LYTabItemView: NSButton {
     fileprivate var closeButton: LYHoverButton!
 
     var tabBarView: LYTabBarView!
+    var tabLabelObserver: NSKeyValueObservation?
     var tabViewItem: NSTabViewItem? {
         didSet {
-            if let item = oldValue {
-                item.removeObserver(self, forKeyPath: "label")
-            }
-            if let item = self.tabViewItem {
-                item.addObserver(self, forKeyPath: "label",
-                                 options: [], context: nil)
-                self.title = item.label
-            }
+            setupTitleAccordingToItem()
         }
     }
     var drawBorder = false {
@@ -110,7 +104,7 @@ class LYTabItemView: NSButton {
 
     func setupViews() {
         self.isBordered = false
-        let lowerPriority = NSLayoutConstraint.Priority(rawValue:NSLayoutConstraint.Priority.defaultLow.rawValue-10)
+        let lowerPriority = NSLayoutConstraint.Priority(rawValue: NSLayoutConstraint.Priority.defaultLow.rawValue-10)
         self.setContentHuggingPriority(lowerPriority, for: .horizontal)
 
         titleView.translatesAutoresizingMaskIntoConstraints = false
@@ -149,7 +143,7 @@ class LYTabItemView: NSButton {
 
         let menu = NSMenu()
         let addMenuItem = NSMenuItem(title: NSLocalizedString("New Tab", comment: "New Tab"),
-                                     action:#selector(addNewTab), keyEquivalent: "")
+                                     action: #selector(addNewTab), keyEquivalent: "")
         addMenuItem.target = self
         menu.addItem(addMenuItem)
         let closeMenuItem = NSMenuItem(title: NSLocalizedString("Close Tab", comment: "Close Tab"),
@@ -172,6 +166,17 @@ class LYTabItemView: NSButton {
         self.menu = menu
     }
 
+    func setupTitleAccordingToItem() {
+        if let item = self.tabViewItem {
+            tabLabelObserver = item.observe(\.label) { _, _ in
+                if let item = self.tabViewItem {
+                    self.title = item.label
+                }
+            }
+            self.title = item.label
+        }
+    }
+
     override var intrinsicContentSize: NSSize {
         var size = titleView.intrinsicContentSize
         size.height += ypadding * 2
@@ -185,10 +190,7 @@ class LYTabItemView: NSButton {
     convenience init(tabViewItem: NSTabViewItem) {
         self.init(frame: .zero)
         self.tabViewItem = tabViewItem
-        if let tabViewItem = self.tabViewItem {
-            tabViewItem.addObserver(self, forKeyPath: "label", options: [], context: nil)
-            self.title = tabViewItem.label
-        }
+        setupTitleAccordingToItem()
     }
 
     required init?(coder: NSCoder) {
@@ -199,12 +201,6 @@ class LYTabItemView: NSButton {
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         setupViews()
-    }
-
-    deinit {
-        if let tabViewItem = self.tabViewItem {
-            tabViewItem.removeObserver(self, forKeyPath: "label")
-        }
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -309,27 +305,16 @@ class LYTabItemView: NSButton {
             self.tabBarView.removeFrom(tabViewItem)
         }
     }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "label" {
-            if let item = self.tabViewItem {
-                self.title = item.label
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
 }
 
-extension LYTabItemView : NSPasteboardItemDataProvider {
+extension LYTabItemView: NSPasteboardItemDataProvider {
     func pasteboard(_ pasteboard: NSPasteboard?,
                     item: NSPasteboardItem,
                     provideDataForType type: NSPasteboard.PasteboardType) {
     }
 }
 
-extension LYTabItemView : NSDraggingSource {
+extension LYTabItemView: NSDraggingSource {
     func setupDragAndDrop(_ theEvent: NSEvent) {
         let pasteItem = NSPasteboardItem()
         let dragItem = NSDraggingItem(pasteboardWriter: pasteItem)
@@ -408,7 +393,7 @@ extension LYTabItemView : NSDraggingSource {
     }
 }
 
-extension LYTabItemView : NSMenuDelegate {
+extension LYTabItemView: NSMenuDelegate {
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.action == #selector(addNewTab) {
             return (self.tabBarView.addNewTabButtonTarget != nil) && (self.tabBarView.addNewTabButtonAction != nil)
