@@ -15,7 +15,7 @@ public enum BarStatus {
     case inactive
 }
 
-public typealias ColorConfig = [BarStatus:NSColor]
+public typealias ColorConfig = [BarStatus: NSColor]
 
 @IBDesignable
 public class LYTabBarView: NSView {
@@ -578,7 +578,7 @@ public class LYTabBarView: NSView {
 
     public func addTabViewItem(_ item: NSTabViewItem, animated: Bool = false) {
         self.tabView?.addTabViewItem(item)
-        self.insertTabItem(item, index: self.tabItemViews().count + self.packedTabViewItems.count, animated:animated)
+        self.insertTabItem(item, index: self.tabItemViews().count + self.packedTabViewItems.count, animated: animated)
     }
 
     private func resetHeight() {
@@ -625,7 +625,7 @@ public class LYTabBarView: NSView {
     }
 
     private func insertTabItem(_ item: NSTabViewItem, index: NSInteger, animated: Bool = false) {
-        let needPack = needPackItem(addtion:1)
+        let needPack = needPackItem(addtion: 1)
         if needPack || (hasPackedTabViewItems && index > self.tabItemViews().count) {
             packedTabButton.isHidden = false
             if index >= self.tabItemViews().count {
@@ -675,7 +675,7 @@ public class LYTabBarView: NSView {
     }
 }
 
-extension LYTabBarView : NSTabViewDelegate {
+extension LYTabBarView: NSTabViewDelegate {
     public func tabViewDidChangeNumberOfTabViewItems(_ tabView: NSTabView) {
         self.needsUpdate = true
         updateTabState()
