@@ -13,6 +13,8 @@ class LYTabItemView: NSButton {
     fileprivate let titleView = NSTextField(frame: .zero)
     fileprivate var closeButton: LYHoverButton!
 
+    public var showCloseButton: Bool = true
+    
     var tabBarView: LYTabBarView!
     var tabLabelObserver: NSKeyValueObservation?
     var tabViewItem: NSTabViewItem? {
@@ -248,7 +250,7 @@ class LYTabItemView: NSButton {
         if !shouldDrawInHighLight {
             self.animatorOrNot(needAnimation).realBackgroundColor = hoverBackgroundColor[status]!
         }
-        closeButton.animatorOrNot(needAnimation).isHidden = false
+        closeButton.animatorOrNot(needAnimation).isHidden = !showCloseButton
     }
 
     override func mouseExited(with theEvent: NSEvent) {

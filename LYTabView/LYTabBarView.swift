@@ -100,6 +100,8 @@ public class LYTabBarView: NSView {
             resetHeight()
         }
     }
+    
+    public var showCloseButton: Bool = true 
 
     var status: BarStatus {
         let isWindowActive = self.isWindowActive
@@ -564,6 +566,7 @@ public class LYTabBarView: NSView {
     private func createLYTabItemView(_ item: NSTabViewItem) -> LYTabItemView {
         let tabItemView = LYTabItemView(tabViewItem: item)
         tabItemView.tabBarView = self
+        tabItemView.showCloseButton = self.showCloseButton
         tabItemView.translatesAutoresizingMaskIntoConstraints = false
         tabItemView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
         return tabItemView
