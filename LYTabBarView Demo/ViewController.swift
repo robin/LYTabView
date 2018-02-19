@@ -53,6 +53,7 @@ class ViewController: NSViewController {
         
         self.tabBarView.showCloseButton = false
         
+        
     }
 
     override func viewWillAppear() {
