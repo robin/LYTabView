@@ -28,7 +28,9 @@ class ViewController: NSViewController {
         addViewWithLabel("View", aTabBarView: self.tabBarView, fromTabView: true)
         self.tabBarView.minTabHeight = 28
         self.tabBarView.minTabItemWidth = 120
-
+        
+        
+        
         tabView21.tabBarView.hideIfOnlyOneTabExists = false
         tabView22.tabBarView.hideIfOnlyOneTabExists = false
         tabView23.tabBarView.hideIfOnlyOneTabExists = false
@@ -48,6 +50,10 @@ class ViewController: NSViewController {
             tabBarView?.addNewTabButtonAction = #selector(addNewTab)
         }
         self.tabBarView.addNewTabButtonTarget = self
+        
+        self.tabBarView.showCloseButton = false
+        
+        
     }
 
     override func viewWillAppear() {

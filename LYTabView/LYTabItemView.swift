@@ -13,6 +13,8 @@ class LYTabItemView: NSButton {
     fileprivate let titleView = NSTextField(frame: .zero)
     fileprivate var closeButton: LYHoverButton!
 
+    public var showCloseButton: Bool = true
+    
     var tabBarView: LYTabBarView!
     var tabLabelObserver: NSKeyValueObservation?
     var tabViewItem: NSTabViewItem? {
@@ -35,7 +37,7 @@ class LYTabItemView: NSButton {
     var ypadding: CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
     var backgroundColor: ColorConfig = [
-        .active: NSColor(white: 0.77, alpha: 1),
+        .active: NSColor(white: 0.07, alpha: 1),
         .windowInactive: NSColor(white: 0.94, alpha: 1),
         .inactive: NSColor(white: 0.70, alpha: 1)
     ]
@@ -248,7 +250,7 @@ class LYTabItemView: NSButton {
         if !shouldDrawInHighLight {
             self.animatorOrNot(needAnimation).realBackgroundColor = hoverBackgroundColor[status]!
         }
-        closeButton.animatorOrNot(needAnimation).isHidden = false
+        closeButton.animatorOrNot(needAnimation).isHidden = !showCloseButton
     }
 
     override func mouseExited(with theEvent: NSEvent) {
@@ -382,7 +384,7 @@ extension LYTabItemView: NSDraggingSource {
     func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
         dragOffset = nil
         isDragging = false
-        closeButton.isHidden = false
+        closeButton.isHidden = !showCloseButton
         self.titleView.isHidden = false
         self.draggingView?.removeFromSuperview()
         self.draggingViewLeadingConstraint = nil

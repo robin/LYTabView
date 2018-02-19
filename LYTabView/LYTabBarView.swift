@@ -56,7 +56,6 @@ public class LYTabBarView: NSView {
     public var needAnimation: Bool = true
     public var isActive: Bool = true {
         didSet {
-
             self.needsDisplay = true
             for view in self.tabItemViews() {
                 view.updateColors()
@@ -100,6 +99,8 @@ public class LYTabBarView: NSView {
             resetHeight()
         }
     }
+    
+    public var showCloseButton: Bool = true 
 
     var status: BarStatus {
         let isWindowActive = self.isWindowActive
@@ -129,6 +130,33 @@ public class LYTabBarView: NSView {
         .windowInactive: NSColor(white: 0.86, alpha: 1),
         .inactive: NSColor(white: 0.71, alpha: 1)
     ]
+    
+    public var backgroundItemColor: ColorConfig = [
+        .active: NSColor(white: 0.77, alpha: 1),
+        .windowInactive: NSColor(white: 0.86, alpha: 1),
+        .inactive: NSColor(white: 0.70, alpha: 1)
+    ]
+    
+    public var hoverItemBackgroundColor: ColorConfig = [
+        .active: NSColor(white: 0.75, alpha: 1),
+        .windowInactive: NSColor(white: 0.94, alpha: 1),
+        .inactive: NSColor(white: 0.68, alpha: 1)
+    ]
+    
+    public var selectedBackgroundColor: ColorConfig = [
+        .active: NSColor(white: 0.86, alpha: 1),
+        .windowInactive: NSColor(white: 0.96, alpha: 1),
+        .inactive: NSColor(white: 0.76, alpha: 1)
+    ]
+    
+    public var selectedTextColor: ColorConfig = [
+        .active: NSColor.textColor,
+        .windowInactive: NSColor(white: 0.4, alpha: 1),
+        .inactive: NSColor(white: 0.4, alpha: 1)
+    ]
+    
+    public var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
+    public var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
 
     public var showAddNewTabButton: Bool = true {
         didSet {
@@ -564,6 +592,14 @@ public class LYTabBarView: NSView {
     private func createLYTabItemView(_ item: NSTabViewItem) -> LYTabItemView {
         let tabItemView = LYTabItemView(tabViewItem: item)
         tabItemView.tabBarView = self
+        tabItemView.showCloseButton = self.showCloseButton
+        tabItemView.backgroundColor = self.backgroundColor
+        tabItemView.hoverBackgroundColor = self.hoverItemBackgroundColor
+        tabItemView.selectedTextColor = self.selectedTextColor
+        tabItemView.selectedBackgroundColor = self.selectedBackgroundColor
+        tabItemView.unselectedForegroundColor = self.unselectedForegroundColor
+        tabItemView.closeButtonHoverBackgroundColor = self.closeButtonHoverBackgroundColor
+            
         tabItemView.translatesAutoresizingMaskIntoConstraints = false
         tabItemView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
         return tabItemView
