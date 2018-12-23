@@ -215,6 +215,22 @@ public class LYTabBarView: NSView {
     }
 
     private func setupViews() {
+
+        if #available(OSX 10.13, *) {
+            backgroundColor = [
+                .active: NSColor(named: NSColor.Name("background"), bundle: Bundle(for: LYTabView.self))!,
+                .windowInactive: NSColor(named: NSColor.Name("backgroundWindowInactive"),
+                                         bundle: Bundle(for: LYTabView.self))!,
+                .inactive: NSColor(named: NSColor.Name("backgroundInactive"), bundle: Bundle(for: LYTabView.self))!
+            ]
+            borderColor = [
+                .active: NSColor(named: NSColor.Name("border"), bundle: Bundle(for: LYTabView.self))!,
+                .windowInactive: NSColor(named: NSColor.Name("borderWindowInactive"),
+                                         bundle: Bundle(for: LYTabView.self))!,
+                .inactive: NSColor(named: NSColor.Name("border"), bundle: Bundle(for: LYTabView.self))!
+            ]
+        }
+
         outterStackView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(outterStackView)
         outterStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true

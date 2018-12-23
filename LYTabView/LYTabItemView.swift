@@ -63,7 +63,11 @@ class LYTabItemView: NSButton {
         .inactive: NSColor(white: 0.4, alpha: 1)
     ]
 
-    var unselectedForegroundColor = NSColor(white: 0.4, alpha: 1)
+    var unselectedForegroundColor: ColorConfig = [
+        .active: NSColor(white: 0.4, alpha: 1),
+        .windowInactive: NSColor(white: 0.4, alpha: 1),
+        .inactive: NSColor(white: 0.4, alpha: 1)
+    ]
     var closeButtonHoverBackgroundColor = NSColor(white: 0.55, alpha: 0.3)
 
     override var title: String {
@@ -103,6 +107,35 @@ class LYTabItemView: NSButton {
     var draggingViewLeadingConstraint: NSLayoutConstraint?
 
     func setupViews() {
+
+        if #available(OSX 10.13, *) {
+            backgroundColor = [
+                .active: NSColor(named: NSColor.Name("background"), bundle: Bundle(for: LYTabView.self))!,
+                .windowInactive: NSColor(named: NSColor.Name("backgroundWindowInactive"),
+                                         bundle: Bundle(for: LYTabView.self))!,
+                .inactive: NSColor(named: NSColor.Name("backgroundInactive"), bundle: Bundle(for: LYTabView.self))!
+            ]
+            hoverBackgroundColor = [
+                .active: NSColor(named: NSColor.Name("hover"), bundle: Bundle(for: LYTabView.self))!,
+                .windowInactive: NSColor(named: NSColor.Name("hoverWindowInactive"),
+                                         bundle: Bundle(for: LYTabView.self))!,
+                .inactive: NSColor(named: NSColor.Name("hoverInactive"), bundle: Bundle(for: LYTabView.self))!
+            ]
+            selectedBackgroundColor = [
+                .active: NSColor(named: NSColor.Name("selected"), bundle: Bundle(for: LYTabView.self))!,
+                .windowInactive: NSColor(named: NSColor.Name("selectedWindowInactive"),
+                                         bundle: Bundle(for: LYTabView.self))!,
+                .inactive: NSColor(named: NSColor.Name("selectedInactive"), bundle: Bundle(for: LYTabView.self))!
+            ]
+            unselectedForegroundColor = [
+                .active: NSColor(named: NSColor.Name("unselectedForeground"), bundle: Bundle(for: LYTabView.self))!,
+                .windowInactive: NSColor(named: NSColor.Name("unselectedForegroundWindowInactive"),
+                                         bundle: Bundle(for: LYTabView.self))!,
+                .inactive: NSColor(named: NSColor.Name("unselectedForegroundInactive"),
+                                   bundle: Bundle(for: LYTabView.self))!
+            ]
+        }
+
         self.isBordered = false
         let lowerPriority = NSLayoutConstraint.Priority(rawValue: NSLayoutConstraint.Priority.defaultLow.rawValue-10)
         self.setContentHuggingPriority(lowerPriority, for: .horizontal)
@@ -210,7 +243,7 @@ class LYTabItemView: NSButton {
             titleView.textColor = selectedTextColor[status]!
         } else {
             self.realBackgroundColor.setFill()
-            titleView.textColor = unselectedForegroundColor
+            titleView.textColor = unselectedForegroundColor[status]!
         }
         self.bounds.fill()
         if self.drawBorder {
