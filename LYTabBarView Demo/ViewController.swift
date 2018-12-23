@@ -63,7 +63,7 @@ class ViewController: NSViewController {
         let item = NSTabViewItem()
         item.label = label
         if let labelViewController = self.storyboard?.instantiateController(withIdentifier:
-            NSStoryboard.SceneIdentifier(rawValue: "labelViewController")) {
+            "labelViewController") {
             (labelViewController as AnyObject).setTitle(label)
             item.view = (labelViewController as AnyObject).view
         }

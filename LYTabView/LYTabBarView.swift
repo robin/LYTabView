@@ -237,9 +237,9 @@ public class LYTabBarView: NSView {
         tabContainerView.setHuggingPriority(NSLayoutConstraint.Priority.defaultLow, for: .horizontal)
         tabContainerView.setHuggingPriority(NSLayoutConstraint.Priority.defaultLow, for: .vertical)
 
-        packedTabButton = buildBarButton(image: NSImage(named: NSImage.Name.rightFacingTriangleTemplate),
+        packedTabButton = buildBarButton(image: NSImage(named: NSImage.rightFacingTriangleTemplateName),
                                          action: #selector(showPackedList))
-        addTabButton = buildBarButton(image: NSImage(named: NSImage.Name.addTemplate),
+        addTabButton = buildBarButton(image: NSImage(named: NSImage.addTemplateName),
                                       action: #selector(addNewTab))
 
         outterStackView.addView(packedTabButton, in: .bottom)
@@ -332,7 +332,7 @@ public class LYTabBarView: NSView {
     }
 
     private func tabItemViews() -> [LYTabItemView] {
-        return self.tabContainerView.views(in: .center).flatMap { $0 as? LYTabItemView }
+        return self.tabContainerView.views(in: .center).compactMap { $0 as? LYTabItemView }
     }
 
     private func shouldShowCloseButton(_ tabBarItem: NSTabViewItem) -> Bool {
