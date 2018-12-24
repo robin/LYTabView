@@ -189,6 +189,8 @@ public class LYTabBarView: NSView {
         return minTabItemWidth + 2 * buttonHeight
     }
 
+    private var addImage = NSImage(named: NSImage.addTemplateName)
+
     override open var intrinsicContentSize: NSSize {
         var height: CGFloat = buttonHeight
         if let aTabView = self.tabItemViews().first {
@@ -229,6 +231,7 @@ public class LYTabBarView: NSView {
                                          bundle: Bundle(for: LYTabView.self))!,
                 .inactive: NSColor(named: NSColor.Name("border"), bundle: Bundle(for: LYTabView.self))!
             ]
+            addImage = Bundle(for: LYTabView.self).image(forResource: "add")
         }
 
         outterStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -255,7 +258,7 @@ public class LYTabBarView: NSView {
 
         packedTabButton = buildBarButton(image: NSImage(named: NSImage.rightFacingTriangleTemplateName),
                                          action: #selector(showPackedList))
-        addTabButton = buildBarButton(image: NSImage(named: NSImage.addTemplateName),
+        addTabButton = buildBarButton(image: addImage,
                                       action: #selector(addNewTab))
 
         outterStackView.addView(packedTabButton, in: .bottom)

@@ -10,14 +10,20 @@ import Foundation
 import Cocoa
 
 class LYTabCloseButton: LYHoverButton {
-    private static let closeImage = NSImage(named: NSImage.stopProgressTemplateName)?
+    private var closeImage = NSImage(named: NSImage.stopProgressTemplateName)?
         .scaleToSize(CGSize(width: 8, height: 8))
     var roundCornerRadius: CGFloat = 2
 
     func setupButton() {
+
+        if #available(OSX 10.13, *) {
+            closeImage = Bundle(for: LYTabView.self).image(forResource: "close")!
+                .scaleToSize(CGSize(width: 8, height: 8))
+        }
+
         self.setButtonType(.momentaryPushIn)
         self.bezelStyle = .shadowlessSquare
-        self.image = LYTabCloseButton.closeImage
+        self.image = closeImage
         self.isBordered = false
         self.imagePosition = .imageOnly
     }
